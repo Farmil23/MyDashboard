@@ -48,7 +48,7 @@
     </header>
 
     <main class="container mx-auto px-6 pt-12">
-        <!-- Hero, Profil, Misi, Roadmap (sama seperti sebelumnya) -->
+        <!-- Hero, Profil, Misi, Roadmap -->
         <section class="text-center py-16 md:py-24">
             <h2 class="text-4xl md:text-6xl font-bold font-display mb-4">AI & Machine Learning Journey</h2>
             <p class="text-lg md:text-xl text-gray-600">Mengubah antusiasme menjadi keahlian. Sebuah perjalanan 24 bulan untuk menguasai Data & AI.</p>
@@ -140,7 +140,7 @@
         <section id="latihan" class="mb-16">
             <h3 class="text-3xl font-bold text-center mb-12 font-display">Galeri Latihan & Eksperimen</h3>
             <div class="bg-white p-8 rounded-lg shadow-lg">
-                <form id="practice-form" class="grid sm:grid-cols-3 gap-4 mb-6 items-end"><input type="text" id="practice-title" placeholder="Nama Latihan/Eksperimen" class="w-full p-2 border border-gray-300 rounded" required><input type="text" id="practice-desc" placeholder="Deskripsi Singkat (e.g., 'Klasifikasi Iris')" class="w-full p-2 border border-gray-300 rounded" required><input type="url" id="practice-link" placeholder="Tautan GitHub/Colab" class="w-full p-2 border border-gray-300 rounded" required><button type="submit" class="sm:col-span-3 w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition">Tambah Latihan</button></form>
+                <form id="practice-form" class="grid sm:grid-cols-3 gap-4 mb-6 items-end"><input type="text" id="practice-title" placeholder="Nama Latihan/Eksperimen" class="w-full p-2 border border-gray-300 rounded" required><input type="text" id="practice-desc" placeholder="Deskripsi Singkat (e.g., 'Klasifikasi Iris')" class="w-full p-2 border border-gray-300 rounded" required><input type="url" id="practice-link" placeholder="Tautan GitHub/Colab" class="w-full p-2 border border-gray-300 rounded" required><button type="submit" id="add-practice-btn" class="sm:col-span-3 w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition">Tambah Latihan</button></form>
                 <div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-gray-100"><tr><th class="w-1/4">Nama Latihan</th><th class="w-1/2">Deskripsi</th><th class="w-1/4">Tautan</th><th>Aksi</th></tr></thead><tbody id="practice-table-body"></tbody></table></div>
             </div>
         </section>
@@ -149,7 +149,7 @@
         <section id="jurnal" class="mb-16">
             <h3 class="text-3xl font-bold text-center mb-12 font-display">Jurnal Pembelajaran</h3>
             <div class="bg-white p-8 rounded-lg shadow-lg">
-                <form id="journal-form" class="space-y-4 mb-6"><textarea id="journal-entry" placeholder="Tulis catatan jurnal Anda di sini... Gunakan template: Pencapaian, Tantangan, Terobosan, Target Berikutnya." class="w-full p-2 border border-gray-300 rounded" rows="4" required></textarea><button type="submit" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 transition">Simpan Jurnal</button></form>
+                <form id="journal-form" class="space-y-4 mb-6"><textarea id="journal-entry" placeholder="Tulis catatan jurnal Anda di sini... Gunakan template: Pencapaian, Tantangan, Terobosan, Target Berikutnya." class="w-full p-2 border border-gray-300 rounded" rows="4" required></textarea><button type="submit" id="add-journal-btn" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 transition">Simpan Jurnal</button></form>
                 <div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-gray-100"><tr><th class="w-1/6">Tanggal</th><th class="w-5/6">Catatan</th><th>Aksi</th></tr></thead><tbody id="journal-table-body"></tbody></table></div>
             </div>
         </section>
@@ -179,19 +179,19 @@
 
     <footer class="bg-gray-900 text-white mt-16"><div class="container mx-auto px-6 py-4 text-center text-sm"><p>&copy; 2025 Farhan Kamil - Dibangun dengan panduan dari Raja Data.</p></footer>
 
-     <!-- Firebase SDK -->
-     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
- 
-     <!-- Memuat konfigurasi dari file eksternal -->
-     <script src="firebase-config.js"></script>
- 
-     <script>
-     document.addEventListener('DOMContentLoaded', function () {
-         // --- Inisialisasi Firebase ---
-         // Variabel firebaseConfig sekarang datang dari firebase-config.js
-         firebase.initializeApp(firebaseConfig);
-         const db = firebase.firestore();
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Memuat konfigurasi dari file eksternal -->
+    <script src="firebase-config.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- Inisialisasi Firebase ---
+        // Variabel firebaseConfig sekarang datang dari firebase-config.js
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
         // --- Data ---
         const faseData = [
@@ -246,6 +246,7 @@
         const practiceCollection = db.collection('practiceProjects');
         const practiceForm = document.getElementById('practice-form');
         const practiceTableBody = document.getElementById('practice-table-body');
+        const addPracticeBtn = document.getElementById('add-practice-btn');
 
         practiceCollection.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
             practiceTableBody.innerHTML = '';
@@ -258,15 +259,19 @@
             });
         });
 
-        practiceForm.addEventListener('submit', e => {
+        addPracticeBtn.addEventListener('click', e => {
             e.preventDefault();
-            practiceCollection.add({
-                title: document.getElementById('practice-title').value,
-                desc: document.getElementById('practice-desc').value,
-                link: document.getElementById('practice-link').value,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            practiceForm.reset();
+            if (practiceForm.checkValidity()) {
+                practiceCollection.add({
+                    title: document.getElementById('practice-title').value,
+                    desc: document.getElementById('practice-desc').value,
+                    link: document.getElementById('practice-link').value,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                practiceForm.reset();
+            } else {
+                practiceForm.reportValidity();
+            }
         });
 
         practiceTableBody.addEventListener('click', e => {
@@ -279,6 +284,7 @@
         const journalCollection = db.collection('journalEntries');
         const journalForm = document.getElementById('journal-form');
         const journalTableBody = document.getElementById('journal-table-body');
+        const addJournalBtn = document.getElementById('add-journal-btn');
 
         journalCollection.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
             journalTableBody.innerHTML = '';
@@ -292,13 +298,17 @@
             });
         });
 
-        journalForm.addEventListener('submit', e => {
+        addJournalBtn.addEventListener('click', e => {
             e.preventDefault();
-            journalCollection.add({
-                text: document.getElementById('journal-entry').value,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            journalForm.reset();
+            if (journalForm.checkValidity()) {
+                journalCollection.add({
+                    text: document.getElementById('journal-entry').value,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                journalForm.reset();
+            } else {
+                journalForm.reportValidity();
+            }
         });
 
         journalTableBody.addEventListener('click', e => {
