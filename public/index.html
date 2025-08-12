@@ -179,26 +179,19 @@
 
     <footer class="bg-gray-900 text-white mt-16"><div class="container mx-auto px-6 py-4 text-center text-sm"><p>&copy; 2025 Farhan Kamil - Dibangun dengan panduan dari Raja Data.</p></footer>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- KONFIGURASI FIREBASE ANDA ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyBgFLjLUwZVikY0QLlkyG8Oa8EqAUU2BNU",
-            authDomain: "mydashboard-661b3.firebaseapp.com",
-            projectId: "mydashboard-661b3",
-            storageBucket: "mydashboard-661b3.appspot.com",
-            messagingSenderId: "467665843055",
-            appId: "1:467665843055:web:a60d9389c15279415aee9a",
-            measurementId: "G-WEQ1740YLJ"
-        };
-
-        // --- Inisialisasi Firebase ---
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+     <!-- Firebase SDK -->
+     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+ 
+     <!-- Memuat konfigurasi dari file eksternal -->
+     <script src="firebase-config.js"></script>
+ 
+     <script>
+     document.addEventListener('DOMContentLoaded', function () {
+         // --- Inisialisasi Firebase ---
+         // Variabel firebaseConfig sekarang datang dari firebase-config.js
+         firebase.initializeApp(firebaseConfig);
+         const db = firebase.firestore();
 
         // --- Data ---
         const faseData = [
