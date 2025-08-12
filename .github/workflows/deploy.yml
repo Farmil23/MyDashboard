@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Atau branch utama Anda
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Create Firebase Config File 🤫
+        run: |
+          touch public/firebase-config.js
+          echo "const firebaseConfig = {" >> public/firebase-config.js
+          echo "  apiKey: '${{ secrets.FIREBASE_API_KEY }}'," >> public/firebase-config.js
+          echo "  authDomain: '${{ secrets.FIREBASE_AUTH_DOMAIN }}'," >> public/firebase-config.js
+          echo "  projectId: '${{ secrets.PROJECT_ID }}'," >> public/firebase-config.js
+          echo "  storageBucket: '${{ secrets.STORAGE_BUCKET }}'," >> public/firebase-config.js
+          echo "  messagingSenderId: '${{ secrets.MESSAGING_SENDER_ID }}'," >> public/firebase-config.js
+          echo "  appId: '${{ secrets.APP_ID }}'," >> public/firebase-config.js
+          echo "  measurementId: '${{ secrets.MEASUREMENT_ID }}'" >> public/firebase-config.js
+          echo "};" >> public/firebase-config.js
+        # Pastikan file index.html Anda ada di dalam folder 'public'
+        # Jika tidak, hapus 'public/' dari path di atas
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # Branch untuk deployment
+          folder: public # Folder yang akan di-deploy
