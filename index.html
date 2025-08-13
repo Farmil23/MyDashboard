@@ -1,422 +1,525 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peta Jalan Digital: Menuju Raja Data & AI</title>
+    <title>Live Dashboard & Portfolio | Farmil - AI & Data Specialist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        :root {
+            --background-color: #050505;
+            --card-background: rgba(16, 16, 16, 0.7);
+            --border-color: #222;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --gradient-start: #00C9FF;
+            --gradient-end: #92FE9D;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #f0f0f0;
-            scroll-behavior: smooth;
-        }
-        .phase-card {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .phase-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.1);
-        }
-        .portfolio-card, .career-card {
-            background-color: #1a1a1a;
-            border: 1px solid #444;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .portfolio-card:hover, .career-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 191, 255, 0.15);
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-        .calendar-day {
-            background-color: #2a2a2a;
-            font-size: 0.7rem;
-        }
-        .calendar-day.header {
-            background-color: #3a3a3a;
-            font-weight: 600;
-        }
-        .calendar-day.highlight {
-            background-color: #007B8A;
+            background-color: var(--background-color);
+            color: var(--text-primary);
         }
         .gradient-text {
-            background: linear-gradient(90deg, #00C9FF, #92FE9D);
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: fadeIn 0.5s ease-out forwards;
         }
-        th, td {
-            border: 1px solid #444;
-            padding: 12px;
-            text-align: left;
+        .card-clickable:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 201, 255, 0.1);
+            border-color: #333;
         }
-        th {
-            background-color: #252525;
+        nav { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .page { display: none; animation: fadeIn 0.5s ease-out; }
+        .page.active { display: block; }
+        .nav-link, .blog-topic, .back-button { cursor: pointer; }
+        pre[class*="language-"] {
+            border-radius: 0.5rem;
+            border: 1px solid #333;
+            background: #2d2d2d;
         }
-        tbody tr:nth-child(odd) {
-            background-color: #1c1c1c;
+        .prose { color: var(--text-secondary); }
+        .prose h1, .prose h2, .prose h3, .prose h4, .prose strong { color: var(--text-primary); }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .calendar-day {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; background-color: #222;
+            border-radius: 4px; font-size: 0.7rem; color: #777;
+            position: relative; overflow: hidden;
         }
-        tbody tr:hover {
-            background-color: #282828;
+        .calendar-day.empty { background-color: transparent; }
+        .calendar-day.today { border: 2px solid var(--gradient-end); }
+        .calendar-day .roadmap-mark { background-color: #005f73; }
+        .calendar-day .komdigi-mark { background-color: #94d2bd; }
+        .calendar-day .overlap-mark { background: linear-gradient(45deg, #005f73 50%, #94d2bd 50%); }
+        .calendar-day-mark { position: absolute; bottom: 2px; left: 2px; right: 2px; height: 4px; border-radius: 2px; }
+        
+        .tech-logo svg {
+            transition: color 0.3s ease, filter 0.3s ease;
+            color: #888; /* Initial gray color */
+        }
+        .tech-logo:hover svg {
+            color: var(--tech-color);
+            filter: drop-shadow(0 0 8px var(--tech-color));
+        }
+        .tech-logo:hover p {
+            color: var(--text-primary);
         }
     </style>
 </head>
 <body class="antialiased">
+
+    <nav class="sticky top-0 z-50 bg-black/50 border-b border-gray-800/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center"><span class="font-bold text-xl gradient-text">Farmil.dev</span></div>
+                <div class="hidden md:block">
+                    <div id="nav-links" class="ml-10 flex items-baseline space-x-4">
+                        <a data-page="main-dashboard" class="nav-link text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                        <a data-page="case-studies" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Studi Kasus</a>
+                        <a data-page="learning-path" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Learning Path</a>
+                        <a data-page="calendar-page" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Kalender</a>
+                        <a data-page="blog-page" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Blog</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <div class="container mx-auto p-4 md:p-8">
-        <!-- Header -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-2 gradient-text">Peta Jalan Digital Anda</h1>
-            <p class="text-lg md:text-xl text-gray-400">Menuju Puncak Keahlian Data & AI (Usia 19-22)</p>
-        </header>
-
-        <!-- About Me Section -->
-        <section id="about" class="text-center mb-16">
-            <div class="max-w-3xl mx-auto bg-gray-900/50 p-6 rounded-xl border border-gray-700">
-                <h2 class="text-3xl font-bold mb-4 gradient-text">Tentang Saya</h2>
-                <p class="text-gray-400 mb-6">
-                    Seorang mahasiswa informatika yang sangat antusias dengan dunia AI dan Data. Saya bertekad untuk menguasai teknologi transformatif ini, membangun portofolio yang berdampak, dan menjadi seorang profesional kelas dunia di bidang ini. Peta jalan ini adalah komitmen saya untuk belajar dan berkembang setiap hari.
-                </p>
-                <div class="flex justify-center items-center gap-6">
-                    <a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://instagram.com/mashivee target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        <span>Instagram</span>
-                    </a>
+        <!-- Main Dashboard Page -->
+        <div id="main-dashboard" class="page active">
+             <header class="text-center my-16">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Live Learning Dashboard</h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Dokumentasi perjalanan saya menjadi seorang AI & Data Specialist, terverifikasi oleh kode dan proyek nyata.</p>
+            </header>
+            <main class="grid lg:grid-cols-3 gap-8 mb-24">
+                <div class="lg:col-span-2 space-y-8">
+                    <section id="about" class="card p-8 rounded-2xl"></section>
                 </div>
-            </div>
-        </section>
-
-
-        <!-- Timeline Section -->
-        <div class="space-y-16">
-            <!-- Fase 1 -->
-            <div id="fase1" class="phase-card rounded-xl p-6 md:p-8">
-                <div class="grid md:grid-cols-12 gap-8 items-start">
-                    <div class="md:col-span-5">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-2">Fase 1: The Foundation</h2>
-                        <p class="text-lg font-semibold text-gray-300 mb-4">Menjadi Arsitek Data</p>
-                        <p class="text-gray-400 mb-2"><span class="font-semibold text-gray-200">Durasi:</span> 6 Bulan (Agustus 2025 - Januari 2026)</p>
-                        <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                            <h4 class="font-semibold text-white mb-2">Fokus Bootcamp:</h4>
-                            <p class="text-gray-300">Complete Data Science, Machine Learning, DL, NLP Bootcamp</p>
-                        </div>
-                        <h4 class="font-semibold text-white mb-2">Materi Kunci:</h4>
-                        <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
-                            <li>Python (Expert, OOP)</li>
-                            <li>Analisis Data (Pandas, NumPy) & Visualisasi</li>
-                            <li>Statistik & Probabilitas Terapan</li>
-                            <li>Machine Learning Klasik (Scikit-learn)</li>
-                            <li>Dasar Deep Learning & NLP</li>
-                            <li>Tools Esensial (Git, SQL, Docker, Flask)</li>
-                        </ul>
-                        <div class="mt-4 bg-gray-800/50 p-3 rounded-lg border border-cyan-700/50">
-                            <h5 class="font-bold text-cyan-300">Tujuan Utama Fase Ini:</h5>
-                            <p class="text-gray-300 text-sm">Mendeploy Proyek End-to-End Prediksi Harga Rumah.</p>
-                        </div>
-                    </div>
-                    <div class="md:col-span-7">
-                        <h3 class="text-xl font-semibold text-center mb-4">Kalender Fase 1</h3>
-                        <div id="calendar-fase1" class="grid grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                <div class="lg:col-span-1">
+                    <div class="sticky top-24 space-y-8">
+                        <section id="student-status" class="card p-6 rounded-2xl"></section>
+                        <section id="key-stats" class="card p-6 rounded-2xl"></section>
                     </div>
                 </div>
-            </div>
+            </main>
+            <section id="tech-stack" class="mb-24">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 gradient-text">Teknologi & Tools Utama</h2>
+                <div id="tech-stack-container" class="max-w-5xl mx-auto grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-y-10 gap-x-4 justify-items-center"></div>
+            </section>
+            <section id="portfolio-preview" class="mb-24">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 gradient-text">Proyek Unggulan</h2>
+                <div id="portfolio-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+            <section id="roadmap" class="mb-24">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 gradient-text">Mastery Roadmap</h2>
+                <div id="roadmap-container" class="space-y-8"></div>
+            </section>
+        </div>
+        
+        <div id="case-studies" class="page">
+            <header class="text-center my-16">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Studi Kasus Proyek</h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Analisis mendalam tentang masalah, proses, dan solusi di balik setiap proyek yang saya kerjakan.</p>
+            </header>
+            <div id="case-studies-container" class="space-y-16"></div>
+        </div>
 
-            <!-- Fase 2 -->
-            <div id="fase2" class="phase-card rounded-xl p-6 md:p-8">
-                 <div class="grid md:grid-cols-12 gap-8 items-start">
-                    <div class="md:col-span-5">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-2">Fase 2: The Vanguard</h2>
-                        <p class="text-lg font-semibold text-gray-300 mb-4">Memasuki Dunia Generative AI</p>
-                        <p class="text-gray-400 mb-2"><span class="font-semibold text-gray-200">Durasi:</span> 4 Bulan (Februari 2026 - Mei 2026)</p>
-                        <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                            <h4 class="font-semibold text-white mb-2">Fokus Bootcamp:</h4>
-                            <p class="text-gray-300">Complete Generative AI Course With Langchain and Huggingface</p>
-                        </div>
-                        <h4 class="font-semibold text-white mb-2">Materi Kunci:</h4>
-                        <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
-                            <li>Arsitektur Transformer (Self-Attention)</li>
-                            <li>LangChain Ecosystem (Chains, Agents, Tools)</li>
-                            <li>Vector Databases (Embeddings, ChromaDB)</li>
-                            <li>Prompt Engineering</li>
-                            <li>HuggingFace (Transformers, Datasets)</li>
-                        </ul>
-                        <div class="mt-4 bg-gray-800/50 p-3 rounded-lg border border-cyan-700/50">
-                            <h5 class="font-bold text-cyan-300">Tujuan Utama Fase Ini:</h5>
-                            <p class="text-gray-300 text-sm">Membangun Chatbot Q&A Dokumen Pribadi (RAG).</p>
-                        </div>
-                    </div>
-                    <div class="md:col-span-7">
-                        <h3 class="text-xl font-semibold text-center mb-4">Kalender Fase 2</h3>
-                        <div id="calendar-fase2" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
-                    </div>
+        <div id="learning-path" class="page">
+             <header class="text-center my-16">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">KOMDIGI Learning Path</h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Jalur pembelajaran terstruktur untuk Fundamental & Intermediate Deep Learning.</p>
+            </header>
+            <div id="komdigi-path-container" class="space-y-10"></div>
+        </div>
+        
+        <div id="calendar-page" class="page">
+            <header class="text-center my-16">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Kalender Pembelajaran Terpadu</h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Visualisasi linimasa dari semua komitmen belajar saya.</p>
+            </header>
+            <div class="card p-8 rounded-2xl">
+                <div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm">
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#005f73]"></div><span>Mastery Roadmap</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#94d2bd]"></div><span>KOMDIGI Path</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm" style="background: linear-gradient(45deg, #005f73 50%, #94d2bd 50%);"></div><span>Overlap Keduanya</span></div>
                 </div>
-            </div>
-
-            <!-- Fase 3 -->
-            <div id="fase3" class="phase-card rounded-xl p-6 md:p-8">
-                 <div class="grid md:grid-cols-12 gap-8 items-start">
-                    <div class="md:col-span-5">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-2">Fase 3: The Professional</h2>
-                        <p class="text-lg font-semibold text-gray-300 mb-4">Menguasai MLOps</p>
-                        <p class="text-gray-400 mb-2"><span class="font-semibold text-gray-200">Durasi:</span> 4 Bulan (Juni 2026 - September 2026)</p>
-                        <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                            <h4 class="font-semibold text-white mb-2">Fokus Bootcamp:</h4>
-                            <p class="text-gray-300">Complete MLOps Bootcamp</p>
-                        </div>
-                        <h4 class="font-semibold text-white mb-2">Materi Kunci:</h4>
-                        <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
-                            <li>Experiment Tracking (MLflow)</li>
-                            <li>Data & Model Versioning (DVC)</li>
-                            <li>CI/CD Automation (GitHub Actions)</li>
-                            <li>Containerization (Docker, Docker Compose)</li>
-                            <li>Cloud Services (AWS EC2, S3, ECR)</li>
-                        </ul>
-                        <div class="mt-4 bg-gray-800/50 p-3 rounded-lg border border-cyan-700/50">
-                            <h5 class="font-bold text-cyan-300">Tujuan Utama Fase Ini:</h5>
-                            <p class="text-gray-300 text-sm">Membangun Pipeline ML Otomatis (CI/CD).</p>
-                        </div>
-                    </div>
-                    <div class="md:col-span-7">
-                        <h3 class="text-xl font-semibold text-center mb-4">Kalender Fase 3</h3>
-                        <div id="calendar-fase3" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fase 4 -->
-            <div id="fase4" class="phase-card rounded-xl p-6 md:p-8">
-                <div class="grid md:grid-cols-12 gap-8 items-start">
-                    <div class="md:col-span-5">
-                        <h2 class="text-3xl font-bold text-cyan-400 mb-2">Fase 4: The Specialist</h2>
-                        <p class="text-lg font-semibold text-gray-300 mb-4">Membangun Sistem Agen Cerdas</p>
-                        <p class="text-gray-400 mb-2"><span class="font-semibold text-gray-200">Durasi:</span> 6 Bulan (Oktober 2026 - Maret 2027)</p>
-                        <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                            <h4 class="font-semibold text-white mb-2">Fokus Bootcamp:</h4>
-                            <p class="text-gray-300">Ultimate RAG, Agentic AI (LangGraph), Autogen</p>
-                        </div>
-                        <h4 class="font-semibold text-white mb-2">Materi Kunci:</h4>
-                        <ul class="list-disc list-inside text-gray-300 space-y-1 mb-4">
-                            <li>Advanced RAG (Hybrid Search, Reranking)</li>
-                            <li>Agentic AI (LangGraph, Autogen)</li>
-                            <li>Multi-Agent System Design</li>
-                            <li>Graph-based Workflows</li>
-                            <li>Autonomous Systems</li>
-                        </ul>
-                        <div class="mt-4 bg-gray-800/50 p-3 rounded-lg border border-cyan-700/50">
-                            <h5 class="font-bold text-cyan-300">Tujuan Utama Fase Ini:</h5>
-                            <p class="text-gray-300 text-sm">Menciptakan Asisten Riset Multi-Agen.</p>
-                        </div>
-                    </div>
-                    <div class="md:col-span-7">
-                        <h3 class="text-xl font-semibold text-center mb-4">Kalender Fase 4</h3>
-                        <div id="calendar-fase4" class="grid grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                    </div>
-                </div>
+                <div id="unified-calendar-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8"></div>
             </div>
         </div>
 
-        <!-- Career Projection Section -->
-        <div id="career" class="mt-20">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 gradient-text">Hasil & Proyeksi Karir</h2>
-            <p class="text-center text-gray-400 max-w-3xl mx-auto mb-12">Setelah menyelesaikan peta jalan ini, Anda akan memiliki keahlian yang setara dengan profesional berpengalaman dan siap untuk peran-peran AI paling dicari di pasar global.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="career-card text-center p-6 rounded-lg">
-                    <svg class="w-12 h-12 mx-auto mb-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    <h3 class="text-xl font-bold text-white mb-2">AI / ML Engineer</h3>
-                    <p class="text-gray-400 text-sm mb-4">Membangun, melatih, dan mendeploy model machine learning & deep learning.</p>
-                    <p class="text-lg font-semibold gradient-text">Rp 15-30jt/bln+</p>
-                </div>
-                 <div class="career-card text-center p-6 rounded-lg">
-                    <svg class="w-12 h-12 mx-auto mb-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l4 4m0 0l4 4m-4-4L11 7M18 7l-4 4m0 0l-4 4m4-4L18 11m-1-5l-4 4m0 0l-4-4m4 4l4-4"></path></svg>
-                    <h3 class="text-xl font-bold text-white mb-2">MLOps Engineer</h3>
-                    <p class="text-gray-400 text-sm mb-4">Mengelola infrastruktur dan mengotomatiskan siklus hidup proyek AI.</p>
-                    <p class="text-lg font-semibold gradient-text">Rp 20-40jt/bln+</p>
-                </div>
-                 <div class="career-card text-center p-6 rounded-lg">
-                    <svg class="w-12 h-12 mx-auto mb-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                    <h3 class="text-xl font-bold text-white mb-2">Generative AI Dev</h3>
-                    <p class="text-gray-400 text-sm mb-4">Merancang aplikasi canggih berbasis LLM seperti sistem RAG dan tools kreatif.</p>
-                    <p class="text-lg font-semibold gradient-text">Rp 25-50jt/bln+</p>
-                </div>
-                 <div class="career-card text-center p-6 rounded-lg">
-                    <svg class="w-12 h-12 mx-auto mb-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <h3 class="text-xl font-bold text-white mb-2">AI Agent Architect</h3>
-                    <p class="text-gray-400 text-sm mb-4">Merancang sistem multi-agen otonom yang dapat berpikir & berkolaborasi.</p>
-                    <p class="text-lg font-semibold gradient-text">Sangat Dicari</p>
-                </div>
+        <div id="blog-page" class="page">
+            <div id="blog-list-view">
+                <header class="text-center my-16">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Jurnal Belajar</h1>
+                    <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Kumpulan artikel dan pemikiran saya tentang Data, AI, dan teknologi.</p>
+                </header>
+                <div id="blog-list-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </div>
-        </div>
-
-        <!-- Practice Projects Table -->
-        <div id="practice" class="mt-20">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 gradient-text">Tabel Latihan Proyek</h2>
-            <div class="overflow-x-auto">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nama Proyek</th>
-                            <th>Deskripsi Singkat</th>
-                            <th>Teknologi yang Digunakan</th>
-                            <th>Link Repositori</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-gray-500">Analisis-Umpan-Balik-Ecommerce</td>
-                            <td class="text-gray-500">Project ini adalah project yang bertujuan untuk menganalisis review apakah ada kesenjangan setiap rating, dan hasil output yang menunjukkan apakah pelanggan itu puas atau tidak, saya melakukan analisis eda yang mendalam di project notebook ini.</td>
-                            <td class="text-gray-500">Google colab, Python, NLP, LLM (Ibm Granite models),tools visualisasi data</td>
-                            <td class="text-gray-500"><a href="https://github.com/Farmil23/Analisis-Umpan-Balik-Ecommerce" style="color: #00C9FF;">Project disini</a></td>
-                            <td class="text-gray-500">Aktif</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Portfolio Section -->
-        <div id="portfolio" class="mt-20">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 gradient-text">Portofolio Unggulan</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Portfolio 1 -->
-                <div class="portfolio-card rounded-lg p-6">
-                    <h3 class="text-2xl font-bold text-green-400 mb-3">Prediksi Harga Rumah (End-to-End)</h3>
-                    <p class="text-gray-400 mb-4">Proyek fondasi yang mencakup siklus hidup ML penuh, dari EDA hingga deployment model sebagai web API interaktif.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Scikit-learn</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Streamlit</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Docker</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">AWS</span>
-                    </div>
-                    <a href="#" class="font-semibold text-cyan-400 hover:text-cyan-300">Lihat Proyek &rarr;</a>
-                </div>
-                <!-- Portfolio 2 -->
-                <div class="portfolio-card rounded-lg p-6">
-                    <h3 class="text-2xl font-bold text-green-400 mb-3">Chatbot Q&A Dokumen Pribadi</h3>
-                    <p class="text-gray-400 mb-4">Membangun chatbot cerdas menggunakan arsitektur RAG untuk menjawab pertanyaan dari dokumen PDF, lengkap dengan memori percakapan.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">LangChain</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">HuggingFace</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">ChromaDB</span>
-                    </div>
-                    <a href="#" class="font-semibold text-cyan-400 hover:text-cyan-300">Lihat Proyek &rarr;</a>
-                </div>
-                <!-- Portfolio 3 -->
-                <div class="portfolio-card rounded-lg p-6">
-                    <h3 class="text-2xl font-bold text-green-400 mb-3">Pipeline ML Otomatis (CI/CD)</h3>
-                    <p class="text-gray-400 mb-4">Mengotomatiskan seluruh alur kerja ML, dari training hingga deployment, menggunakan praktik MLOps modern.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">GitHub Actions</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">MLflow</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">DVC</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Docker</span>
-                    </div>
-                    <a href="#" class="font-semibold text-cyan-400 hover:text-cyan-300">Lihat Proyek &rarr;</a>
-                </div>
-                <!-- Portfolio 4 -->
-                <div class="portfolio-card rounded-lg p-6">
-                    <h3 class="text-2xl font-bold text-green-400 mb-3">Asisten Riset Multi-Agen</h3>
-                    <p class="text-gray-400 mb-4">Sistem AI otonom yang terdiri dari beberapa agen (Supervisor, Search, Analyst, Writer) untuk melakukan riset dan membuat laporan.</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">LangGraph</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Autogen</span>
-                        <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Agentic AI</span>
-                    </div>
-                    <a href="#" class="font-semibold text-cyan-400 hover:text-cyan-300">Lihat Proyek &rarr;</a>
+            <div id="blog-detail-view" class="hidden">
+                 <button id="blog-back-button" class="back-button mb-8 inline-flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Kembali ke Daftar Artikel
+                </button>
+                <div class="card p-8 md:p-12 rounded-2xl">
+                    <h1 id="blog-detail-title" class="text-3xl md:text-5xl font-extrabold mb-6 gradient-text"></h1>
+                    <div id="blog-detail-content" class="prose prose-invert prose-lg max-w-none text-gray-300"></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <footer class="text-center p-8 text-gray-500 border-t border-gray-800/50">
+        <p>Didesain & Dikembangkan dengan semangat oleh Farmil. &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
     <script>
-        // Function to generate a simple calendar
-        function createCalendar(year, month, highlight = false) {
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- DATA SOURCES ---
+        const studentData = { 
+            major: 'Teknik Informatika', 
+            semester: 5, 
+            university: 'Universitas Contoh',
+            description: 'Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak.'
+        };
+        const roadmapData = [
+            { id: 'fase1', title: 'The Foundation', subtitle: 'Menjadi Arsitek Data', startDate: '2025-08-01', endDate: '2026-01-31', progress: 15, status: 'In Progress', bootcampName: 'Complete Data Science, Machine Learning, DL, NLP Bootcamp', skills: ['Python', 'Data Analysis', 'SQL', 'Statistics', 'ML Ops', 'Deep Learning', 'NLP', 'Git'], goalProject: 'Prediksi Harga Rumah (End-to-End)' },
+            { id: 'fase2', title: 'The Vanguard', subtitle: 'Memasuki Dunia Generative AI', startDate: '2026-02-01', endDate: '2026-05-31', progress: 0, status: 'Not Started', bootcampName: 'Complete Generative AI Course With Langchain and Huggingface', skills: ['Transformers', 'LangChain', 'Vector DBs', 'Prompt Engineering', 'HuggingFace'], goalProject: 'Chatbot Q&A Dokumen Pribadi (RAG)' },
+            { id: 'fase3', title: 'The Professional', subtitle: 'Menguasai MLOps', startDate: '2026-06-01', endDate: '2026-09-30', progress: 0, status: 'Not Started', bootcampName: 'Complete MLOps Bootcamp', skills: ['MLflow', 'DVC', 'CI/CD', 'Docker', 'AWS', 'Kubernetes'], goalProject: 'Pipeline ML Otomatis (CI/CD)' },
+            { id: 'fase4', title: 'The Specialist', subtitle: 'Membangun Sistem Agen Cerdas', startDate: '2026-10-01', endDate: '2027-03-31', progress: 0, status: 'Not Started', bootcampName: 'Ultimate RAG, Agentic AI (LangGraph), Autogen', skills: ['Advanced RAG', 'LangGraph', 'Autogen', 'Multi-Agent Systems'], goalProject: 'Asisten Riset Multi-Agen' }
+        ];
+        const portfolioData = [
+            { id: 'analisis-ecommerce', title: 'Analisis Umpan Balik E-commerce', description: 'Menganalisis review produk untuk menemukan insight kepuasan pelanggan menggunakan EDA mendalam dan pemodelan NLP.', tags: ['Python', 'NLP', 'LLM', 'EDA', 'Google Colab'], repoLink: 'https://github.com/Farmil23/Analisis-Umpan-Balik-Ecommerce', certLink: 'https://drive.google.com/file/d/1595y6XsGSToGWKD7i6ERnYauf6t1ACHh/view', status: 'Completed', problem: 'Banyaknya ulasan produk yang tidak terstruktur menyulitkan pemilik bisnis untuk memahami sentimen pelanggan secara keseluruhan dan mengidentifikasi area yang perlu perbaikan.', solution: 'Membangun sebuah pipeline analisis sentimen menggunakan model NLP untuk mengklasifikasikan ulasan menjadi positif, negatif, atau netral. Hasilnya divisualisasikan dalam dashboard interaktif untuk memberikan wawasan yang dapat ditindaklanjuti.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Diagram+Arsitektur+Proyek', liveDemoLink: null, codeSnippet: { language: 'plaintext', code: `1. Baca dataset ulasan produk\n2. UNTUK SETIAP ulasan DALAM dataset:\n3.   Analisis polaritas sentimen (positif/netral/negatif)\n4.   Tambahkan hasil sentimen ke kolom baru\n5. Tampilkan 5 ulasan pertama beserta sentimennya` } },
+            { id: 'prediksi-harga-rumah', title: 'Prediksi Harga Rumah (End-to-End)', description: 'Proyek fondasi yang mencakup siklus hidup ML penuh, dari EDA hingga deployment model sebagai web API interaktif.', tags: ['Scikit-learn', 'Streamlit', 'Docker', 'AWS'], repoLink: '#', certLink: '#', status: 'In Progress', problem: 'Kesulitan dalam menentukan harga jual rumah yang kompetitif dan akurat berdasarkan fitur-fitur properti seperti luas, jumlah kamar, dan lokasi.', solution: 'Mengembangkan model regresi machine learning yang dilatih pada data historis properti. Model ini kemudian di-deploy sebagai aplikasi web sederhana di mana pengguna dapat memasukkan fitur rumah dan mendapatkan estimasi harga secara real-time.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Diagram+Arsitektur+Proyek', liveDemoLink: '#', codeSnippet: { language: 'plaintext', code: `1. Muat model prediksi yang sudah dilatih\n2. Buat antarmuka web dengan judul\n3. Sediakan input untuk 'Luas Tanah' dan 'Jumlah Kamar'\n4. JIKA tombol 'Prediksi' ditekan:\n5.   Ambil nilai dari input pengguna\n6.   Gunakan model untuk memprediksi harga dari nilai input\n7.   Tampilkan hasil estimasi harga kepada pengguna` } }
+        ];
+        const komdigiData = [
+            { program: 'Program 1. Micro Skill', title: 'AI Engineer For Mienial', level: 'Micro Skill', registration: '24 Juli - 12 Agustus 2025', execution: 'Selesaikan minimal satu MicroSkill untuk melanjutkan ke Program 2.', materials: ['Dasar-Dasar Implementasi Kecerdasan Artifisial'], competencies: [], type: 'Mandiri', startDate: '2025-07-24', endDate: '2025-08-12' },
+            { program: 'Program 2. Fundamental Deep Learning', title: 'Fundamental Deep Learning', level: 'Beginner', registration: '24 Juli - 12 Agustus 2025', execution: '14 - 27 Agustus 2025', materials: ['Kategori Mesin yang Belajar', 'Metrik Kinerja Model Klasifikasi', 'Regresi Linier', 'Regresi Logistik', 'Mesin yang Belajar Mengurai Benang Kusut', 'Istilah dan Konsep Dasar', 'Reviu Matematika Dasar'], competencies: ['Menentukan Objektif Bisnis', 'Menentukan Tujuan Teknis Data Science', 'Mengubah Data', 'Membangun Model', 'Merancang Skenario Model', 'Mengevaluasi Hasil Pemodelan'], type: 'Lab Session', startDate: '2025-08-14', endDate: '2025-08-27' },
+            { program: 'Program 3. Intermediate Deep Learning', title: 'Intermediate Deep Learning', level: 'Intermediate', registration: '29 Agustus - 1 September 2025', execution: '3 - 9 September 2025', materials: ['Jaringan Saraf Berlapis', 'Optimasi dan Regulasi'], competencies: ['Membangun Skenario Model', 'Membangun Model', 'Optimasi Hasil Pemodelan', 'Melakukan Reviu Proyek Data Science'], type: 'Live Session', startDate: '2025-09-03', endDate: '2025-09-09' },
+            { program: 'Program 4. Mastery Deep Learning', title: 'Mastery Deep Learning', level: 'Advance', registration: '11 - 14 September 2025', execution: '16 - 22 September 2025', materials: ['Jaringan Saraf Pengenal Gambar', 'Berbagai Macam Pemodelan Deep Learning'], competencies: ['Mengkonstruksi Data', 'Membangun Model', 'Mengevaluasi Skenario Model', 'Melakukan Reviu Proyek DS'], type: 'Live Session', startDate: '2025-09-16', endDate: '2025-09-22' },
+            { program: 'Program 5 & 6. Hackathon', title: 'Pra-Hackathon & Hackathon', level: 'Hackathon', registration: 'Pra: 24 Sep - 5 Okt 2025 | Final: 12-14 Nov 2025', execution: 'Pra: 8 Okt - 9 Nov 2025 | Final: 18 Nov 2025', materials: ['Penerapan skill gabungan dalam sebuah kompetisi final.'], competencies: ['Kompetisi SKKNI Puncak'], type: 'Gratis', startDate: '2025-10-08', endDate: '2025-11-18' }
+        ];
+        const techStackData = [
+            { name: 'Python', color: '#3776AB', svg: '<path d="M13.23 10.34c-.45-.27-.95-.42-1.48-.42s-1.03.15-1.48.42a2.09 2.09 0 0 0-.92 1.77v5.38c0 .69.23 1.3.69 1.77.46.47 1.05.7 1.71.7s1.25-.23 1.71-.7a2.4 2.4 0 0 0 .69-1.77v-1.89a6.67 6.67 0 0 1-3.23.86c-2.28 0-4.13-1.85-4.13-4.13s1.85-4.13 4.13-4.13c.93 0 1.78.3 2.48.86V7.66c0-.69-.23-1.3-.69-1.77a2.41 2.41 0 0 0-1.71-.7c-.66 0-1.25.23-1.71.7a2.4 2.4 0 0 0-.69 1.77v1.89a6.67 6.67 0 0 1 3.23-.86c2.28 0 4.13 1.85 4.13 4.13s-1.85 4.13-4.13 4.13c-.93 0-1.78-.3-2.48-.86v-5.38a2.09 2.09 0 0 0-.92-1.77c-.45-.27-.95-.42-1.48-.42s-1.03.15-1.48.42a2.09 2.09 0 0 0-.92 1.77v5.38c0 .69.23 1.3.69 1.77.46.47 1.05.7 1.71.7s1.25-.23 1.71-.7a2.4 2.4 0 0 0 .69-1.77v-1.89a6.67 6.67 0 0 1-3.23.86c-2.28 0-4.13-1.85-4.13-4.13s1.85-4.13 4.13-4.13c.93 0 1.78.3 2.48.86V7.66c0-.69-.23-1.3-.69-1.77a2.41 2.41 0 0 0-1.71-.7c-.66 0-1.25.23-1.71.7a2.4 2.4 0 0 0-.69 1.77v1.89a6.67 6.67 0 0 1 3.23-.86c2.28 0 4.13 1.85 4.13 4.13s-1.85 4.13-4.13 4.13c-.93 0-1.78-.3-2.48-.86z"/>' },
+            { name: 'Pandas', color: '#150458', svg: '<path d="M2.9 8.11h3.11v12.8H2.9zm6.82 0h3.11v12.8H9.72zm6.83 0h3.11v12.8h-3.11zM2.9 3.28h16.8v3.11H2.9z"/>' },
+            { name: 'Numpy', color: '#4D77CF', svg: '<path d="m12 2-7.09 12.28L12 20l7.09-5.72L12 2zM3.28 15.45l-1.16 2L12 22l9.88-4.55-1.16-2L12 18.28 3.28 15.45z"/>' },
+            { name: 'Scikit-learn', color: '#F7931E', svg: '<circle cx="10" cy="10" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="m10 13 5.5 2.5m0-9-5.5 2.5"/>' },
+            { name: 'TensorFlow', color: '#FF6F00', svg: '<path d="m12 1.5-9 5v11l9 5 9-5v-11zM5.07 9.22 12 13l6.93-3.78L12 5.44Z"/><path d="m5.07 14.78 6.93 3.78 6.93-3.78V9.22L12 13Z"/>' },
+            { name: 'PyTorch', color: '#EE4C2C', svg: '<circle cx="12" cy="12" r="2"/><path d="M12 2a10 10 0 0 0-4.47 18.02m8.94 0A10 10 0 0 0 12 2"/>' },
+            { name: 'Hugging Face', color: '#FFD21E', svg: '<path d="M14.5 10.5c.69.69.69 1.81 0 2.5L10 17.5l-4.5-4.5c-.69-.69-.69-1.81 0-2.5l2-2L10 8.5l2.5-2.5z"/><path d="M10 2.5c-4.14 0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5 7.5-3.36 7.5-7.5-3.36-7.5-7.5-7.5zm0 13c-3.04 0-5.5-2.46-5.5-5.5s2.46-5.5 5.5-5.5 5.5 2.46 5.5 5.5-2.46 5.5-5.5 5.5z"/>' },
+            { name: 'LangChain', color: '#6A8EAE', svg: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" y1="12" x2="16" y2="12"/>' },
+            { name: 'SQL', color: '#4479A1', svg: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>' },
+            { name: 'Docker', color: '#2496ED', svg: '<path d="M20.5 12.5c0 .17-.01.33-.03.5H17v-5h3.5c.28 0 .5.22.5.5v4zM16 7.5v10H4.5c-2.48 0-4.5-2.02-4.5-4.5S2.02 8.5 4.5 8.5H8V4.25c0-.97.78-1.75 1.75-1.75h3.5c.97 0 1.75.78 1.75 1.75v3.25H16zm-4-1.5H9.5v3h2.5v-3z"/>' },
+            { name: 'AWS', color: '#FF9900', svg: '<path d="M17.34 16.89a1.3 1.3 0 0 0 1.3-1.3c0-.43-.22-.84-.57-1.08-.36-.24-.78-.36-1.22-.36H15.2v2.74h1.57c.23 0 .45-.05.67-.1zm-5.76-4.56a1.3 1.3 0 0 0-1.3 1.3c0 .43.22.84.57 1.08.36-.24.78-.36 1.22.36h1.65v-2.74h-1.57c-.23 0-.45.05-.67-.1zM22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10zM6.66 12.33h1.65v2.74H6.66zm5.76 4.56H10.8v-2.74h1.62zm5.76 0H16.5v-2.74h1.62z"/>' },
+            { name: 'Git', color: '#F05032', svg: '<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>' },
+        ];
+        const blogData = [
+            { id: 'memahami-rag', title: 'Memahami Arsitektur RAG dalam 5 Menit', summary: 'Sebuah pengantar singkat tentang Retrieval-Augmented Generation, arsitektur yang merevolusi cara kerja LLM.', date: '1 Agu 2025', fullContent: `<p>Retrieval-Augmented Generation (RAG) adalah arsitektur cerdas yang menggabungkan kekuatan model bahasa besar (LLM) dengan kemampuan untuk mengambil informasi dari sumber data eksternal. Bayangkan Anda bertanya kepada seorang ahli yang sangat pintar, tetapi sebelum menjawab, ia membuka buku referensi terlebih dahulu untuk memastikan jawabannya akurat dan relevan. Itulah RAG.</p><p class="mt-4">Secara sederhana, alurnya adalah: 1. **Pertanyaan Pengguna:** Anda mengajukan pertanyaan. 2. **Pencarian (Retrieval):** Sistem mencari informasi yang paling relevan dari database pengetahuan (misalnya, dokumen PDF, website, atau database internal). 3. **Augmentasi:** Informasi yang ditemukan kemudian 'disuntikkan' ke dalam prompt yang akan diberikan kepada LLM. 4. **Generasi:** LLM menerima prompt yang sudah diperkaya dengan konteks ini dan menghasilkan jawaban yang jauh lebih akurat dan faktual daripada jika ia hanya mengandalkan pengetahuan internalnya.</p><p class="mt-4">Kelebihan utama RAG adalah kemampuannya untuk mengurangi 'halusinasi' (jawaban yang mengada-ada) pada LLM dan memungkinkan model untuk memberikan jawaban berdasarkan data yang paling baru dan spesifik, bahkan data privat perusahaan.</p>`},
+            { id: 'akurasi-vs-presisi', title: 'Akurasi vs. Presisi: Mana yang Lebih Penting?', summary: 'Sering tertukar, kedua metrik ini memiliki arti yang sangat berbeda dalam evaluasi model machine learning.', date: '15 Jul 2025', fullContent: `<p>Dalam machine learning, terutama untuk masalah klasifikasi, akurasi dan presisi adalah dua metrik evaluasi yang sering digunakan. Namun, keduanya mengukur hal yang berbeda dan penting untuk tidak salah mengartikannya.</p><p class="mt-4"><strong>Akurasi</strong> adalah metrik yang paling sederhana: dari semua prediksi yang dibuat, berapa persen yang benar? Rumusnya adalah (Prediksi Benar / Total Prediksi). Akurasi bekerja dengan baik pada dataset yang seimbang (jumlah sampel tiap kelas hampir sama). Namun, ia bisa sangat menyesatkan pada dataset yang tidak seimbang.</p><p class="mt-4"><strong>Presisi</strong>, di sisi lain, menjawab pertanyaan: dari semua prediksi 'Positif' yang kita buat, berapa persen yang benar-benar 'Positif'? Rumusnya adalah (True Positives / (True Positives + False Positives)). Presisi menjadi sangat penting ketika biaya dari False Positive sangat tinggi. Contohnya, dalam sistem deteksi spam, Anda tidak ingin email penting salah diklasifikasikan sebagai spam (False Positive). Dalam kasus ini, presisi tinggi lebih diutamakan.</p><p class="mt-4">Jadi, mana yang lebih penting? Jawabannya: tergantung pada masalah bisnis yang ingin Anda selesaikan. Memahami konteks masalah adalah kunci untuk memilih metrik evaluasi yang tepat.</p>`}
+        ];
+
+        // --- RENDER FUNCTIONS ---
+        function renderAboutMe() {
+            const container = document.getElementById('about');
+            if(!container) return;
+            container.innerHTML = `
+                <div class="flex flex-col sm:flex-row items-center gap-8">
+                    <div class="flex-shrink-0"><img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="https://placehold.co/200x200/0a0a0a/00C9FF?text=F" alt="Foto Profil Farmil"></div>
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2 gradient-text">Farmil</h2>
+                        <p class="text-gray-300 mb-6">Mahasiswa informatika dengan tekad membara untuk menjadi ahli di bidang AI dan Data. Roadmap ini adalah komitmen publik saya untuk belajar, membangun, dan berkembang setiap hari.</p>
+                        <div class="flex items-center gap-5">
+                            <a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">GitHub</a>
+                            <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">LinkedIn</a>
+                            <a href="https://instagram.com/mashivee" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">Instagram</a>
+                        </div>
+                    </div>
+                </div>`;
+        }
+        function renderStudentInfo() {
+            const container = document.getElementById('student-status');
+            if (!container) return;
+            container.innerHTML = `
+                <h2 class="text-xl font-bold mb-4 text-white">Status Mahasiswa</h2>
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-gray-400">Jurusan:</span><p class="text-white">${studentData.major}</p></div>
+                    <div><span class="font-semibold text-gray-400">Semester:</span><p class="text-white">${studentData.semester}</p></div>
+                    <div><span class="font-semibold text-gray-400">Universitas:</span><p class="text-white">${studentData.university}</p></div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-700/50">
+                    <p class="text-sm text-gray-400">${studentData.description}</p>
+                </div>
+            `;
+        }
+        function renderStats() {
+            const container = document.getElementById('key-stats');
+            if (!container) return;
+            const completedProjects = portfolioData.filter(p => p.status === 'Completed').length;
+            const inProgressPhases = roadmapData.filter(r => r.status === 'In Progress').length;
+            container.innerHTML = `
+                <h2 class="text-xl font-bold mb-4 text-white">Statistik Kunci</h2>
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-gray-400">Proyek Selesai:</span><p class="text-2xl font-bold gradient-text">${completedProjects}</p></div>
+                    <div><span class="font-semibold text-gray-400">Fase Aktif:</span><p class="text-2xl font-bold gradient-text">${inProgressPhases}</p></div>
+                    <div><span class="font-semibold text-gray-400">Status:</span><p class="text-lg font-bold text-green-400">Aktif Belajar</p></div>
+                </div>
+            `;
+        }
+        function renderRoadmap() {
+            const container = document.getElementById('roadmap-container');
+            if (!container) return;
+            container.innerHTML = roadmapData.map((phase, index) => {
+                const statusColor = phase.status === 'In Progress' ? 'text-cyan-400' : phase.status === 'Completed' ? 'text-green-400' : 'text-gray-500';
+                return `
+                <div class="card rounded-2xl p-6 md:p-8">
+                    <div class="grid md:grid-cols-12 gap-x-8 items-start">
+                        <div class="md:col-span-8">
+                            <h3 class="text-2xl font-bold text-white">Fase ${index + 1}: ${phase.title}</h3>
+                            <p class="text-lg font-medium text-gray-400 mb-4">${phase.subtitle}</p>
+                            <div class="mb-4 bg-gray-900/50 p-3 rounded-lg border border-gray-700/50">
+                                <h4 class="font-semibold text-white mb-1">Fokus Bootcamp:</h4>
+                                <p class="text-gray-300 text-sm">${phase.bootcampName}</p>
+                            </div>
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium ${statusColor}">${phase.status}</span><span class="text-sm font-bold text-white">${phase.progress}%</span></div>
+                                <div class="progress-bar-container w-full h-2.5"><div class="progress-bar h-2.5 rounded-full" style="width: ${phase.progress}%"></div></div>
+                            </div>
+                            <div class="bg-gray-900/50 p-4 rounded-lg border border-cyan-700/50 flex items-center gap-3">
+                                <svg class="w-6 h-6 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                                <div><h5 class="font-bold text-cyan-300">Proyek Kunci:</h5><p class="text-gray-200">${phase.goalProject}</p></div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-4 mt-6 md:mt-0">
+                             <h4 class="font-semibold text-white mb-3">Materi Kunci:</h4>
+                             <div class="flex flex-wrap gap-2">${phase.skills.map(skill => `<span class="tag text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}</div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        function renderPortfolioPreview() {
+            const container = document.getElementById('portfolio-container');
+            if (!container) return;
+            container.innerHTML = portfolioData.map(project => {
+                const statusBadge = {'Completed': 'bg-green-500/20 text-green-300 border-green-400/30', 'In Progress': 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30', 'Planned': 'bg-gray-500/20 text-gray-300 border-gray-400/30'};
+                return `
+                <div class="card card-clickable rounded-xl p-6 flex flex-col">
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-green-400 pr-4">${project.title}</h3>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap ${statusBadge[project.status]}">${project.status}</span>
+                        </div>
+                        <p class="text-gray-400 mb-4 text-sm">${project.description}</p>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-gray-700/50">
+                        <a class="nav-link font-semibold text-cyan-400 hover:text-cyan-300 transition-colors" data-page="case-studies" data-target-project="#${project.id}">Lihat Studi Kasus &rarr;</a>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        function renderCaseStudies() {
+            const container = document.getElementById('case-studies-container');
+            if (!container) return;
+            container.innerHTML = portfolioData.map(project => `
+                <section id="${project.id}" class="card p-8 rounded-2xl scroll-mt-24">
+                    <h2 class="text-3xl font-bold mb-2 gradient-text">${project.title}</h2>
+                    <p class="text-gray-400 mb-6">${project.description}</p>
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div><h4 class="text-xl font-bold text-white mb-2">Masalah</h4><p class="text-gray-300">${project.problem}</p></div>
+                        <div><h4 class="text-xl font-bold text-white mb-2">Solusi</h4><p class="text-gray-300">${project.solution}</p></div>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-4">Diagram Arsitektur</h4>
+                    <img src="${project.architectureDiagram}" alt="Diagram Arsitektur untuk ${project.title}" class="rounded-lg border border-gray-700 mb-8 w-full">
+                    <h4 class="text-xl font-bold text-white mb-4">Logika/Alur Kerja (Pseudocode)</h4>
+                    <pre><code class="language-${project.codeSnippet.language}">${project.codeSnippet.code.trim()}</code></pre>
+                    <div class="mt-8 pt-6 border-t border-gray-700/50 flex items-center gap-6">
+                        ${project.liveDemoLink ? `<a href="${project.liveDemoLink}" target="_blank" rel="noopener noreferrer" class="font-bold text-green-400 hover:text-green-300">Lihat Demo Langsung &rarr;</a>` : ''}
+                        <a href="${project.repoLink}" target="_blank" rel="noopener noreferrer" class="font-bold text-cyan-400 hover:text-cyan-300">Lihat Repositori &rarr;</a>
+                    </div>
+                </section>
+            `).join('');
+        }
+        function renderKomdigiPath() {
+            const container = document.getElementById('komdigi-path-container');
+            if (!container) return;
+            container.innerHTML = komdigiData.map(item => {
+                const levelColor = { 'Micro Skill': 'bg-yellow-800/50 text-yellow-300', 'Beginner': 'bg-blue-800/50 text-blue-300', 'Intermediate': 'bg-green-800/50 text-green-300', 'Advance': 'bg-purple-800/50 text-purple-300', 'Hackathon': 'bg-red-800/50 text-red-300' };
+                return `
+                <div class="card rounded-2xl p-8">
+                    <div class="grid md:grid-cols-12 gap-x-8">
+                        <div class="md:col-span-4">
+                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold mb-2 ${levelColor[item.level] || ''}">${item.level}</span>
+                            <h3 class="text-2xl font-bold text-white">${item.title}</h3>
+                            <p class="text-lg font-medium text-gray-400 mb-4">${item.program}</p>
+                            <div class="space-y-2 text-sm"><p><strong class="text-gray-300">Pendaftaran:</strong> ${item.registration}</p><p><strong class="text-gray-300">Pelaksanaan:</strong> ${item.execution}</p></div>
+                        </div>
+                        <div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Materi Pembelajaran</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.materials.map(mat => `<li>${mat}</li>`).join('')}</ul></div>
+                        <div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Kompetensi SKKNI</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.competencies.map(comp => `<li>${comp}</li>`).join('')}</ul></div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        function renderUnifiedCalendar() {
+            const container = document.getElementById('unified-calendar-container');
+            if (!container) return;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const year = 2025;
+            const endYear = 2027;
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
-            
-            const date = new Date(year, month);
-            const monthName = monthNames[month];
-            
-            let calendarHtml = `<div class="p-3 bg-gray-800 rounded-lg">`;
-            calendarHtml += `<h4 class="font-semibold text-center text-white mb-2">${monthName} ${year}</h4>`;
-            calendarHtml += `<div class="calendar-grid">`;
-            
-            // Day headers
-            dayNames.forEach(day => {
-                calendarHtml += `<div class="calendar-day header text-center p-1">${day.substring(0,1)}</div>`;
+            let calendarHtml = '';
+            const checkDateInRanges = (date, data) => {
+                for (const item of data) {
+                    const startDate = new Date(item.startDate);
+                    const endDate = new Date(item.endDate);
+                    const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                    const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+                    const normEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+                    if (normDate >= normStart && normDate <= normEnd) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            for (let y = year; y <= endYear; y++) {
+                for (let m = 0; m < 12; m++) {
+                    const firstDayOfMonth = new Date(y, m, 1).getDay();
+                    const daysInMonth = new Date(y, m + 1, 0).getDate();
+                    calendarHtml += `<div><h4 class="font-bold text-lg mb-2 text-white">${monthNames[m]} ${y}</h4><div class="calendar-grid">`;
+                    ['M', 'S', 'S', 'R', 'K', 'J', 'S'].forEach(d => { calendarHtml += `<div class="text-xs text-center text-gray-500 font-semibold">${d}</div>`; });
+                    for (let i = 0; i < firstDayOfMonth; i++) { calendarHtml += `<div class="calendar-day empty"></div>`; }
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const currentDate = new Date(y, m, day);
+                        let dayClass = 'calendar-day';
+                        let markHtml = '';
+                        const isRoadmapDay = checkDateInRanges(currentDate, roadmapData);
+                        const isKomdigiDay = checkDateInRanges(currentDate, komdigiData);
+                        if (isRoadmapDay && isKomdigiDay) {
+                            markHtml = '<div class="calendar-day-mark overlap-mark"></div>';
+                        } else if (isRoadmapDay) {
+                            markHtml = '<div class="calendar-day-mark roadmap-mark"></div>';
+                        } else if (isKomdigiDay) {
+                            markHtml = '<div class="calendar-day-mark komdigi-mark"></div>';
+                        }
+                        if (currentDate.getTime() === today.getTime()) { dayClass += ' today'; }
+                        calendarHtml += `<div class="${dayClass}">${day}${markHtml}</div>`;
+                    }
+                    calendarHtml += `</div></div>`;
+                }
+            }
+            container.innerHTML = calendarHtml;
+        }
+        function renderTechStack() {
+            const container = document.getElementById('tech-stack-container');
+            if (!container) return;
+            container.innerHTML = techStackData.map(tech => `
+                <div class="text-center group flex flex-col items-center tech-logo" style="--tech-color: ${tech.color};">
+                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${tech.svg}</svg>
+                    <p class="mt-2 text-sm font-semibold text-gray-400 group-hover:text-white transition-colors">${tech.name}</p>
+                </div>
+            `).join('');
+        }
+        function renderBlogList() {
+            const container = document.getElementById('blog-list-container');
+            if (!container) return;
+            container.innerHTML = blogData.map(post => `
+                <div class="card card-clickable blog-topic p-6 rounded-2xl" data-post-id="${post.id}">
+                    <p class="text-sm text-gray-400 mb-2">${post.date}</p>
+                    <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
+                    <p class="text-gray-300 text-sm">${post.summary}</p>
+                </div>
+            `).join('');
+        }
+        function showBlogPost(postId) {
+            const post = blogData.find(p => p.id === postId);
+            if (!post) return;
+            document.getElementById('blog-detail-title').innerText = post.title;
+            document.getElementById('blog-detail-content').innerHTML = post.fullContent;
+            document.getElementById('blog-list-view').classList.add('hidden');
+            document.getElementById('blog-detail-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function showBlogList() {
+            document.getElementById('blog-list-view').classList.remove('hidden');
+            document.getElementById('blog-detail-view').classList.add('hidden');
+        }
+
+        // --- PAGE SWITCHING LOGIC ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        function switchPage(pageId, targetProject = null) {
+            pages.forEach(page => page.classList.toggle('active', page.id === pageId));
+            document.querySelectorAll('#nav-links a').forEach(navLink => {
+                navLink.classList.toggle('text-white', navLink.getAttribute('data-page') === pageId);
+                navLink.classList.toggle('bg-gray-700', navLink.getAttribute('data-page') === pageId);
+                navLink.classList.toggle('text-gray-300', navLink.getAttribute('data-page') !== pageId);
             });
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            // Blank days
-            for (let i = 0; i < firstDay; i++) {
-                calendarHtml += `<div></div>`;
+            if (!targetProject) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                setTimeout(() => {
+                    const projectElement = document.querySelector(targetProject);
+                    if (projectElement) projectElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
             }
-
-            // Actual days
-            for (let i = 1; i <= daysInMonth; i++) {
-                calendarHtml += `<div class="calendar-day text-center p-1 ${highlight ? 'highlight' : ''}">${i}</div>`;
-            }
-
-            calendarHtml += `</div></div>`;
-            return calendarHtml;
         }
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                switchPage(e.currentTarget.getAttribute('data-page'));
+            });
+        });
 
-        // Populate calendars for each phase
-        function populateCalendars() {
-            const fase1El = document.getElementById('calendar-fase1');
-            const fase2El = document.getElementById('calendar-fase2');
-            const fase3El = document.getElementById('calendar-fase3');
-            const fase4El = document.getElementById('calendar-fase4');
-
-            // Fase 1: Agu 2025 - Jan 2026
-            fase1El.innerHTML += createCalendar(2025, 7, true); // Agustus
-            fase1El.innerHTML += createCalendar(2025, 8, true); // September
-            fase1El.innerHTML += createCalendar(2025, 9, true); // Oktober
-            fase1El.innerHTML += createCalendar(2025, 10, true); // November
-            fase1El.innerHTML += createCalendar(2025, 11, true); // Desember
-            fase1El.innerHTML += createCalendar(2026, 0, true); // Januari
-
-            // Fase 2: Feb 2026 - Mei 2026
-            fase2El.innerHTML += createCalendar(2026, 1, true); // Februari
-            fase2El.innerHTML += createCalendar(2026, 2, true); // Maret
-            fase2El.innerHTML += createCalendar(2026, 3, true); // April
-            fase2El.innerHTML += createCalendar(2026, 4, true); // Mei
-
-            // Fase 3: Jun 2026 - Sep 2026
-            fase3El.innerHTML += createCalendar(2026, 5, true); // Juni
-            fase3El.innerHTML += createCalendar(2026, 6, true); // Juli
-            fase3El.innerHTML += createCalendar(2026, 7, true); // Agustus
-            fase3El.innerHTML += createCalendar(2026, 8, true); // September
-
-            // Fase 4: Okt 2026 - Mar 2027
-            fase4El.innerHTML += createCalendar(2026, 9, true); // Oktober
-            fase4El.innerHTML += createCalendar(2026, 10, true); // November
-            fase4El.innerHTML += createCalendar(2026, 11, true); // Desember
-            fase4El.innerHTML += createCalendar(2027, 0, true); // Januari
-            fase4El.innerHTML += createCalendar(2027, 1, true); // Februari
-            fase4El.innerHTML += createCalendar(2027, 2, true); // Maret
+        // --- INITIAL RENDER ---
+        function initializePage() {
+            renderAboutMe();
+            renderStudentInfo();
+            renderStats();
+            renderRoadmap();
+            renderPortfolioPreview();
+            renderTechStack();
+            renderKomdigiPath();
+            renderCaseStudies();
+            renderUnifiedCalendar();
+            renderBlogList();
+            
+            document.querySelectorAll('#portfolio-container .nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchPage(e.currentTarget.getAttribute('data-page'), e.currentTarget.getAttribute('data-target-project'));
+                });
+            });
+            document.querySelectorAll('.blog-topic').forEach(topic => {
+                topic.addEventListener('click', (e) => {
+                    showBlogPost(e.currentTarget.getAttribute('data-post-id'));
+                });
+            });
+            document.getElementById('blog-back-button').addEventListener('click', showBlogList);
         }
-
-        // Run the function on page load
-        document.addEventListener('DOMContentLoaded', populateCalendars);
+        
+        initializePage();
+    });
     </script>
 </body>
 </html>
