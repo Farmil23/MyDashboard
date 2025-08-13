@@ -89,7 +89,9 @@
     <nav class="sticky top-0 z-50 bg-black/50 border-b border-gray-800/50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center"><span class="font-bold text-xl gradient-text">Farmil.dev</span></div>
+                <div class="flex items-center">
+                    <span class="font-bold text-xl gradient-text">Farmil.dev</span>
+                </div>
                 <div class="hidden md:block">
                     <div id="nav-links" class="ml-10 flex items-baseline space-x-4">
                         <a data-page="main-dashboard" class="nav-link text-white bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
@@ -99,17 +101,37 @@
                         <a data-page="blog-page" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Blog</a>
                     </div>
                 </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="hamburger-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <span class="sr-only">Buka menu</span>
+                        <svg id="hamburger-open-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="hamburger-close-icon" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a data-page="main-dashboard" class="nav-link text-white bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                <a data-page="case-studies" class="nav-link text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Studi Kasus</a>
+                <a data-page="learning-path" class="nav-link text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Learning Path</a>
+                <a data-page="calendar-page" class="nav-link text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Kalender</a>
+                <a data-page="blog-page" class="nav-link text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Blog</a>
             </div>
         </div>
     </nav>
 
     <div class="container mx-auto p-4 md:p-8">
-        <!-- Main Dashboard Page -->
         <div id="main-dashboard" class="page active">
              <header class="text-center my-16">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Live Learning Dashboard</h1>
-                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Dokumentasi perjalanan saya menjadi seorang AI & Data Specialist, terverifikasi oleh kode dan proyek nyata.</p>
-            </header>
+                 <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Live Learning Dashboard</h1>
+                 <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Dokumentasi perjalanan saya menjadi seorang AI & Data Specialist, terverifikasi oleh kode dan proyek nyata.</p>
+             </header>
             <main class="grid lg:grid-cols-3 gap-8 mb-24">
                 <div class="lg:col-span-2 space-y-8">
                     <section id="about" class="card p-8 rounded-2xl"></section>
@@ -147,7 +169,7 @@
              <header class="text-center my-16">
                 <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">KOMDIGI Learning Path</h1>
                 <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Jalur pembelajaran terstruktur untuk Fundamental & Intermediate Deep Learning.</p>
-            </header>
+             </header>
             <div id="komdigi-path-container" class="space-y-10"></div>
         </div>
         
@@ -200,8 +222,8 @@
         // --- DATA SOURCES ---
         const studentData = { 
             major: 'Teknik Informatika', 
-            semester: 5, 
-            university: 'Universitas Contoh',
+            semester: 3, 
+            university: 'Institut Teknologi Nasional Bandung',
             description: 'Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak.'
         };
         const roadmapData = [
@@ -236,246 +258,71 @@
             { name: 'Git', color: '#F05032', svg: '<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>' },
         ];
         const blogData = [
-            { id: 'memahami-rag', title: 'Memahami Arsitektur RAG dalam 5 Menit', summary: 'Sebuah pengantar singkat tentang Retrieval-Augmented Generation, arsitektur yang merevolusi cara kerja LLM.', date: '1 Agu 2025', fullContent: `<p>Retrieval-Augmented Generation (RAG) adalah arsitektur cerdas yang menggabungkan kekuatan model bahasa besar (LLM) dengan kemampuan untuk mengambil informasi dari sumber data eksternal. Bayangkan Anda bertanya kepada seorang ahli yang sangat pintar, tetapi sebelum menjawab, ia membuka buku referensi terlebih dahulu untuk memastikan jawabannya akurat dan relevan. Itulah RAG.</p><p class="mt-4">Secara sederhana, alurnya adalah: 1. **Pertanyaan Pengguna:** Anda mengajukan pertanyaan. 2. **Pencarian (Retrieval):** Sistem mencari informasi yang paling relevan dari database pengetahuan (misalnya, dokumen PDF, website, atau database internal). 3. **Augmentasi:** Informasi yang ditemukan kemudian 'disuntikkan' ke dalam prompt yang akan diberikan kepada LLM. 4. **Generasi:** LLM menerima prompt yang sudah diperkaya dengan konteks ini dan menghasilkan jawaban yang jauh lebih akurat dan faktual daripada jika ia hanya mengandalkan pengetahuan internalnya.</p><p class="mt-4">Kelebihan utama RAG adalah kemampuannya untuk mengurangi 'halusinasi' (jawaban yang mengada-ada) pada LLM dan memungkinkan model untuk memberikan jawaban berdasarkan data yang paling baru dan spesifik, bahkan data privat perusahaan.</p>`},
+            { id: 'memahami-rag', 
+            title: 'Memahami Arsitektur RAG dalam 5 Menit', 
+            summary: 'Sebuah pengantar singkat tentang Retrieval-Augmented Generation, arsitektur yang merevolusi cara kerja LLM.', date: '1 Agu 2025', 
+            fullContent: ` <p class="lead text-gray-300">Pernahkah Anda berinteraksi dengan sebuah chatbot canggih tapi jawabannya terasa 'mengarang' atau tidak relevan dengan konteks spesifik? Di sinilah arsitektur Retrieval-Augmented Generation (RAG) berperan sebagai game-changer.</p>
+                    <p>RAG adalah arsitektur cerdas yang menggabungkan kekuatan model bahasa besar (LLM) seperti GPT-4 dengan kemampuan untuk mengambil informasi dari sumber data eksternal secara real-time. Bayangkan Anda bertanya kepada seorang ahli yang sangat pintar, tetapi sebelum menjawab, ia selalu membuka buku referensi terlebih dahulu untuk memastikan jawabannya akurat, terkini, dan relevan. Itulah RAG.</p>
+                    
+                    <h2 class="mt-8">Bagaimana Cara Kerja RAG?</h2>
+                    <p>Secara sederhana, alur kerja RAG dapat dipecah menjadi beberapa langkah utama:</p>
+                    <ol>
+                        <li><strong>Pertanyaan Pengguna (Query):</strong> Semua dimulai saat Anda mengajukan pertanyaan atau memberikan instruksi.</li>
+                        <li><strong>Pencarian (Retrieval):</strong> Sistem tidak langsung bertanya ke LLM. Sebaliknya, ia menggunakan query Anda untuk mencari informasi yang paling relevan dari sebuah basis pengetahuan (knowledge base). Basis pengetahuan ini bisa berupa dokumen PDF, database, website, atau sumber data privat perusahaan.</li>
+                        <li><strong>Augmentasi (Augmentation):</strong> Informasi relevan yang ditemukan kemudian 'disuntikkan' sebagai konteks tambahan ke dalam prompt asli Anda.</li>
+                        <li><strong>Generasi (Generation):</strong> Prompt yang sudah diperkaya dengan konteks ini kemudian diberikan kepada LLM. Dengan konteks tambahan ini, LLM dapat menghasilkan jawaban yang jauh lebih akurat, faktual, dan spesifik.</li>
+                    </ol>
+
+                    <img src="https://placehold.co/800x400/0a0a0a/333?text=Diagram+Alur+Kerja+RAG" alt="Diagram alur kerja RAG" class="my-6">
+
+                    <h2 class="mt-8">Kelebihan Utama RAG</h2>
+                    <blockquote>Kelebihan utama RAG adalah kemampuannya untuk mengurangi 'halusinasi' pada LLM dan membuat jawaban selalu relevan dengan data terbaru.</blockquote>
+                    <ul>
+                        <li><strong>Mengurangi Halusinasi:</strong> Karena jawaban didasarkan pada data yang diambil, kemungkinan LLM memberikan informasi yang salah atau mengada-ada (halusinasi) sangat berkurang.</li>
+                        <li><strong>Data Terbaru:</strong> LLM tradisional memiliki "knowledge cut-off". RAG memungkinkan model untuk mengakses informasi terbaru tanpa perlu melatih ulang seluruh model.</li>
+                        <li><strong>Transparansi & Kepercayaan:</strong> Sistem RAG bisa menunjukkan sumber informasi yang digunakannya untuk menjawab, sehingga pengguna bisa memverifikasi sendiri kebenarannya.</li>
+                    </ul>
+
+                    <p>Dengan memahami RAG, kita bisa membangun aplikasi AI yang lebih kuat, tepercaya, dan benar-benar bermanfaat untuk kasus penggunaan spesifik.</p>
+                `},
+
+
             { id: 'akurasi-vs-presisi', title: 'Akurasi vs. Presisi: Mana yang Lebih Penting?', summary: 'Sering tertukar, kedua metrik ini memiliki arti yang sangat berbeda dalam evaluasi model machine learning.', date: '15 Jul 2025', fullContent: `<p>Dalam machine learning, terutama untuk masalah klasifikasi, akurasi dan presisi adalah dua metrik evaluasi yang sering digunakan. Namun, keduanya mengukur hal yang berbeda dan penting untuk tidak salah mengartikannya.</p><p class="mt-4"><strong>Akurasi</strong> adalah metrik yang paling sederhana: dari semua prediksi yang dibuat, berapa persen yang benar? Rumusnya adalah (Prediksi Benar / Total Prediksi). Akurasi bekerja dengan baik pada dataset yang seimbang (jumlah sampel tiap kelas hampir sama). Namun, ia bisa sangat menyesatkan pada dataset yang tidak seimbang.</p><p class="mt-4"><strong>Presisi</strong>, di sisi lain, menjawab pertanyaan: dari semua prediksi 'Positif' yang kita buat, berapa persen yang benar-benar 'Positif'? Rumusnya adalah (True Positives / (True Positives + False Positives)). Presisi menjadi sangat penting ketika biaya dari False Positive sangat tinggi. Contohnya, dalam sistem deteksi spam, Anda tidak ingin email penting salah diklasifikasikan sebagai spam (False Positive). Dalam kasus ini, presisi tinggi lebih diutamakan.</p><p class="mt-4">Jadi, mana yang lebih penting? Jawabannya: tergantung pada masalah bisnis yang ingin Anda selesaikan. Memahami konteks masalah adalah kunci untuk memilih metrik evaluasi yang tepat.</p>`}
         ];
 
-        // --- RENDER FUNCTIONS ---
-        function renderAboutMe() {
-            const container = document.getElementById('about');
-            if(!container) return;
-            container.innerHTML = `
-                <div class="flex flex-col sm:flex-row items-center gap-8">
-                    <div class="flex-shrink-0"><img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="https://placehold.co/200x200/0a0a0a/00C9FF?text=F" alt="Foto Profil Farmil"></div>
-                    <div>
-                        <h2 class="text-3xl font-bold mb-2 gradient-text">Farmil</h2>
-                        <p class="text-gray-300 mb-6">Mahasiswa informatika dengan tekad membara untuk menjadi ahli di bidang AI dan Data. Roadmap ini adalah komitmen publik saya untuk belajar, membangun, dan berkembang setiap hari.</p>
-                        <div class="flex items-center gap-5">
-                            <a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">GitHub</a>
-                            <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">LinkedIn</a>
-                            <a href="https://instagram.com/mashivee" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">Instagram</a>
-                        </div>
-                    </div>
-                </div>`;
-        }
-        function renderStudentInfo() {
-            const container = document.getElementById('student-status');
-            if (!container) return;
-            container.innerHTML = `
-                <h2 class="text-xl font-bold mb-4 text-white">Status Mahasiswa</h2>
-                <div class="space-y-3">
-                    <div><span class="font-semibold text-gray-400">Jurusan:</span><p class="text-white">${studentData.major}</p></div>
-                    <div><span class="font-semibold text-gray-400">Semester:</span><p class="text-white">${studentData.semester}</p></div>
-                    <div><span class="font-semibold text-gray-400">Universitas:</span><p class="text-white">${studentData.university}</p></div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-700/50">
-                    <p class="text-sm text-gray-400">${studentData.description}</p>
-                </div>
-            `;
-        }
-        function renderStats() {
-            const container = document.getElementById('key-stats');
-            if (!container) return;
-            const completedProjects = portfolioData.filter(p => p.status === 'Completed').length;
-            const inProgressPhases = roadmapData.filter(r => r.status === 'In Progress').length;
-            container.innerHTML = `
-                <h2 class="text-xl font-bold mb-4 text-white">Statistik Kunci</h2>
-                <div class="space-y-3">
-                    <div><span class="font-semibold text-gray-400">Proyek Selesai:</span><p class="text-2xl font-bold gradient-text">${completedProjects}</p></div>
-                    <div><span class="font-semibold text-gray-400">Fase Aktif:</span><p class="text-2xl font-bold gradient-text">${inProgressPhases}</p></div>
-                    <div><span class="font-semibold text-gray-400">Status:</span><p class="text-lg font-bold text-green-400">Aktif Belajar</p></div>
-                </div>
-            `;
-        }
-        function renderRoadmap() {
-            const container = document.getElementById('roadmap-container');
-            if (!container) return;
-            container.innerHTML = roadmapData.map((phase, index) => {
-                const statusColor = phase.status === 'In Progress' ? 'text-cyan-400' : phase.status === 'Completed' ? 'text-green-400' : 'text-gray-500';
-                return `
-                <div class="card rounded-2xl p-6 md:p-8">
-                    <div class="grid md:grid-cols-12 gap-x-8 items-start">
-                        <div class="md:col-span-8">
-                            <h3 class="text-2xl font-bold text-white">Fase ${index + 1}: ${phase.title}</h3>
-                            <p class="text-lg font-medium text-gray-400 mb-4">${phase.subtitle}</p>
-                            <div class="mb-4 bg-gray-900/50 p-3 rounded-lg border border-gray-700/50">
-                                <h4 class="font-semibold text-white mb-1">Fokus Bootcamp:</h4>
-                                <p class="text-gray-300 text-sm">${phase.bootcampName}</p>
-                            </div>
-                            <div class="mb-6">
-                                <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium ${statusColor}">${phase.status}</span><span class="text-sm font-bold text-white">${phase.progress}%</span></div>
-                                <div class="progress-bar-container w-full h-2.5"><div class="progress-bar h-2.5 rounded-full" style="width: ${phase.progress}%"></div></div>
-                            </div>
-                            <div class="bg-gray-900/50 p-4 rounded-lg border border-cyan-700/50 flex items-center gap-3">
-                                <svg class="w-6 h-6 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
-                                <div><h5 class="font-bold text-cyan-300">Proyek Kunci:</h5><p class="text-gray-200">${phase.goalProject}</p></div>
-                            </div>
-                        </div>
-                        <div class="md:col-span-4 mt-6 md:mt-0">
-                             <h4 class="font-semibold text-white mb-3">Materi Kunci:</h4>
-                             <div class="flex flex-wrap gap-2">${phase.skills.map(skill => `<span class="tag text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}</div>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-        function renderPortfolioPreview() {
-            const container = document.getElementById('portfolio-container');
-            if (!container) return;
-            container.innerHTML = portfolioData.map(project => {
-                const statusBadge = {'Completed': 'bg-green-500/20 text-green-300 border-green-400/30', 'In Progress': 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30', 'Planned': 'bg-gray-500/20 text-gray-300 border-gray-400/30'};
-                return `
-                <div class="card card-clickable rounded-xl p-6 flex flex-col">
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold text-green-400 pr-4">${project.title}</h3>
-                            <span class="text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap ${statusBadge[project.status]}">${project.status}</span>
-                        </div>
-                        <p class="text-gray-400 mb-4 text-sm">${project.description}</p>
-                    </div>
-                    <div class="mt-auto pt-4 border-t border-gray-700/50">
-                        <a class="nav-link font-semibold text-cyan-400 hover:text-cyan-300 transition-colors" data-page="case-studies" data-target-project="#${project.id}">Lihat Studi Kasus &rarr;</a>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-        function renderCaseStudies() {
-            const container = document.getElementById('case-studies-container');
-            if (!container) return;
-            container.innerHTML = portfolioData.map(project => `
-                <section id="${project.id}" class="card p-8 rounded-2xl scroll-mt-24">
-                    <h2 class="text-3xl font-bold mb-2 gradient-text">${project.title}</h2>
-                    <p class="text-gray-400 mb-6">${project.description}</p>
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
-                        <div><h4 class="text-xl font-bold text-white mb-2">Masalah</h4><p class="text-gray-300">${project.problem}</p></div>
-                        <div><h4 class="text-xl font-bold text-white mb-2">Solusi</h4><p class="text-gray-300">${project.solution}</p></div>
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-4">Diagram Arsitektur</h4>
-                    <img src="${project.architectureDiagram}" alt="Diagram Arsitektur untuk ${project.title}" class="rounded-lg border border-gray-700 mb-8 w-full">
-                    <h4 class="text-xl font-bold text-white mb-4">Logika/Alur Kerja (Pseudocode)</h4>
-                    <pre><code class="language-${project.codeSnippet.language}">${project.codeSnippet.code.trim()}</code></pre>
-                    <div class="mt-8 pt-6 border-t border-gray-700/50 flex items-center gap-6">
-                        ${project.liveDemoLink ? `<a href="${project.liveDemoLink}" target="_blank" rel="noopener noreferrer" class="font-bold text-green-400 hover:text-green-300">Lihat Demo Langsung &rarr;</a>` : ''}
-                        <a href="${project.repoLink}" target="_blank" rel="noopener noreferrer" class="font-bold text-cyan-400 hover:text-cyan-300">Lihat Repositori &rarr;</a>
-                    </div>
-                </section>
-            `).join('');
-        }
-        function renderKomdigiPath() {
-            const container = document.getElementById('komdigi-path-container');
-            if (!container) return;
-            container.innerHTML = komdigiData.map(item => {
-                const levelColor = { 'Micro Skill': 'bg-yellow-800/50 text-yellow-300', 'Beginner': 'bg-blue-800/50 text-blue-300', 'Intermediate': 'bg-green-800/50 text-green-300', 'Advance': 'bg-purple-800/50 text-purple-300', 'Hackathon': 'bg-red-800/50 text-red-300' };
-                return `
-                <div class="card rounded-2xl p-8">
-                    <div class="grid md:grid-cols-12 gap-x-8">
-                        <div class="md:col-span-4">
-                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold mb-2 ${levelColor[item.level] || ''}">${item.level}</span>
-                            <h3 class="text-2xl font-bold text-white">${item.title}</h3>
-                            <p class="text-lg font-medium text-gray-400 mb-4">${item.program}</p>
-                            <div class="space-y-2 text-sm"><p><strong class="text-gray-300">Pendaftaran:</strong> ${item.registration}</p><p><strong class="text-gray-300">Pelaksanaan:</strong> ${item.execution}</p></div>
-                        </div>
-                        <div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Materi Pembelajaran</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.materials.map(mat => `<li>${mat}</li>`).join('')}</ul></div>
-                        <div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Kompetensi SKKNI</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.competencies.map(comp => `<li>${comp}</li>`).join('')}</ul></div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-        function renderUnifiedCalendar() {
-            const container = document.getElementById('unified-calendar-container');
-            if (!container) return;
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const year = 2025;
-            const endYear = 2027;
-            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            let calendarHtml = '';
-            const checkDateInRanges = (date, data) => {
-                for (const item of data) {
-                    const startDate = new Date(item.startDate);
-                    const endDate = new Date(item.endDate);
-                    const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-                    const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-                    const normEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-                    if (normDate >= normStart && normDate <= normEnd) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-            for (let y = year; y <= endYear; y++) {
-                for (let m = 0; m < 12; m++) {
-                    const firstDayOfMonth = new Date(y, m, 1).getDay();
-                    const daysInMonth = new Date(y, m + 1, 0).getDate();
-                    calendarHtml += `<div><h4 class="font-bold text-lg mb-2 text-white">${monthNames[m]} ${y}</h4><div class="calendar-grid">`;
-                    ['M', 'S', 'S', 'R', 'K', 'J', 'S'].forEach(d => { calendarHtml += `<div class="text-xs text-center text-gray-500 font-semibold">${d}</div>`; });
-                    for (let i = 0; i < firstDayOfMonth; i++) { calendarHtml += `<div class="calendar-day empty"></div>`; }
-                    for (let day = 1; day <= daysInMonth; day++) {
-                        const currentDate = new Date(y, m, day);
-                        let dayClass = 'calendar-day';
-                        let markHtml = '';
-                        const isRoadmapDay = checkDateInRanges(currentDate, roadmapData);
-                        const isKomdigiDay = checkDateInRanges(currentDate, komdigiData);
-                        if (isRoadmapDay && isKomdigiDay) {
-                            markHtml = '<div class="calendar-day-mark overlap-mark"></div>';
-                        } else if (isRoadmapDay) {
-                            markHtml = '<div class="calendar-day-mark roadmap-mark"></div>';
-                        } else if (isKomdigiDay) {
-                            markHtml = '<div class="calendar-day-mark komdigi-mark"></div>';
-                        }
-                        if (currentDate.getTime() === today.getTime()) { dayClass += ' today'; }
-                        calendarHtml += `<div class="${dayClass}">${day}${markHtml}</div>`;
-                    }
-                    calendarHtml += `</div></div>`;
-                }
-            }
-            container.innerHTML = calendarHtml;
-        }
-        function renderTechStack() {
-            const container = document.getElementById('tech-stack-container');
-            if (!container) return;
-            container.innerHTML = techStackData.map(tech => `
-                <div class="text-center group flex flex-col items-center tech-logo" style="--tech-color: ${tech.color};">
-                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${tech.svg}</svg>
-                    <p class="mt-2 text-sm font-semibold text-gray-400 group-hover:text-white transition-colors">${tech.name}</p>
-                </div>
-            `).join('');
-        }
-        function renderBlogList() {
-            const container = document.getElementById('blog-list-container');
-            if (!container) return;
-            container.innerHTML = blogData.map(post => `
-                <div class="card card-clickable blog-topic p-6 rounded-2xl" data-post-id="${post.id}">
-                    <p class="text-sm text-gray-400 mb-2">${post.date}</p>
-                    <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
-                    <p class="text-gray-300 text-sm">${post.summary}</p>
-                </div>
-            `).join('');
-        }
-        function showBlogPost(postId) {
-            const post = blogData.find(p => p.id === postId);
-            if (!post) return;
-            document.getElementById('blog-detail-title').innerText = post.title;
-            document.getElementById('blog-detail-content').innerHTML = post.fullContent;
-            document.getElementById('blog-list-view').classList.add('hidden');
-            document.getElementById('blog-detail-view').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function showBlogList() {
-            document.getElementById('blog-list-view').classList.remove('hidden');
-            document.getElementById('blog-detail-view').classList.add('hidden');
-        }
-
-        // --- PAGE SWITCHING LOGIC ---
+        // --- RENDER FUNCTIONS (No changes here, so I'm omitting them for brevity) ---
+        function renderAboutMe() { /* ... unchanged ... */ }
+        function renderStudentInfo() { /* ... unchanged ... */ }
+        function renderStats() { /* ... unchanged ... */ }
+        function renderRoadmap() { /* ... unchanged ... */ }
+        function renderPortfolioPreview() { /* ... unchanged ... */ }
+        function renderCaseStudies() { /* ... unchanged ... */ }
+        function renderKomdigiPath() { /* ... unchanged ... */ }
+        function renderUnifiedCalendar() { /* ... unchanged ... */ }
+        function renderTechStack() { /* ... unchanged ... */ }
+        function renderBlogList() { /* ... unchanged ... */ }
+        function showBlogPost(postId) { /* ... unchanged ... */ }
+        function showBlogList() { /* ... unchanged ... */ }
+        
+        // --- PAGE SWITCHING LOGIC (MODIFIED) ---
         const navLinks = document.querySelectorAll('.nav-link');
         const pages = document.querySelectorAll('.page');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const openIcon = document.getElementById('hamburger-open-icon');
+        const closeIcon = document.getElementById('hamburger-close-icon');
+
         function switchPage(pageId, targetProject = null) {
             pages.forEach(page => page.classList.toggle('active', page.id === pageId));
-            document.querySelectorAll('#nav-links a').forEach(navLink => {
-                navLink.classList.toggle('text-white', navLink.getAttribute('data-page') === pageId);
-                navLink.classList.toggle('bg-gray-700', navLink.getAttribute('data-page') === pageId);
-                navLink.classList.toggle('text-gray-300', navLink.getAttribute('data-page') !== pageId);
+            
+            // This now targets ALL nav-links, both desktop and mobile
+            document.querySelectorAll('.nav-link').forEach(navLink => {
+                const isTargetLink = navLink.getAttribute('data-page') === pageId;
+                navLink.classList.toggle('text-white', isTargetLink);
+                navLink.classList.toggle('bg-gray-700', isTargetLink);
+                navLink.classList.toggle('text-gray-300', !isTargetLink);
             });
+
             if (!targetProject) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
@@ -485,10 +332,27 @@
                 }, 100);
             }
         }
+        
+        // --- EVENT LISTENERS (MODIFIED) ---
+
+        // Listener for all navigation links
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 switchPage(e.currentTarget.getAttribute('data-page'));
+                // Close mobile menu if it's open after a link is clicked
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    openIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                }
             });
+        });
+
+        // Listener for hamburger button
+        hamburgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
         });
 
         // --- INITIAL RENDER ---
@@ -504,6 +368,7 @@
             renderUnifiedCalendar();
             renderBlogList();
             
+            // This listener for project links remains separate as it has special scroll logic
             document.querySelectorAll('#portfolio-container .nav-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -518,6 +383,19 @@
             document.getElementById('blog-back-button').addEventListener('click', showBlogList);
         }
         
+        // --- Omitted render functions for brevity in this view, but they are in the full code block above ---
+        function renderAboutMe(){const container=document.getElementById("about");if(!container)return;container.innerHTML=`\n                <div class="flex flex-col sm:flex-row items-center gap-8">\n                    <div class="flex-shrink-0"><img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="https://placehold.co/200x200/0a0a0a/00C9FF?text=F" alt="Foto Profil Farmil"></div>\n                    <div>\n                        <h2 class="text-3xl font-bold mb-2 gradient-text">Farmil</h2>\n                        <p class="text-gray-300 mb-6">Mahasiswa informatika dengan tekad membara untuk menjadi ahli di bidang AI dan Data. Roadmap ini adalah komitmen publik saya untuk belajar, membangun, dan berkembang setiap hari.</p>\n                        <div class="flex items-center gap-5">\n                            <a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">GitHub</a>\n                            <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">LinkedIn</a>\n                            <a href="https://instagram.com/mashivee" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">Instagram</a>\n                        </div>\n                    </div>\n                </div>`}
+        function renderStudentInfo(){const container=document.getElementById("student-status");if(!container)return;container.innerHTML=`\n                <h2 class="text-xl font-bold mb-4 text-white">Status Mahasiswa</h2>\n                <div class="space-y-3">\n                    <div><span class="font-semibold text-gray-400">Jurusan:</span><p class="text-white">${studentData.major}</p></div>\n                    <div><span class="font-semibold text-gray-400">Semester:</span><p class="text-white">${studentData.semester}</p></div>\n                    <div><span class="font-semibold text-gray-400">Universitas:</span><p class="text-white">${studentData.university}</p></div>\n                </div>\n                <div class="mt-4 pt-4 border-t border-gray-700/50">\n                    <p class="text-sm text-gray-400">${studentData.description}</p>\n                </div>\n            `}
+        function renderStats(){const container=document.getElementById("key-stats");if(!container)return;const completedProjects=portfolioData.filter(p=>"Completed"===p.status).length,inProgressPhases=roadmapData.filter(r=>"In Progress"===r.status).length;container.innerHTML=`\n                <h2 class="text-xl font-bold mb-4 text-white">Statistik Kunci</h2>\n                <div class="space-y-3">\n                    <div><span class="font-semibold text-gray-400">Proyek Selesai:</span><p class="text-2xl font-bold gradient-text">${completedProjects}</p></div>\n                    <div><span class="font-semibold text-gray-400">Fase Aktif:</span><p class="text-2xl font-bold gradient-text">${inProgressPhases}</p></div>\n                    <div><span class="font-semibold text-gray-400">Status:</span><p class="text-lg font-bold text-green-400">Aktif Belajar</p></div>\n                </div>\n            `}
+        function renderRoadmap(){const container=document.getElementById("roadmap-container");container&&(container.innerHTML=roadmapData.map((phase,index)=>{const statusColor="In Progress"===phase.status?"text-cyan-400":"Completed"===phase.status?"text-green-400":"text-gray-500";return`\n                <div class="card rounded-2xl p-6 md:p-8">\n                    <div class="grid md:grid-cols-12 gap-x-8 items-start">\n                        <div class="md:col-span-8">\n                            <h3 class="text-2xl font-bold text-white">Fase ${index+1}: ${phase.title}</h3>\n                            <p class="text-lg font-medium text-gray-400 mb-4">${phase.subtitle}</p>\n                            <div class="mb-4 bg-gray-900/50 p-3 rounded-lg border border-gray-700/50">\n                                <h4 class="font-semibold text-white mb-1">Fokus Bootcamp:</h4>\n                                <p class="text-gray-300 text-sm">${phase.bootcampName}</p>\n                            </div>\n                            <div class="mb-6">\n                                <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium ${statusColor}">${phase.status}</span><span class="text-sm font-bold text-white">${phase.progress}%</span></div>\n                                <div class="progress-bar-container w-full h-2.5"><div class="progress-bar h-2.5 rounded-full" style="width: ${phase.progress}%"></div></div>\n                            </div>\n                            <div class="bg-gray-900/50 p-4 rounded-lg border border-cyan-700/50 flex items-center gap-3">\n                                <svg class="w-6 h-6 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>\n                                <div><h5 class="font-bold text-cyan-300">Proyek Kunci:</h5><p class="text-gray-200">${phase.goalProject}</p></div>\n                            </div>\n                        </div>\n                        <div class="md:col-span-4 mt-6 md:mt-0">\n                             <h4 class="font-semibold text-white mb-3">Materi Kunci:</h4>\n                             <div class="flex flex-wrap gap-2">${phase.skills.map(skill=>`<span class="tag text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join("")}</div>\n                        </div>\n                    </div>\n                </div>`}).join(""))}
+        function renderPortfolioPreview(){const container=document.getElementById("portfolio-container");container&&(container.innerHTML=portfolioData.map(project=>{const statusBadge={Completed:"bg-green-500/20 text-green-300 border-green-400/30","In Progress":"bg-cyan-500/20 text-cyan-300 border-cyan-400/30",Planned:"bg-gray-500/20 text-gray-300 border-gray-400/30"};return`\n                <div class="card card-clickable rounded-xl p-6 flex flex-col">\n                    <div class="flex-grow">\n                        <div class="flex justify-between items-start mb-3">\n                            <h3 class="text-xl font-bold text-green-400 pr-4">${project.title}</h3>\n                            <span class="text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap ${statusBadge[project.status]}">${project.status}</span>\n                        </div>\n                        <p class="text-gray-400 mb-4 text-sm">${project.description}</p>\n                    </div>\n                    <div class="mt-auto pt-4 border-t border-gray-700/50">\n                        <a class="nav-link font-semibold text-cyan-400 hover:text-cyan-300 transition-colors" data-page="case-studies" data-target-project="#${project.id}">Lihat Studi Kasus &rarr;</a>\n                    </div>\n                </div>`}).join(""))}
+        function renderCaseStudies(){const container=document.getElementById("case-studies-container");container&&(container.innerHTML=portfolioData.map(project=>`\n                <section id="${project.id}" class="card p-8 rounded-2xl scroll-mt-24">\n                    <h2 class="text-3xl font-bold mb-2 gradient-text">${project.title}</h2>\n                    <p class="text-gray-400 mb-6">${project.description}</p>\n                    <div class="grid md:grid-cols-2 gap-8 mb-8">\n                        <div><h4 class="text-xl font-bold text-white mb-2">Masalah</h4><p class="text-gray-300">${project.problem}</p></div>\n                        <div><h4 class="text-xl font-bold text-white mb-2">Solusi</h4><p class="text-gray-300">${project.solution}</p></div>\n                    </div>\n                    <h4 class="text-xl font-bold text-white mb-4">Diagram Arsitektur</h4>\n                    <img src="${project.architectureDiagram}" alt="Diagram Arsitektur untuk ${project.title}" class="rounded-lg border border-gray-700 mb-8 w-full">\n                    <h4 class="text-xl font-bold text-white mb-4">Logika/Alur Kerja (Pseudocode)</h4>\n                    <pre><code class="language-${project.codeSnippet.language}">${project.codeSnippet.code.trim()}</code></pre>\n                    <div class="mt-8 pt-6 border-t border-gray-700/50 flex items-center gap-6">\n                        ${project.liveDemoLink?`<a href="${project.liveDemoLink}" target="_blank" rel="noopener noreferrer" class="font-bold text-green-400 hover:text-green-300">Lihat Demo Langsung &rarr;</a>`:""}\n                        <a href="${project.repoLink}" target="_blank" rel="noopener noreferrer" class="font-bold text-cyan-400 hover:text-cyan-300">Lihat Repositori &rarr;</a>\n                    </div>\n                </section>\n            `).join(""))}
+        function renderKomdigiPath(){const container=document.getElementById("komdigi-path-container");container&&(container.innerHTML=komdigiData.map(item=>{const levelColor={"Micro Skill":"bg-yellow-800/50 text-yellow-300",Beginner:"bg-blue-800/50 text-blue-300",Intermediate:"bg-green-800/50 text-green-300",Advance:"bg-purple-800/50 text-purple-300",Hackathon:"bg-red-800/50 text-red-300"};return`\n                <div class="card rounded-2xl p-8">\n                    <div class="grid md:grid-cols-12 gap-x-8">\n                        <div class="md:col-span-4">\n                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold mb-2 ${levelColor[item.level]||""}">${item.level}</span>\n                            <h3 class="text-2xl font-bold text-white">${item.title}</h3>\n                            <p class="text-lg font-medium text-gray-400 mb-4">${item.program}</p>\n                            <div class="space-y-2 text-sm"><p><strong class="text-gray-300">Pendaftaran:</strong> ${item.registration}</p><p><strong class="text-gray-300">Pelaksanaan:</strong> ${item.execution}</p></div>\n                        </div>\n                        <div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Materi Pembelajaran</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.materials.map(mat=>`<li>${mat}</li>`).join("")}</ul></div>\n                        <div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Kompetensi SKKNI</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.competencies.map(comp=>`<li>${comp}</li>`).join("")}</ul></div>\n                    </div>\n                </div>`}).join(""))}
+        function renderUnifiedCalendar(){const container=document.getElementById("unified-calendar-container");if(!container)return;const today=new Date;today.setHours(0,0,0,0);const year=2025,endYear=2027,monthNames=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];let calendarHtml="";const checkDateInRanges=(date,data)=>{for(const item of data){const startDate=new Date(item.startDate),endDate=new Date(item.endDate),normDate=new Date(date.getFullYear(),date.getMonth(),date.getDate()),normStart=new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate()),normEnd=new Date(endDate.getFullYear(),endDate.getMonth(),endDate.getDate());if(normDate>=normStart&&normDate<=normEnd)return!0}return!1};for(let y=year;y<=endYear;y++)for(let m=0;m<12;m++){const firstDayOfMonth=(new Date(y,m,1)).getDay(),daysInMonth=(new Date(y,m+1,0)).getDate();calendarHtml+=`<div><h4 class="font-bold text-lg mb-2 text-white">${monthNames[m]} ${y}</h4><div class="calendar-grid">`,["M","S","S","R","K","J","S"].forEach(d=>{calendarHtml+=`<div class="text-xs text-center text-gray-500 font-semibold">${d}</div>`});for(let i=0;i<firstDayOfMonth;i++)calendarHtml+='<div class="calendar-day empty"></div>';for(let day=1;day<=daysInMonth;day++){const currentDate=new Date(y,m,day);let dayClass="calendar-day",markHtml="";const isRoadmapDay=checkDateInRanges(currentDate,roadmapData),isKomdigiDay=checkDateInRanges(currentDate,komdigiData);isRoadmapDay&&isKomdigiDay?markHtml='<div class="calendar-day-mark overlap-mark"></div>':isRoadmapDay?markHtml='<div class="calendar-day-mark roadmap-mark"></div>':isKomdigiDay&&(markHtml='<div class="calendar-day-mark komdigi-mark"></div>'),currentDate.getTime()===today.getTime()&&(dayClass+=" today"),calendarHtml+=`<div class="${dayClass}">${day}${markHtml}</div>`}calendarHtml+="</div></div>"}container.innerHTML=calendarHtml}
+        function renderTechStack(){const container=document.getElementById("tech-stack-container");container&&(container.innerHTML=techStackData.map(tech=>`\n                <div class="text-center group flex flex-col items-center tech-logo" style="--tech-color: ${tech.color};">\n                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${tech.svg}</svg>\n                    <p class="mt-2 text-sm font-semibold text-gray-400 group-hover:text-white transition-colors">${tech.name}</p>\n                </div>\n            `).join(""))}
+        function renderBlogList(){const container=document.getElementById("blog-list-container");container&&(container.innerHTML=blogData.map(post=>`\n                <div class="card card-clickable blog-topic p-6 rounded-2xl" data-post-id="${post.id}">\n                    <p class="text-sm text-gray-400 mb-2">${post.date}</p>\n                    <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>\n                    <p class="text-gray-300 text-sm">${post.summary}</p>\n                </div>\n            `).join(""))}
+        function showBlogPost(postId){const post=blogData.find(p=>p.id===postId);post&&(document.getElementById("blog-detail-title").innerText=post.title,document.getElementById("blog-detail-content").innerHTML=post.fullContent,document.getElementById("blog-list-view").classList.add("hidden"),document.getElementById("blog-detail-view").classList.remove("hidden"),window.scrollTo({top:0,behavior:"smooth"}))}
+        function showBlogList(){document.getElementById("blog-list-view").classList.remove("hidden"),document.getElementById("blog-detail-view").classList.add("hidden")}
         initializePage();
     });
     </script>
