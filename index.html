@@ -27,10 +27,13 @@
         .calendar-day { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: #222; border-radius: 4px; font-size: 0.7rem; color: #777; position: relative; overflow: hidden; }
         .calendar-day.empty { background-color: transparent; }
         .calendar-day.today { border: 2px solid var(--gradient-end); }
-        .calendar-day .roadmap-mark { background-color: #005f73; }
-        .calendar-day .komdigi-mark { background-color: #af721c; }
-        .calendar-day .overlap-mark { background: linear-gradient(45deg, #005f73 50%, #94d2bd 50%); }
         .calendar-day-mark { position: absolute; bottom: 2px; left: 2px; right: 2px; height: 4px; border-radius: 2px; }
+        .roadmap-fase1-mark { background-color: #0077b6; } /* Biru */
+        .roadmap-fase2-mark { background-color: #fb8500; } /* Oranye */
+        .roadmap-fase3-mark { background-color: #8338ec; } /* Ungu */
+        .roadmap-fase4-mark { background-color: #d00000; } /* Merah */
+        .komdigi-mark { background-color: #94d2bd; } /* Hijau Mint */
+        .overlap-mark { background: linear-gradient(45deg, var(--roadmap-color, #0077b6) 50%, var(--komdigi-color, #94d2bd) 50%); }
         .tech-logo svg { transition: color 0.3s ease, filter 0.3s ease; color: #888; }
         .tech-logo:hover svg { color: var(--tech-color); filter: drop-shadow(0 0 8px var(--tech-color)); }
         .tech-logo:hover p { color: var(--text-primary); }
@@ -141,10 +144,13 @@
                 <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Visualisasi linimasa dari semua komitmen belajar saya.</p>
             </header>
             <div class="card p-8 rounded-2xl">
-                <div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm">
-                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#005f73]"></div><span>Mastery Roadmap</span></div>
+                <div class="flex flex-wrap gap-x-6 gap-y-3 mb-6 text-sm items-center">
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#0077b6]"></div><span>Roadmap: Fase 1</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#fb8500]"></div><span>Roadmap: Fase 2</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#8338ec]"></div><span>Roadmap: Fase 3</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#d00000]"></div><span>Roadmap: Fase 4</span></div>
                     <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm bg-[#94d2bd]"></div><span>KOMDIGI Path</span></div>
-                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm" style="background: linear-gradient(45deg, #005f73 50%, #94d2bd 50%);"></div><span>Overlap Keduanya</span></div>
+                    <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-sm" style="background: linear-gradient(45deg, #0077b6 50%, #94d2bd 50%);"></div><span>Overlap Keduanya</span></div>
                 </div>
                 <div id="unified-calendar-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8"></div>
             </div>
@@ -189,7 +195,7 @@
             description: 'Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak.'
         };
         const roadmapData = [
-            { id: 'fase1 (99 Hours video)', title: 'The Foundation', subtitle: 'Menjadi Arsitek Data', startDate: '2025-08-01', endDate: '2026-01-31', progress: 86, status: 'In Progress', bootcampName: 'Complete Data Science, Machine Learning, DL, NLP Bootcamp', skills: ['Python', 'Data Analysis', 'SQL', 'Statistics', 'ML Ops', 'Deep Learning', 'NLP', 'Git'], goalProject: 'Prediksi Harga Rumah (End-to-End)' },
+            { id: 'fase1', title: 'The Foundation', subtitle: 'Menjadi Arsitek Data', startDate: '2025-08-01', endDate: '2026-01-31', progress: 86, status: 'In Progress', bootcampName: 'Complete Data Science, Machine Learning, DL, NLP Bootcamp', skills: ['Python', 'Data Analysis', 'SQL', 'Statistics', 'ML Ops', 'Deep Learning', 'NLP', 'Git'], goalProject: 'Prediksi Harga Rumah (End-to-End)' },
             { id: 'fase2', title: 'The Vanguard', subtitle: 'Memasuki Dunia Generative AI', startDate: '2026-02-01', endDate: '2026-05-31', progress: 0, status: 'Not Started', bootcampName: 'Complete Generative AI Course With Langchain and Huggingface', skills: ['Transformers', 'LangChain', 'Vector DBs', 'Prompt Engineering', 'HuggingFace'], goalProject: 'Chatbot Q&A Dokumen Pribadi (RAG)' },
             { id: 'fase3', title: 'The Professional', subtitle: 'Menguasai MLOps', startDate: '2026-06-01', endDate: '2026-09-30', progress: 0, status: 'Not Started', bootcampName: 'Complete MLOps Bootcamp', skills: ['MLflow', 'DVC', 'CI/CD', 'Docker', 'AWS', 'Kubernetes'], goalProject: 'Pipeline ML Otomatis (CI/CD)' },
             { id: 'fase4', title: 'The Specialist', subtitle: 'Membangun Sistem Agen Cerdas', startDate: '2026-10-01', endDate: '2027-03-31', progress: 0, status: 'Not Started', bootcampName: 'Ultimate RAG, Agentic AI (LangGraph), Autogen', skills: ['Advanced RAG', 'LangGraph', 'Autogen', 'Multi-Agent Systems'], goalProject: 'Asisten Riset Multi-Agen' }
@@ -197,14 +203,15 @@
         const portfolioData = [
             { id: 'analisis-ecommerce', title: 'Analisis Umpan Balik E-commerce', description: 'Menganalisis review produk untuk menemukan insight kepuasan pelanggan menggunakan EDA mendalam dan pemodelan NLP.', tags: ['Python', 'NLP', 'LLM', 'EDA', 'Google Colab'], repoLink: 'https://github.com/Farmil23/Analisis-Umpan-Balik-Ecommerce', certLink: 'https://drive.google.com/file/d/1595y6XsGSToGWKD7i6ERnYauf6t1ACHh/view', status: 'Completed', problem: 'Banyaknya ulasan produk yang tidak terstruktur menyulitkan pemilik bisnis untuk memahami sentimen pelanggan secara keseluruhan dan mengidentifikasi area yang perlu perbaikan.', solution: 'Membangun sebuah pipeline analisis sentimen menggunakan model NLP untuk mengklasifikasikan ulasan menjadi positif, negatif, atau netral. Hasilnya divisualisasikan dalam dashboard interaktif untuk memberikan wawasan yang dapat ditindaklanjuti.', businessImpact: 'Memberikan dashboard sentimen real-time yang memungkinkan manajer produk memprioritaskan perbaikan fitur berdasarkan umpan balik pelanggan secara kuantitatif.', keyLearnings: 'Mempelajari teknik text cleaning dan preprocessing yang efektif untuk data ulasan yang tidak terstruktur. Berhasil menerapkan model pre-trained untuk analisis sentimen dengan akurasi tinggi.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Diagram+Arsitektur+Proyek', liveDemoLink: null, codeSnippet: { language: 'plaintext', code: `1. Baca dataset ulasan produk\n2. UNTUK SETIAP ulasan DALAM dataset:\n3.   Analisis polaritas sentimen (positif/netral/negatif)\n4.   Tambahkan hasil sentimen ke kolom baru\n5. Tampilkan 5 ulasan pertama beserta sentimennya` } },
             { id: 'prediksi-harga-rumah', title: 'Prediksi Harga Rumah (End-to-End)', description: 'Proyek fondasi yang mencakup siklus hidup ML penuh, dari EDA hingga deployment model sebagai web API interaktif.', tags: ['Scikit-learn', 'Streamlit', 'Docker', 'AWS'], repoLink: 'https://github.com/Farmil23/Propify-Smart-Property-Price-Estimator/', certLink: '#', status: 'Completed', problem: 'Kesulitan dalam menentukan harga jual rumah yang kompetitif dan akurat berdasarkan fitur-fitur properti seperti luas, jumlah kamar, dan lokasi.', solution: 'Mengembangkan model regresi machine learning yang dilatih pada data historis properti. Model ini kemudian di-deploy sebagai aplikasi web sederhana di mana pengguna dapat memasukkan fitur rumah dan mendapatkan estimasi harga secara real-time.', businessImpact: 'Aplikasi ini dapat membantu agen properti dan pemilik rumah mengurangi waktu riset harga hingga 75% dan menetapkan harga awal yang lebih kompetitif, berpotensi mempercepat proses penjualan.', keyLearnings: 'Proyek ini mengajarkan pentingnya feature engineering dalam meningkatkan akurasi model regresi. Selain itu, proses deployment ke AWS Beanstalk memberikan pengalaman langsung dalam mengatasi masalah dependensi dan konfigurasi environment produksi.', architectureDiagram: 'https://github.com/Farmil23/Propify-Smart-Property-Price-Estimator/blob/main/demo-images/Screenshot%202025-08-14%20224304.png?raw=true', liveDemoLink: 'http://propify-smart-estimator-env.eba-cymnihm3.ap-southeast-2.elasticbeanstalk.com/', codeSnippet: { language: 'plaintext', code: `1. Muat model prediksi yang sudah dilatih\n2. Buat antarmuka web dengan judul\n3. Sediakan input untuk 'Luas Tanah' dan 'Jumlah Kamar' dan fitur lainnya \n4. JIKA tombol 'Prediksi' ditekan:\n5.   Ambil nilai dari input pengguna\n6.   Gunakan model untuk memprediksi harga dari nilai input\n7.   Tampilkan hasil estimasi harga kepada pengguna` } },
+            { id: 'techleap-ai-agent', title: 'TechLeap AI: Agen Karir Cerdas', description: 'Mengembangkan sistem agen AI proaktif yang mempersonalisasi jalur karir untuk mahasiswa dan lulusan informatika, dari rekomendasi kursus hingga simulasi wawancara.', tags: ['AI Agents', 'LangGraph', 'LLM', 'RAG', 'Python'], repoLink: 'https://github.com/Farmil23', certLink: '#', status: 'Planned', problem: 'Mahasiswa tingkat akhir dan lulusan baru informatika seringkali menghadapi kebingungan dalam merencanakan karir. Mereka kesulitan menghubungkan skill yang dimiliki dengan lowongan yang ada, memilih sertifikasi yang relevan, dan mempersiapkan diri untuk wawancara teknis secara efektif.', solution: 'Membangun sistem multi-agen AI: 1. Profiler Agent: Menganalisis CV dan profil GitHub. 2. Market Analyst Agent: Memindai tren skill di lowongan kerja. 3. Learning Planner Agent: Merekomendasikan kursus/proyek untuk menutup kesenjangan skill. 4. Interview Coach Agent: Mensimulasikan wawancara dan memberikan umpan balik.', businessImpact: 'Menyediakan asisten karir AI personal 24/7 yang dapat secara signifikan mengurangi waktu pencarian kerja, meningkatkan kesiapan kandidat, dan memperbesar peluang lulusan untuk mendapatkan pekerjaan pertama yang relevan.', keyLearnings: 'Implementasi arsitektur multi-agen menggunakan LangGraph. Mengorkestrasi alur kerja kompleks antar agen, dan mendesain prompt yang efektif untuk setiap peran agen.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Arsitektur+Multi-Agen+TechLeap', liveDemoLink: null, codeSnippet: { language: 'plaintext', code: `1. Mulai: Pengguna mengunggah CV dan target karir.\n2. Panggil Profiler Agent: Ekstrak skill, pengalaman, pendidikan.\n3. Panggil Market Analyst Agent: Cari 5 lowongan kerja cocok.\n4. Panggil Learning Planner Agent: Bandingkan skill pengguna dengan syarat lowongan, buat rencana belajar.\n5. Panggil Interview Coach Agent: Buat 3 pertanyaan wawancara.\n6. Tampilkan hasil gabungan: Lowongan, Rencana Belajar, dan Pertanyaan Wawancara.` } },
             { id: 'rag-chatbot', title: 'Conversational Q&A Chatbot (RAG)', description: 'Membangun aplikasi RAG untuk bertanya jawab dengan dokumen akademis menggunakan Streamlit dan Vector Store.', tags: ['Streamlit', 'LangChain', 'RAG', 'Vector DB'], repoLink: 'https://github.com/Farmil23', certLink: '#', status: 'Planned', problem: 'Paper penelitian dan dokumen teknis seringkali padat dan sulit dicari informasinya secara cepat. Membaca manual untuk menemukan jawaban spesifik sangat tidak efisien.', solution: 'Menciptakan sebuah chatbot cerdas di mana pengguna dapat mengunggah dokumen PDF. Sistem akan memproses dan mengindeks konten, memungkinkan pengguna untuk bertanya dalam bahasa natural dan mendapatkan jawaban yang akurat beserta sumbernya langsung dari dokumen.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Arsitektur+Sistem+RAG', liveDemoLink: null, codeSnippet: { language: 'plaintext', code: `1. Pengguna mengunggah file PDF\n2. Sistem memecah PDF menjadi potongan teks (chunks)\n3. UNTUK SETIAP chunk:\n4.   Buat representasi vektor (embedding)\n5.   Simpan chunk dan embedding di Vector Store\n6. Pengguna bertanya (query)\n7. Cari chunk yang paling relevan dengan query di Vector Store\n8. Berikan query + chunk relevan ke LLM untuk menghasilkan jawaban` } }
         ];
         const komdigiData = [
-            { program: 'Program 1. Micro Skill', title: 'AI Engineer For Mienial', level: 'Micro Skill', registration: '24 Juli - 12 Agustus 2025', execution: 'Selesaikan minimal satu MicroSkill untuk melanjutkan ke Program 2.', materials: ['Dasar-Dasar Implementasi Kecerdasan Artifisial'], competencies: [], type: 'Mandiri', startDate: '2025-07-24', endDate: '2025-08-12' },
-            { program: 'Program 2. Fundamental Deep Learning', title: 'Fundamental Deep Learning', level: 'Beginner', registration: '24 Juli - 12 Agustus 2025', execution: '14 - 27 Agustus 2025', materials: ['Kategori Mesin yang Belajar', 'Metrik Kinerja Model Klasifikasi', 'Regresi Linier', 'Regresi Logistik', 'Mesin yang Belajar Mengurai Benang Kusut', 'Istilah dan Konsep Dasar', 'Reviu Matematika Dasar'], competencies: ['Menentukan Objektif Bisnis', 'Menentukan Tujuan Teknis Data Science', 'Mengubah Data', 'Membangun Model', 'Merancang Skenario Model', 'Mengevaluasi Hasil Pemodelan'], type: 'Lab Session', startDate: '2025-08-14', endDate: '2025-08-27' },
-            { program: 'Program 3. Intermediate Deep Learning', title: 'Intermediate Deep Learning', level: 'Intermediate', registration: '29 Agustus - 1 September 2025', execution: '3 - 9 September 2025', materials: ['Jaringan Saraf Berlapis', 'Optimasi dan Regulasi'], competencies: ['Membangun Skenario Model', 'Membangun Model', 'Optimasi Hasil Pemodelan', 'Melakukan Reviu Proyek Data Science'], type: 'Live Session', startDate: '2025-09-03', endDate: '2025-09-09' },
-            { program: 'Program 4. Mastery Deep Learning', title: 'Mastery Deep Learning', level: 'Advance', registration: '11 - 14 September 2025', execution: '16 - 22 September 2025', materials: ['Jaringan Saraf Pengenal Gambar', 'Berbagai Macam Pemodelan Deep Learning'], competencies: ['Mengkonstruksi Data', 'Membangun Model', 'Mengevaluasi Skenario Model', 'Melakukan Reviu Proyek DS'], type: 'Live Session', startDate: '2025-09-16', endDate: '2025-09-22' },
-            { program: 'Program 5 & 6. Hackathon', title: 'Pra-Hackathon & Hackathon', level: 'Hackathon', registration: 'Pra: 24 Sep - 5 Okt 2025 | Final: 12-14 Nov 2025', execution: 'Pra: 8 Okt - 9 Nov 2025 | Final: 18 Nov 2025', materials: ['Penerapan skill gabungan dalam sebuah kompetisi final.'], competencies: ['Kompetisi SKKNI Puncak'], type: 'Gratis', startDate: '2025-10-08', endDate: '2025-11-18' }
+            { program: 'Program 1. Micro Skill', title: 'AI Engineer For Mienial', level: 'Micro Skill', registration: '24 Juli - 12 Agustus 2025', execution: 'Selesaikan minimal satu MicroSkill', materials: ['Dasar-Dasar Implementasi Kecerdasan Artifisial'], competencies: [], type: 'Mandiri', startDate: '2025-07-24', endDate: '2025-08-12', progress: 100, status: 'Completed' },
+            { program: 'Program 2. Fundamental Deep Learning', title: 'Fundamental Deep Learning', level: 'Beginner', registration: '24 Juli - 12 Agustus 2025', execution: '14 - 27 Agustus 2025', materials: ['Kategori Mesin yang Belajar', 'Metrik Kinerja Model Klasifikasi', 'Regresi Linier', 'Regresi Logistik', 'Mesin yang Belajar Mengurai Benang Kusut', 'Istilah dan Konsep Dasar', 'Reviu Matematika Dasar'], competencies: ['Menentukan Objektif Bisnis', 'Menentukan Tujuan Teknis Data Science', 'Mengubah Data', 'Membangun Model', 'Merancang Skenario Model', 'Mengevaluasi Hasil Pemodelan'], type: 'Lab Session', startDate: '2025-08-14', endDate: '2025-08-27', progress: 80, status: 'In Progress' },
+            { program: 'Program 3. Intermediate Deep Learning', title: 'Intermediate Deep Learning', level: 'Intermediate', registration: '29 Agustus - 1 September 2025', execution: '3 - 9 September 2025', materials: ['Jaringan Saraf Berlapis', 'Optimasi dan Regulasi'], competencies: ['Membangun Skenario Model', 'Membangun Model', 'Optimasi Hasil Pemodelan', 'Melakukan Reviu Proyek Data Science'], type: 'Live Session', startDate: '2025-09-03', endDate: '2025-09-09', progress: 0, status: 'Not Started' },
+            { program: 'Program 4. Mastery Deep Learning', title: 'Mastery Deep Learning', level: 'Advance', registration: '11 - 14 September 2025', execution: '16 - 22 September 2025', materials: ['Jaringan Saraf Pengenal Gambar', 'Berbagai Macam Pemodelan Deep Learning'], competencies: ['Mengkonstruksi Data', 'Membangun Model', 'Mengevaluasi Skenario Model', 'Melakukan Reviu Proyek DS'], type: 'Live Session', startDate: '2025-09-16', endDate: '2025-09-22', progress: 0, status: 'Not Started' },
+            { program: 'Program 5 & 6. Hackathon', title: 'Pra-Hackathon & Hackathon', level: 'Hackathon', registration: 'Pra: 24 Sep - 5 Okt 2025 | Final: 12-14 Nov 2025', execution: 'Pra: 8 Okt - 9 Nov 2025 | Final: 18 Nov 2025', materials: ['Penerapan skill gabungan dalam sebuah kompetisi final.'], competencies: ['Kompetisi SKKNI Puncak'], type: 'Gratis', startDate: '2025-10-08', endDate: '2025-11-18', progress: 0, status: 'Not Started' }
         ];
         const techStackData = [
             { name: 'Python', color: '#3776AB', svg: '<path d="M13.23 10.34c-.45-.27-.95-.42-1.48-.42s-1.03.15-1.48.42a2.09 2.09 0 0 0-.92 1.77v5.38c0 .69.23 1.3.69 1.77.46.47 1.05.7 1.71.7s1.25-.23 1.71-.7a2.4 2.4 0 0 0 .69-1.77v-1.89a6.67 6.67 0 0 1-3.23.86c-2.28 0-4.13-1.85-4.13-4.13s1.85-4.13 4.13-4.13c.93 0 1.78.3 2.48.86V7.66c0-.69-.23-1.3-.69-1.77a2.41 2.41 0 0 0-1.71-.7c-.66 0-1.25.23-1.71.7a2.4 2.4 0 0 0-.69 1.77v1.89a6.67 6.67 0 0 1 3.23-.86c2.28 0 4.13 1.85 4.13 4.13s-1.85 4.13-4.13 4.13c-.93 0-1.78-.3-2.48-.86v-5.38a2.09 2.09 0 0 0-.92-1.77c-.45-.27-.95-.42-1.48-.42s-1.03.15-1.48.42a2.09 2.09 0 0 0-.92 1.77v5.38c0 .69.23 1.3.69 1.77.46.47 1.05.7 1.71.7s1.25-.23 1.71-.7a2.4 2.4 0 0 0 .69-1.77v-1.89a6.67 6.67 0 0 1-3.23.86c-2.28 0-4.13-1.85-4.13-4.13s1.85-4.13 4.13-4.13c.93 0 1.78.3 2.48.86V7.66c0-.69-.23-1.3-.69-1.77a2.41 2.41 0 0 0-1.71-.7c-.66 0-1.25.23-1.71.7a2.4 2.4 0 0 0-.69 1.77v1.89a6.67 6.67 0 0 1 3.23-.86c2.28 0 4.13 1.85 4.13 4.13s-1.85 4.13-4.13 4.13c-.93 0-1.78-.3-2.48-.86z"/>' },
@@ -321,7 +328,39 @@
             if(!container) return;
             container.innerHTML = komdigiData.map(item => {
                 const levelColor = { 'Micro Skill': 'bg-yellow-800/50 text-yellow-300', 'Beginner': 'bg-blue-800/50 text-blue-300', 'Intermediate': 'bg-green-800/50 text-green-300', 'Advance': 'bg-purple-800/50 text-purple-300', 'Hackathon': 'bg-red-800/50 text-red-300' };
-                return `<div class="card rounded-2xl p-8"><div class="grid md:grid-cols-12 gap-x-8"><div class="md:col-span-4"><span class="inline-block px-3 py-1 rounded-full text-sm font-semibold mb-2 ${levelColor[item.level] || ''}">${item.level}</span><h3 class="text-2xl font-bold text-white">${item.title}</h3><p class="text-lg font-medium text-gray-400 mb-4">${item.program}</p><div class="space-y-2 text-sm"><p><strong class="text-gray-300">Pendaftaran:</strong> ${item.registration}</p><p><strong class="text-gray-300">Pelaksanaan:</strong> ${item.execution}</p></div></div><div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Materi Pembelajaran</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.materials.map(mat => `<li>${mat}</li>`).join('')}</ul></div><div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Kompetensi SKKNI</h4><ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">${item.competencies.map(comp => `<li>${comp}</li>`).join('')}</ul></div></div></div>`;
+                const statusColor = item.status === 'In Progress' ? 'text-cyan-400' : item.status === 'Completed' ? 'text-green-400' : 'text-gray-500';
+                const progressGradient = item.status === 'In Progress' ? 'linear-gradient(90deg, #00C9FF, #92FE9D)' : item.status === 'Completed' ? 'linear-gradient(90deg, #10B981, #6EE7B7)' : '#4A5568';
+                
+                return `<div class="card rounded-2xl p-8">
+                    <div class="grid md:grid-cols-12 gap-x-8">
+                        <div class="md:col-span-8">
+                            <div class="flex items-center gap-4 mb-3">
+                                <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${levelColor[item.level] || ''}">${item.level}</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white">${item.title}</h3>
+                            <p class="text-lg font-medium text-gray-400 mb-4">${item.program}</p>
+                            <div class="space-y-2 text-sm mb-6">
+                                <p><strong class="text-gray-300">Pendaftaran:</strong> ${item.registration}</p>
+                                <p><strong class="text-gray-300">Pelaksanaan:</strong> ${item.execution}</p>
+                            </div>
+                            <div class="mb-2">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium ${statusColor}">${item.status}</span>
+                                    <span class="text-sm font-bold text-white">${item.progress}%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                    <div class="h-2.5 rounded-full" style="width: ${item.progress}%; background: ${progressGradient};"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-4 mt-6 md:mt-0">
+                            <h4 class="font-semibold text-white mb-3">Materi & Kompetensi</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                                ${[...item.materials, ...item.competencies].map(mat => `<li>${mat}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
             }).join('');
         }
         function renderUnifiedCalendar() {
@@ -330,8 +369,35 @@
             const today = new Date(); today.setHours(0,0,0,0);
             const startYear = 2025, endYear = 2027;
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            const roadmapPhaseColors = ['#0077b6', '#fb8500', '#8338ec', '#d00000'];
+            const komdigiColor = '#94d2bd';
+
+            const getRoadmapPhaseIndex = (date) => {
+                const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                for (let i = 0; i < roadmapData.length; i++) {
+                    const item = roadmapData[i];
+                    const startDate = new Date(item.startDate);
+                    const endDate = new Date(item.endDate);
+                    const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+                    const normEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+                    if (normDate >= normStart && normDate <= normEnd) return i;
+                }
+                return -1;
+            };
+
+            const isKomdigiDay = (date) => {
+                 const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                 for(const item of komdigiData){ 
+                     const startDate = new Date(item.startDate); 
+                     const endDate = new Date(item.endDate); 
+                     const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()); 
+                     const normEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()); 
+                     if (normDate >= normStart && normDate <= normEnd) return true; 
+                } 
+                return false; 
+            };
+            
             let calendarHtml = "";
-            const checkDateInRanges = (date, data) => { for(const item of data){ const startDate = new Date(item.startDate); const endDate = new Date(item.endDate); const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()); const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()); const normEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()); if (normDate >= normStart && normDate <= normEnd) return true; } return false; };
             for (let y = startYear; y <= endYear; y++) {
                 for (let m = 0; m < 12; m++) {
                     const firstDayOfMonth = (new Date(y, m, 1)).getDay();
@@ -342,11 +408,18 @@
                     for (let day = 1; day <= daysInMonth; day++) {
                         const currentDate = new Date(y, m, day);
                         let dayClass = "calendar-day", markHtml = "";
-                        const isRoadmapDay = checkDateInRanges(currentDate, roadmapData);
-                        const isKomdigiDay = checkDateInRanges(currentDate, komdigiData);
-                        if(isRoadmapDay && isKomdigiDay) markHtml = '<div class="calendar-day-mark overlap-mark"></div>';
-                        else if(isRoadmapDay) markHtml = '<div class="calendar-day-mark roadmap-mark"></div>';
-                        else if(isKomdigiDay) markHtml = '<div class="calendar-day-mark komdigi-mark"></div>';
+                        
+                        const roadmapPhaseIdx = getRoadmapPhaseIndex(currentDate);
+                        const onKomdigiDay = isKomdigiDay(currentDate);
+
+                        if(roadmapPhaseIdx !== -1 && onKomdigiDay) {
+                            markHtml = `<div class="calendar-day-mark" style="background: linear-gradient(45deg, ${roadmapPhaseColors[roadmapPhaseIdx]} 50%, ${komdigiColor} 50%);"></div>`;
+                        } else if (roadmapPhaseIdx !== -1) {
+                            markHtml = `<div class="calendar-day-mark roadmap-fase${roadmapPhaseIdx + 1}-mark"></div>`;
+                        } else if(onKomdigiDay) {
+                            markHtml = `<div class="calendar-day-mark komdigi-mark"></div>`;
+                        }
+                        
                         if (currentDate.getTime() === today.getTime()) dayClass += " today";
                         calendarHtml += `<div class="${dayClass}">${day}${markHtml}</div>`;
                     }
@@ -436,16 +509,15 @@
                 closeIcon.classList.toggle('hidden');
             });
 
-            document.querySelectorAll('#portfolio-container .nav-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchPage(e.currentTarget.getAttribute('data-page'), e.currentTarget.getAttribute('data-target-project'));
-                });
-            });
-            document.querySelectorAll('.blog-topic').forEach(topic => {
-                topic.addEventListener('click', (e) => {
-                    showBlogPost(e.currentTarget.getAttribute('data-post-id'));
-                });
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('#portfolio-container .nav-link')) {
+                     e.preventDefault();
+                     const link = e.target.closest('#portfolio-container .nav-link');
+                     switchPage(link.getAttribute('data-page'), link.getAttribute('data-target-project'));
+                }
+                if (e.target.closest('.blog-topic')) {
+                    showBlogPost(e.target.closest('.blog-topic').getAttribute('data-post-id'));
+                }
             });
             document.getElementById('blog-back-button').addEventListener('click', showBlogList);
         }
