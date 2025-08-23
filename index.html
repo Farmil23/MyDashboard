@@ -266,7 +266,29 @@
         function renderAboutMe() {
             const container = document.getElementById("about");
             if (!container) return;
-            container.innerHTML = `<div class="flex flex-col sm:flex-row items-center gap-8"><div class="flex-shrink-0"><img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="https://avatars.githubusercontent.com/u/88856955?v=4" alt="Foto Profil Farmil"></div><div><h2 class="text-3xl font-bold mb-2 gradient-text">Farmil</h2><p class="text-gray-300 mb-6">Mahasiswa informatika dengan tekad membara untuk menjadi ahli di bidang AI dan Data. Roadmap ini adalah komitmen publik saya untuk belajar, membangun, dan berkembang setiap hari.</p><div class="flex items-center gap-5"><a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">GitHub</a><a href="https://www.linkedin.com/in/farmil-sangaji-106584294/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">LinkedIn</a><a href="https://instagram.com/mashivee" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">Instagram</a></div></div></div>`;
+            // KODE BARU DIMASUKKAN DI SINI
+            container.innerHTML = `<div class="flex flex-col sm:flex-row items-center gap-8">
+                <div class="flex-shrink-0">
+                    <img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="https://avatars.githubusercontent.com/u/88856955?v=4" alt="Foto Profil Farmil">
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-2 gradient-text">Farmil</h2>
+                    <p class="text-gray-300 mb-6">Mahasiswa informatika dengan tekad membara untuk menjadi ahli di bidang AI dan Data. Roadmap ini adalah komitmen publik saya untuk belajar, membangun, dan berkembang setiap hari.</p>
+                    <div class="flex items-center gap-5">
+                        <a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">GitHub</a>
+                        <a href="https://www.linkedin.com/in/farmil-sangaji-106584294/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">LinkedIn</a>
+                        <a href="https://instagram.com/mashivee" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">Instagram</a>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-4">
+                        <a href="mailto:farmiljobs@gmail.com" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                            Hubungi Saya
+                        </a>
+                        <a href="farmil-cv.png" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                            Unduh CV
+                        </a>
+                    </div>
+                    </div>
+            </div>`;
         }
         function renderStudentInfo() {
             const container = document.getElementById("student-status");
