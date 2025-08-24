@@ -195,10 +195,10 @@
             description: 'Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak.'
         };
         const roadmapData = [
-            { id: 'fase1', title: 'The Foundation', subtitle: 'Menjadi Arsitek Data', startDate: '2025-08-01', endDate: '2026-01-31', progress: 86, status: 'In Progress', bootcampName: 'Complete Data Science, Machine Learning, DL, NLP Bootcamp', skills: ['Python', 'Data Analysis', 'SQL', 'Statistics', 'ML Ops', 'Deep Learning', 'NLP', 'Git'], goalProject: 'Prediksi Harga Rumah (End-to-End)' },
-            { id: 'fase2', title: 'The Vanguard', subtitle: 'Memasuki Dunia Generative AI', startDate: '2026-02-01', endDate: '2026-05-31', progress: 0, status: 'Not Started', bootcampName: 'Complete Generative AI Course With Langchain and Huggingface', skills: ['Transformers', 'LangChain', 'Vector DBs', 'Prompt Engineering', 'HuggingFace'], goalProject: 'Chatbot Q&A Dokumen Pribadi (RAG)' },
-            { id: 'fase3', title: 'The Professional', subtitle: 'Menguasai MLOps', startDate: '2026-06-01', endDate: '2026-09-30', progress: 0, status: 'Not Started', bootcampName: 'Complete MLOps Bootcamp', skills: ['MLflow', 'DVC', 'CI/CD', 'Docker', 'AWS', 'Kubernetes'], goalProject: 'Pipeline ML Otomatis (CI/CD)' },
-            { id: 'fase4', title: 'The Specialist', subtitle: 'Membangun Sistem Agen Cerdas', startDate: '2026-10-01', endDate: '2027-03-31', progress: 0, status: 'Not Started', bootcampName: 'Ultimate RAG, Agentic AI (LangGraph), Autogen', skills: ['Advanced RAG', 'LangGraph', 'Autogen', 'Multi-Agent Systems'], goalProject: 'Asisten Riset Multi-Agen' }
+            { id: 'fase1', title: 'The Foundation', subtitle: 'Menjadi Arsitek Data', startDate: '2025-08-01', endDate: '2026-01-31', progress: 86, status: 'In Progress', bootcampName: 'Complete Data Science, Machine Learning, DL, NLP Bootcamp', skills: ['Python', 'Data Analysis', 'SQL', 'Statistics', 'ML Ops', 'Deep Learning', 'NLP', 'Git'], goalProject: 'Prediksi Harga Rumah (End-to-End)', syllabusLink: 'Bootcamp/FASE-1/SILABUS-BOOTCAMP-DS-ML-DL.pdf', certificateLink: null },
+            { id: 'fase2', title: 'The Vanguard', subtitle: 'Memasuki Dunia Generative AI', startDate: '2026-02-01', endDate: '2026-05-31', progress: 0, status: 'Not Started', bootcampName: 'Complete Generative AI Course With Langchain and Huggingface', skills: ['Transformers', 'LangChain', 'Vector DBs', 'Prompt Engineering', 'HuggingFace'], goalProject: 'Chatbot Q&A Dokumen Pribadi (RAG)', syllabusLink: 'path/to/syllabus-fase2.pdf', certificateLink: null },
+            { id: 'fase3', title: 'The Professional', subtitle: 'Menguasai MLOps', startDate: '2026-06-01', endDate: '2026-09-30', progress: 0, status: 'Not Started', bootcampName: 'Complete MLOps Bootcamp', skills: ['MLflow', 'DVC', 'CI/CD', 'Docker', 'AWS', 'Kubernetes'], goalProject: 'Pipeline ML Otomatis (CI/CD)', syllabusLink: 'path/to/syllabus-fase3.pdf', certificateLink: null },
+            { id: 'fase4', title: 'The Specialist', subtitle: 'Membangun Sistem Agen Cerdas', startDate: '2026-10-01', endDate: '2027-03-31', progress: 0, status: 'Not Started', bootcampName: 'Ultimate RAG, Agentic AI (LangGraph), Autogen', skills: ['Advanced RAG', 'LangGraph', 'Autogen', 'Multi-Agent Systems'], goalProject: 'Asisten Riset Multi-Agen', syllabusLink: 'path/to/syllabus-fase4.pdf', certificateLink: null }
         ];
         const portfolioData = [
             { id: 'analisis-ecommerce', title: 'Analisis Umpan Balik E-commerce', description: 'Menganalisis review produk untuk menemukan insight kepuasan pelanggan menggunakan EDA mendalam dan pemodelan NLP.', tags: ['Python', 'NLP', 'LLM', 'EDA', 'Google Colab'], repoLink: 'https://github.com/Farmil23/Analisis-Umpan-Balik-Ecommerce', certLink: 'https://drive.google.com/file/d/1595y6XsGSToGWKD7i6ERnYauf6t1ACHh/view', status: 'Completed', problem: 'Banyaknya ulasan produk yang tidak terstruktur menyulitkan pemilik bisnis untuk memahami sentimen pelanggan secara keseluruhan dan mengidentifikasi area yang perlu perbaikan.', solution: 'Membangun sebuah pipeline analisis sentimen menggunakan model NLP untuk mengklasifikasikan ulasan menjadi positif, negatif, atau netral. Hasilnya divisualisasikan dalam dashboard interaktif untuk memberikan wawasan yang dapat ditindaklanjuti.', businessImpact: 'Memberikan dashboard sentimen real-time yang memungkinkan manajer produk memprioritaskan perbaikan fitur berdasarkan umpan balik pelanggan secara kuantitatif.', keyLearnings: 'Mempelajari teknik text cleaning dan preprocessing yang efektif untuk data ulasan yang tidak terstruktur. Berhasil menerapkan model pre-trained untuk analisis sentimen dengan akurasi tinggi.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Diagram+Arsitektur+Proyek', liveDemoLink: null, codeSnippet: { language: 'plaintext', code: `1. Baca dataset ulasan produk\n2. UNTUK SETIAP ulasan DALAM dataset:\n3.   Analisis polaritas sentimen (positif/netral/negatif)\n4.   Tambahkan hasil sentimen ke kolom baru\n5. Tampilkan 5 ulasan pertama beserta sentimennya` } },
@@ -207,11 +207,11 @@
             { id: 'rag-chatbot', title: 'Conversational Q&A Chatbot (RAG)', description: 'Membangun aplikasi RAG untuk bertanya jawab dengan dokumen akademis menggunakan Streamlit dan Vector Store.', tags: ['Streamlit', 'LangChain', 'RAG', 'Vector DB'], repoLink: 'https://github.com/Farmil23', certLink: '#', status: 'Planned', problem: 'Paper penelitian dan dokumen teknis seringkali padat dan sulit dicari informasinya secara cepat. Membaca manual untuk menemukan jawaban spesifik sangat tidak efisien.', solution: 'Menciptakan sebuah chatbot cerdas di mana pengguna dapat mengunggah dokumen PDF. Sistem akan memproses dan mengindeks konten, memungkinkan pengguna untuk bertanya dalam bahasa natural dan mendapatkan jawaban yang akurat beserta sumbernya langsung dari dokumen.', architectureDiagram: 'https://placehold.co/800x400/0a0a0a/333?text=Arsitektur+Sistem+RAG', liveDemoLink: null, codeSnippet: { language: 'plaintext', code: `1. Pengguna mengunggah file PDF\n2. Sistem memecah PDF menjadi potongan teks (chunks)\n3. UNTUK SETIAP chunk:\n4.   Buat representasi vektor (embedding)\n5.   Simpan chunk dan embedding di Vector Store\n6. Pengguna bertanya (query)\n7. Cari chunk yang paling relevan dengan query di Vector Store\n8. Berikan query + chunk relevan ke LLM untuk menghasilkan jawaban` } }
         ];
         const komdigiData = [
-            { program: 'Program 1. Micro Skill', title: 'AI Engineer For Mienial', level: 'Micro Skill', registration: '24 Juli - 12 Agustus 2025', execution: 'Selesaikan minimal satu MicroSkill', materials: ['Dasar-Dasar Implementasi Kecerdasan Artifisial'], competencies: [], type: 'Mandiri', startDate: '2025-07-24', endDate: '2025-08-12', progress: 100, status: 'Completed' },
-            { program: 'Program 2. Fundamental Deep Learning', title: 'Fundamental Deep Learning', level: 'Beginner', registration: '24 Juli - 12 Agustus 2025', execution: '14 - 27 Agustus 2025', materials: ['Kategori Mesin yang Belajar', 'Metrik Kinerja Model Klasifikasi', 'Regresi Linier', 'Regresi Logistik', 'Mesin yang Belajar Mengurai Benang Kusut', 'Istilah dan Konsep Dasar', 'Reviu Matematika Dasar'], competencies: ['Menentukan Objektif Bisnis', 'Menentukan Tujuan Teknis Data Science', 'Mengubah Data', 'Membangun Model', 'Merancang Skenario Model', 'Mengevaluasi Hasil Pemodelan'], type: 'Lab Session', startDate: '2025-08-14', endDate: '2025-08-27', progress: 80, status: 'In Progress' },
-            { program: 'Program 3. Intermediate Deep Learning', title: 'Intermediate Deep Learning', level: 'Intermediate', registration: '29 Agustus - 1 September 2025', execution: '3 - 9 September 2025', materials: ['Jaringan Saraf Berlapis', 'Optimasi dan Regulasi'], competencies: ['Membangun Skenario Model', 'Membangun Model', 'Optimasi Hasil Pemodelan', 'Melakukan Reviu Proyek Data Science'], type: 'Live Session', startDate: '2025-09-03', endDate: '2025-09-09', progress: 0, status: 'Not Started' },
-            { program: 'Program 4. Mastery Deep Learning', title: 'Mastery Deep Learning', level: 'Advance', registration: '11 - 14 September 2025', execution: '16 - 22 September 2025', materials: ['Jaringan Saraf Pengenal Gambar', 'Berbagai Macam Pemodelan Deep Learning'], competencies: ['Mengkonstruksi Data', 'Membangun Model', 'Mengevaluasi Skenario Model', 'Melakukan Reviu Proyek DS'], type: 'Live Session', startDate: '2025-09-16', endDate: '2025-09-22', progress: 0, status: 'Not Started' },
-            { program: 'Program 5 & 6. Hackathon', title: 'Pra-Hackathon & Hackathon', level: 'Hackathon', registration: 'Pra: 24 Sep - 5 Okt 2025 | Final: 12-14 Nov 2025', execution: 'Pra: 8 Okt - 9 Nov 2025 | Final: 18 Nov 2025', materials: ['Penerapan skill gabungan dalam sebuah kompetisi final.'], competencies: ['Kompetisi SKKNI Puncak'], type: 'Gratis', startDate: '2025-10-08', endDate: '2025-11-18', progress: 0, status: 'Not Started' }
+            { program: 'Program 1. Micro Skill', title: 'AI Engineer For Mienial', level: 'Micro Skill', registration: '24 Juli - 12 Agustus 2025', execution: 'Selesaikan minimal satu MicroSkill', materials: ['Dasar-Dasar Implementasi Kecerdasan Artifisial'], competencies: [], type: 'Mandiri', startDate: '2025-07-24', endDate: '2025-08-12', progress: 100, status: 'Completed', syllabusLink: 'path/to/syllabus-komdigi1.pdf', certificateLink: 'path/to/certificate-komdigi1.pdf' },
+            { program: 'Program 2. Fundamental Deep Learning', title: 'Fundamental Deep Learning', level: 'Beginner', registration: '24 Juli - 12 Agustus 2025', execution: '14 - 27 Agustus 2025', materials: ['Kategori Mesin yang Belajar', 'Metrik Kinerja Model Klasifikasi', 'Regresi Linier', 'Regresi Logistik', 'Mesin yang Belajar Mengurai Benang Kusut', 'Istilah dan Konsep Dasar', 'Reviu Matematika Dasar'], competencies: ['Menentukan Objektif Bisnis', 'Menentukan Tujuan Teknis Data Science', 'Mengubah Data', 'Membangun Model', 'Merancang Skenario Model', 'Mengevaluasi Hasil Pemodelan'], type: 'Lab Session', startDate: '2025-08-14', endDate: '2025-08-27', progress: 80, status: 'In Progress', syllabusLink: 'path/to/syllabus-komdigi2.pdf', certificateLink: null },
+            { program: 'Program 3. Intermediate Deep Learning', title: 'Intermediate Deep Learning', level: 'Intermediate', registration: '29 Agustus - 1 September 2025', execution: '3 - 9 September 2025', materials: ['Jaringan Saraf Berlapis', 'Optimasi dan Regulasi'], competencies: ['Membangun Skenario Model', 'Membangun Model', 'Optimasi Hasil Pemodelan', 'Melakukan Reviu Proyek Data Science'], type: 'Live Session', startDate: '2025-09-03', endDate: '2025-09-09', progress: 0, status: 'Not Started', syllabusLink: 'path/to/syllabus-komdigi3.pdf', certificateLink: null },
+            { program: 'Program 4. Mastery Deep Learning', title: 'Mastery Deep Learning', level: 'Advance', registration: '11 - 14 September 2025', execution: '16 - 22 September 2025', materials: ['Jaringan Saraf Pengenal Gambar', 'Berbagai Macam Pemodelan Deep Learning'], competencies: ['Mengkonstruksi Data', 'Membangun Model', 'Mengevaluasi Skenario Model', 'Melakukan Reviu Proyek DS'], type: 'Live Session', startDate: '2025-09-16', endDate: '2025-09-22', progress: 0, status: 'Not Started', syllabusLink: 'path/to/syllabus-komdigi4.pdf', certificateLink: null },
+            { program: 'Program 5 & 6. Hackathon', title: 'Pra-Hackathon & Hackathon', level: 'Hackathon', registration: 'Pra: 24 Sep - 5 Okt 2025 | Final: 12-14 Nov 2025', execution: 'Pra: 8 Okt - 9 Nov 2025 | Final: 18 Nov 2025', materials: ['Penerapan skill gabungan dalam sebuah kompetisi final.'], competencies: ['Kompetisi SKKNI Puncak'], type: 'Gratis', startDate: '2025-10-08', endDate: '2025-11-18', progress: 0, status: 'Not Started', syllabusLink: 'path/to/syllabus-komdigi5.pdf', certificateLink: null }
         ];
         const techStackData = [
             { name: 'Python', color: '#3776AB', svg: '<path d="M13.23 10.34c-.45-.27-.95-.42-1.48-.42s-1.03.15-1.48.42a2.09 2.09 0 0 0-.92 1.77v5.38c0 .69.23 1.3.69 1.77.46.47 1.05.7 1.71.7s1.25-.23 1.71-.7a2.4 2.4 0 0 0 .69-1.77v-1.89a6.67 6.67 0 0 1-3.23.86c-2.28 0-4.13-1.85-4.13-4.13s1.85-4.13 4.13-4.13c.93 0 1.78.3 2.48.86V7.66c0-.69-.23-1.3-.69-1.77a2.41 2.41 0 0 0-1.71-.7c-.66 0-1.25.23-1.71.7a2.4 2.4 0 0 0-.69 1.77v1.89a6.67 6.67 0 0 1 3.23-.86c2.28 0 4.13 1.85 4.13 4.13s-1.85 4.13-4.13 4.13c-.93 0-1.78-.3-2.48-.86v-5.38a2.09 2.09 0 0 0-.92-1.77c-.45-.27-.95-.42-1.48-.42s-1.03.15-1.48.42a2.09 2.09 0 0 0-.92 1.77v5.38c0 .69.23 1.3.69 1.77.46.47 1.05.7 1.71.7s1.25-.23 1.71-.7a2.4 2.4 0 0 0 .69-1.77v-1.89a6.67 6.67 0 0 1-3.23.86c-2.28 0-4.13-1.85-4.13-4.13s1.85-4.13 4.13-4.13c.93 0 1.78.3 2.48.86V7.66c0-.69-.23-1.3-.69-1.77a2.41 2.41 0 0 0-1.71-.7c-.66 0-1.25.23-1.71.7a2.4 2.4 0 0 0-.69 1.77v1.89a6.67 6.67 0 0 1 3.23-.86c2.28 0 4.13 1.85 4.13 4.13s-1.85 4.13-4.13 4.13c-.93 0-1.78-.3-2.48-.86z"/>' },
@@ -266,7 +266,6 @@
         function renderAboutMe() {
             const container = document.getElementById("about");
             if (!container) return;
-            // KODE BARU DIMASUKKAN DI SINI
             container.innerHTML = `<div class="flex flex-col sm:flex-row items-center gap-8">
                 <div class="flex-shrink-0">
                     <img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="https://avatars.githubusercontent.com/u/88856955?v=4" alt="Foto Profil Farmil">
@@ -287,7 +286,7 @@
                             Unduh CV
                         </a>
                     </div>
-                    </div>
+                </div>
             </div>`;
         }
         function renderStudentInfo() {
@@ -308,7 +307,45 @@
             container.innerHTML = roadmapData.map((phase, index) => {
                 const statusColor = phase.status === 'In Progress' ? 'text-cyan-400' : phase.status === 'Completed' ? 'text-green-400' : 'text-gray-500';
                 const progressGradient = phase.status === 'In Progress' ? 'linear-gradient(90deg, #00C9FF, #92FE9D)' : phase.status === 'Completed' ? 'linear-gradient(90deg, #10B981, #6EE7B7)' : '#4A5568';
-                return `<div class="card rounded-2xl p-6 md:p-8"><div class="grid md:grid-cols-12 gap-x-8 items-start"><div class="md:col-span-8"><h3 class="text-2xl font-bold text-white">Fase ${index + 1}: ${phase.title}</h3><p class="text-lg font-medium text-gray-400 mb-4">${phase.subtitle}</p><div class="mb-4 bg-gray-900/50 p-3 rounded-lg border border-gray-700/50"><h4 class="font-semibold text-white mb-1">Fokus Bootcamp:</h4><p class="text-gray-300 text-sm">${phase.bootcampName}</p></div><div class="mb-6"><div class="flex justify-between items-center mb-1"><span class="text-sm font-medium ${statusColor}">${phase.status}</span><span class="text-sm font-bold text-white">${phase.progress}%</span></div><div class="w-full bg-gray-700 rounded-full h-2.5"><div class="h-2.5 rounded-full" style="width: ${phase.progress}%; background: ${progressGradient};"></div></div></div><div class="bg-gray-900/50 p-4 rounded-lg border border-cyan-700/50 flex items-center gap-3"><svg class="w-6 h-6 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg><div><h5 class="font-bold text-cyan-300">Proyek Kunci:</h5><p class="text-gray-200">${phase.goalProject}</p></div></div></div><div class="md:col-span-4 mt-6 md:mt-0"><h4 class="font-semibold text-white mb-3">Materi Kunci:</h4><div class="flex flex-wrap gap-2">${phase.skills.map(skill => `<span class="bg-gray-700/50 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}</div></div></div></div>`;
+                const certificateButton = phase.status === 'Completed' && phase.certificateLink ? 
+                    `<a href="${phase.certificateLink}" target="_blank" class="text-sm font-semibold text-green-400 hover:text-green-300 transition-colors">Lihat Sertifikat</a>` : '';
+
+                return `<div class="card rounded-2xl p-6 md:p-8">
+                    <div class="grid md:grid-cols-12 gap-x-8 items-start">
+                        <div class="md:col-span-8">
+                            <h3 class="text-2xl font-bold text-white">Fase ${index + 1}: ${phase.title}</h3>
+                            <p class="text-lg font-medium text-gray-400 mb-4">${phase.subtitle}</p>
+                            <div class="mb-4 bg-gray-900/50 p-3 rounded-lg border border-gray-700/50">
+                                <h4 class="font-semibold text-white mb-1">Fokus Bootcamp:</h4>
+                                <p class="text-gray-300 text-sm">${phase.bootcampName}</p>
+                            </div>
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium ${statusColor}">${phase.status}</span>
+                                    <span class="text-sm font-bold text-white">${phase.progress}%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                    <div class="h-2.5 rounded-full" style="width: ${phase.progress}%; background: ${progressGradient};"></div>
+                                </div>
+                            </div>
+                             <div class="bg-gray-900/50 p-4 rounded-lg border border-cyan-700/50 flex items-center gap-3">
+                                <svg class="w-6 h-6 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                                <div>
+                                    <h5 class="font-bold text-cyan-300">Proyek Kunci:</h5>
+                                    <p class="text-gray-200">${phase.goalProject}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-4 mt-6 md:mt-0">
+                            <h4 class="font-semibold text-white mb-3">Materi Kunci:</h4>
+                            <div class="flex flex-wrap gap-2">${phase.skills.map(skill => `<span class="bg-gray-700/50 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}</div>
+                            <div class="mt-6 pt-4 border-t border-gray-700/50 flex items-center gap-6">
+                                <a href="${phase.syllabusLink}" target="_blank" class="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">Lihat Silabus</a>
+                                ${certificateButton}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
             }).join('');
         }
         function renderPortfolioPreview() {
@@ -352,6 +389,8 @@
                 const levelColor = { 'Micro Skill': 'bg-yellow-800/50 text-yellow-300', 'Beginner': 'bg-blue-800/50 text-blue-300', 'Intermediate': 'bg-green-800/50 text-green-300', 'Advance': 'bg-purple-800/50 text-purple-300', 'Hackathon': 'bg-red-800/50 text-red-300' };
                 const statusColor = item.status === 'In Progress' ? 'text-cyan-400' : item.status === 'Completed' ? 'text-green-400' : 'text-gray-500';
                 const progressGradient = item.status === 'In Progress' ? 'linear-gradient(90deg, #00C9FF, #92FE9D)' : item.status === 'Completed' ? 'linear-gradient(90deg, #10B981, #6EE7B7)' : '#4A5568';
+                const certificateButton = item.status === 'Completed' && item.certificateLink ? 
+                    `<a href="${item.certificateLink}" target="_blank" class="text-sm font-semibold text-green-400 hover:text-green-300 transition-colors">Lihat Sertifikat</a>` : '';
                 
                 return `<div class="card rounded-2xl p-8">
                     <div class="grid md:grid-cols-12 gap-x-8">
@@ -380,6 +419,10 @@
                             <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
                                 ${[...item.materials, ...item.competencies].map(mat => `<li>${mat}</li>`).join('')}
                             </ul>
+                             <div class="mt-6 pt-4 border-t border-gray-700/50 flex items-center gap-6">
+                                <a href="${item.syllabusLink}" target="_blank" class="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">Lihat Silabus</a>
+                                ${certificateButton}
+                            </div>
                         </div>
                     </div>
                 </div>`;
