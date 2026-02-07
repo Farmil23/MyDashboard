@@ -266,13 +266,45 @@
 
         <div id="learning-path" class="page">
             <header class="text-center my-16">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">KOMDIGI Learning Path</h1>
-                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Jalur pembelajaran terstruktur untuk
-                    Fundamental & Intermediate Deep Learning.</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Learning Path</h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Jejak langkah pembelajaran intensif dan
+                    bootcamp yang telah saya selesaikan.</p>
             </header>
-            <div id="komdigi-path-container" class="space-y-10"></div>
-        </div>
 
+            <!-- 1. Bootcamp List View -->
+            <div id="bootcamp-list-view" class="max-w-6xl mx-auto px-6">
+                <div id="bootcamp-list-container" class="grid md:grid-cols-2 gap-8">
+                    <!-- Bootcamps will be rendered here via JS -->
+                </div>
+            </div>
+
+            <!-- 2. Bootcamp Detail View -->
+            <div id="bootcamp-detail-view" class="hidden px-6">
+                <button id="bootcamp-back-btn"
+                    class="back-button mb-8 inline-flex items-center gap-2 text-gray-300 hover:text-cyan-400 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Kembali ke Daftar Bootcamp
+                </button>
+
+                <div id="bootcamp-hero" class="text-center mb-12">
+                    <h2 id="bootcamp-title" class="text-3xl font-bold text-white mb-2"></h2>
+                    <p id="bootcamp-desc" class="text-gray-400"></p>
+                </div>
+
+                <div id="komdigi-path-container" class="space-y-8 max-w-5xl mx-auto relative">
+                    <!-- Timeline content injected here -->
+                </div>
+
+                <div id="unified-calendar-container"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mt-16 max-w-6xl mx-auto">
+                    <!-- Calendar injected here -->
+                </div>
+            </div>
+        </div>
         <div id="calendar-page" class="page">
             <header class="text-center my-16">
                 <h1 class="text-4xl md:text-6xl font-extrabold mb-3 gradient-text">Kalender Pembelajaran Terpadu</h1>
@@ -326,9 +358,9 @@
                     </svg>
                     Kembali ke Daftar Artikel
                 </button>
-                <div class="card p-8 md:p-12 rounded-2xl">
-                    <h1 id="blog-detail-title" class="text-3xl md:text-5xl font-extrabold mb-6 gradient-text"></h1>
-                    <div id="blog-detail-content" class="prose prose-invert prose-lg max-w-none text-gray-300"></div>
+                <div id="blog-detail-container" class="max-w-4xl mx-auto">
+                    <h1 id="blog-detail-title" class="hidden"></h1>
+                    <div id="blog-detail-content"></div>
                 </div>
             </div>
         </div>

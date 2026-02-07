@@ -386,21 +386,111 @@ document.addEventListener('DOMContentLoaded', function () {
         }).join('');
     }
 
-    function renderKomdigiPath() {
+    // --- Bootcamps Directory Data (Static for Navigation) ---
+    const bootcampsDirectory = [
+        {
+            id: 'komdigi',
+            title: 'Komdigi x Mandiri AI Bootcamp',
+            provider: 'Kementerian Kominfo & Bank Mandiri',
+            description: 'Program intensif pembentukan AI Engineer profesional dengan kurikulum komprehensif mulai dari Machine Learning dasar hingga Deep Learning dan Generative AI.',
+            year: '2025',
+            status: 'Completed',
+            logo: '<svg class="w-12 h-12 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>',
+            color: 'from-cyan-500 to-blue-600'
+        },
+        {
+            id: 'fullstack',
+            title: 'The Complete Full Stack Data Science & AI Engineering',
+            provider: 'Self-Paced Bootcamp',
+            description: 'Comprehensive curriculum covering Python, Data Analysis, Machine Learning, MLOps, NLP, and Deep Learning with end-to-end projects.',
+            year: '2026',
+            status: 'Ongoing',
+            logo: '<svg class="w-12 h-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>',
+            color: 'from-purple-500 to-indigo-600'
+        }
+    ];
+
+    function renderBootcampDirectory() {
+        const container = document.getElementById('bootcamp-list-container');
+        if (!container) return;
+
+        container.innerHTML = bootcampsDirectory.map(bootcamp => `
+            <div class="card p-8 rounded-2xl group cursor-pointer hover:border-cyan-500/30 transition-all hover:-translate-y-1" onclick="showBootcampDetail('${bootcamp.id}')">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors">
+                        ${bootcamp.logo}
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-gray-400 border border-white/10 group-hover:bg-cyan-500/10 group-hover:text-cyan-400 group-hover:border-cyan-500/20 transition-all">${bootcamp.year}</span>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">${bootcamp.title}</h3>
+                <p class="text-sm font-semibold text-gray-500 mb-4">${bootcamp.provider}</p>
+                <p class="text-gray-400 leading-relaxed mb-6">${bootcamp.description}</p>
+                
+                <div class="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+                    View Learning Path <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function showBootcampDetail(id) {
+        if (id === 'komdigi') {
+            document.getElementById('bootcamp-hero').style.display = 'block';
+            document.getElementById('bootcamp-title').innerText = 'Komdigi x Mandiri AI Bootcamp';
+            document.getElementById('bootcamp-desc').innerText = 'Perjalanan detail melalui program intensif AI Engineer.';
+            renderBootcampTimeline(komdigiData);
+            document.getElementById('unified-calendar-container').style.display = 'grid';
+        } else if (id === 'fullstack') {
+            document.getElementById('bootcamp-hero').style.display = 'block';
+            document.getElementById('bootcamp-title').innerText = 'The Complete Full Stack Data Science & AI Engineering Bootcamp';
+            document.getElementById('bootcamp-desc').innerText = 'Mastering Data Science from Foundation to Advanced MLOps & Deep Learning.';
+            renderBootcampTimeline(fullStackData);
+            document.getElementById('unified-calendar-container').style.display = 'none'; // Hide calendar or generic one
+        } else {
+            // Fallback
+            document.getElementById('bootcamp-hero').style.display = 'none';
+        }
+
+
+
+        document.getElementById('bootcamp-list-view').classList.add('hidden');
+        document.getElementById('bootcamp-detail-view').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideBootcampDetail() {
+        document.getElementById('bootcamp-list-view').classList.remove('hidden');
+        document.getElementById('bootcamp-detail-view').classList.add('hidden');
+    }
+
+    function renderBootcampTimeline(data) {
         const container = document.getElementById("komdigi-path-container");
         if (!container) return;
-        container.innerHTML = komdigiData.map(item => {
-            const levelColor = { 'Micro Skill': 'bg-yellow-800/50 text-yellow-300', 'Beginner': 'bg-blue-800/50 text-blue-300', 'Intermediate': 'bg-green-800/50 text-green-300', 'Advance': 'bg-purple-800/50 text-purple-300', 'Hackathon': 'bg-red-800/50 text-red-300' };
+
+        // Add vertical line decoration if not present
+        let html = '<div class="absolute left-8 top-0 bottom-0 w-px bg-white/10 hidden md:block"></div>';
+
+        html += data.map(item => {
+            const levelColor = {
+                'Micro Skill': 'bg-yellow-800/50 text-yellow-300',
+                'Beginner': 'bg-blue-800/50 text-blue-300',
+                'Intermediate': 'bg-green-800/50 text-green-300',
+                'Advance': 'bg-purple-800/50 text-purple-300',
+                'Hackathon': 'bg-red-800/50 text-red-300',
+                'Specialization': 'bg-indigo-800/50 text-indigo-300',
+                'Expert': 'bg-pink-800/50 text-pink-300'
+            };
             const statusColor = item.status === 'In Progress' ? 'text-cyan-400' : item.status === 'Completed' ? 'text-green-400' : 'text-gray-500';
             const progressGradient = item.status === 'In Progress' ? 'linear-gradient(90deg, #00C9FF, #92FE9D)' : item.status === 'Completed' ? 'linear-gradient(90deg, #10B981, #6EE7B7)' : '#4A5568';
             const certificateButton = item.status === 'Completed' && item.certificateLink ?
                 `<a href="${item.certificateLink}" target="_blank" class="text-sm font-semibold text-green-400 hover:text-green-300 transition-colors">Lihat Sertifikat</a>` : '';
 
-            return `<div class="card rounded-2xl p-8">
+            return `<div class="card rounded-2xl p-8 relative z-10">
                 <div class="grid md:grid-cols-12 gap-x-8">
                     <div class="md:col-span-8">
                         <div class="flex items-center gap-4 mb-3">
-                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${levelColor[item.level] || ''}">${item.level}</span>
+                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${levelColor[item.level] || 'bg-gray-800 text-gray-300'}">${item.level}</span>
                         </div>
                         <h3 class="text-2xl font-bold text-white">${item.title}</h3>
                         <p class="text-lg font-medium text-gray-400 mb-4">${item.program}</p>
@@ -421,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="md:col-span-4 mt-6 md:mt-0">
                         <h4 class="font-semibold text-white mb-3">Materi & Kompetensi</h4>
                         <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
-                            ${[...item.materials, ...item.competencies].map(mat => `<li>${mat}</li>`).join('')}
+                            ${(item.materials || []).concat(item.competencies || []).map(mat => `<li>${mat}</li>`).join('')}
                         </ul>
                          <div class="mt-6 pt-4 border-t border-gray-700/50 flex items-center gap-6">
                             <a href="${item.syllabusLink}" target="_blank" class="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">Lihat Silabus</a>
@@ -431,6 +521,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </div>`;
         }).join('');
+        container.innerHTML = html;
     }
 
     function renderUnifiedCalendar() {
@@ -508,14 +599,66 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderBlogList() {
         const container = document.getElementById("blog-list-container");
         if (!container) return;
-        container.innerHTML = blogData.map(post => `<div class="card card-clickable blog-topic p-6 rounded-2xl" data-post-id="${post.id}"><p class="text-sm text-gray-400 mb-2">${post.date}</p><h3 class="text-xl font-bold text-white mb-2">${post.title}</h3><p class="text-gray-300 text-sm">${post.summary}</p></div>`).join('');
+        container.innerHTML = blogData.map(post => `
+            <article class="blog-topic group cursor-pointer flex flex-col h-full" data-post-id="${post.id}">
+                <div class="relative overflow-hidden rounded-2xl mb-4 border border-white/10 aspect-video group-hover:border-purple-500/50 transition-all duration-300">
+                    <img src="${post.coverImage || 'https://placehold.co/600x400/1e293b/cbd5e1?text=No+Cover'}" 
+                         alt="${post.title}" 
+                         class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent opacity-60"></div>
+                </div>
+                
+                <div class="flex flex-col flex-grow">
+                    <div class="flex items-center gap-3 text-xs text-gray-400 mb-3">
+                        <span class="px-2 py-1 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">${post.date}</span>
+                        <span>•</span>
+                        <span>${post.readTime || '5 min read'}</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors line-clamp-2 leading-tight">
+                        ${post.title}
+                    </h3>
+                    
+                    <p class="text-gray-400 text-sm line-clamp-3 mb-4 flex-grow leading-relaxed">
+                        ${post.summary}
+                    </p>
+                    
+                    <div class="mt-auto flex items-center gap-2 text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
+                        Read Article <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </div>
+                </div>
+            </article>
+        `).join('');
     }
 
     function showBlogPost(postId) {
         const post = blogData.find(p => p.id === postId);
         if (post) {
-            document.getElementById("blog-detail-title").innerText = post.title;
-            document.getElementById("blog-detail-content").innerHTML = post.fullContent;
+            // Hero Section for Blog Detail
+            const heroHtml = `
+                <div class="mb-8">
+                    <div class="relative h-64 md:h-96 rounded-3xl overflow-hidden mb-8 border border-white/10">
+                        <img src="${post.coverImage || 'https://placehold.co/800x400/1e293b/cbd5e1?text=Cover+Image'}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                             <div class="flex items-center gap-4 text-sm text-gray-300 mb-4">
+                                <span class="bg-purple-600/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">${post.date}</span>
+                                <span>${post.readTime || '5 min read'}</span>
+                            </div>
+                            <h1 class="text-3xl md:text-5xl font-bold text-white leading-tight">${post.title}</h1>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById("blog-detail-title").parentElement.innerHTML = `
+                <h2 id="blog-detail-title" class="hidden">${post.title}</h2> 
+                ${heroHtml}
+                <div id="blog-detail-content" class="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed">
+                    ${post.fullContent}
+                </div>
+            `;
+
             document.getElementById("blog-list-view").classList.add("hidden");
             document.getElementById("blog-detail-view").classList.remove("hidden");
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -611,6 +754,9 @@ document.addEventListener('DOMContentLoaded', function () {
         sections.forEach(section => observer.observe(section));
     }
 
+    // Expose to global scope for HTML onclick
+    window.showBootcampDetail = showBootcampDetail;
+
     // --- Initialization ---
     function initializePage() {
         renderAboutMe();
@@ -618,9 +764,10 @@ document.addEventListener('DOMContentLoaded', function () {
         renderStats();
         renderRoadmap();
         renderTechStack();
-        renderKomdigiPath();
+        renderBootcampDirectory(); // Render the directory list
+        // renderKomdigiPath(); // Removed: Rendered on demand
         renderCaseStudies();
-        renderCaseStudyNav(); // New Function
+        renderCaseStudyNav();
         renderUnifiedCalendar();
         renderBlogList();
         fetchGithubActivity();
@@ -663,8 +810,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        const backBtn = document.getElementById('blog-back-button');
-        if (backBtn) backBtn.addEventListener('click', showBlogList);
+        const blogBackBtn = document.getElementById('blog-back-button');
+        if (blogBackBtn) blogBackBtn.addEventListener('click', showBlogList);
+
+        const bootcampBackBtn = document.getElementById('bootcamp-back-btn');
+        if (bootcampBackBtn) bootcampBackBtn.addEventListener('click', hideBootcampDetail);
     }
 
     initializePage();

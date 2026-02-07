@@ -1,4 +1,3 @@
-okee tampilan admin buat lebih mwnarik lagi dan jelas
 <!DOCTYPE html>
 <html lang="id">
 
@@ -196,11 +195,11 @@ okee tampilan admin buat lebih mwnarik lagi dan jelas
                     <i class="fas fa-folder-open w-5 text-center group-hover:text-cyan-400 transition-colors"></i>
                     <span>Projects</span>
                 </button>
-                <button onclick="switchTab('komdigi')"
+                <button onclick="switchTab('bootcamps')"
                     class="nav-item w-full text-left px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group flex items-center gap-3"
-                    id="nav-komdigi">
+                    id="nav-bootcamps">
                     <i class="fas fa-graduation-cap w-5 text-center group-hover:text-cyan-400 transition-colors"></i>
-                    <span>Komdigi Path</span>
+                    <span>Bootcamps</span>
                 </button>
                 <button onclick="switchTab('blog')"
                     class="nav-item w-full text-left px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group flex items-center gap-3"
@@ -215,7 +214,6 @@ okee tampilan admin buat lebih mwnarik lagi dan jelas
                     <span>Tech Stack</span>
                 </button>
             </nav>
-
             <div class="p-6 border-t border-gray-800">
                 <a href="index.html"
                     class="flex items-center justify-center gap-2 w-full px-4 py-3 border border-slate-700 rounded-xl text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition-all hover:border-slate-600">
@@ -234,11 +232,15 @@ okee tampilan admin buat lebih mwnarik lagi dan jelas
                     </h2>
                     <p class="text-sm text-slate-400 mt-1">Manage your portfolio content efficiently.</p>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col items-end gap-2">
                     <button onclick="saveData()"
                         class="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-emerald-500/20 transition-all hover:scale-105 active:scale-95">
                         <i class="fas fa-cloud-download-alt"></i> Save & Download JS
                     </button>
+                    <p class="text-[10px] text-gray-400 max-w-[200px] text-right">
+                        <i class="fas fa-info-circle text-cyan-400"></i> After downloading, replace the file in
+                        <code>js/data.js</code> manually.
+                    </p>
                 </div>
             </header>
 
@@ -267,9 +269,20 @@ okee tampilan admin buat lebih mwnarik lagi dan jelas
                     <div class="space-y-8" id="projects-list"></div>
                 </section>
 
-                <!-- Komdigi Tab -->
-                <section id="tab-komdigi" class="tab-content hidden">
-                    <div class="space-y-6" id="komdigi-list"></div>
+                <!-- Bootcamps Tab (Was Komdigi) -->
+                <section id="tab-bootcamps" class="tab-content hidden">
+                    <div class="card p-6 mb-8 border border-cyan-500/20 bg-cyan-900/10">
+                        <label class="form-label text-cyan-400 mb-2">Select Bootcamp to Edit</label>
+                        <select id="bootcamp-selector" class="form-input" onchange="switchBootcampContext(this.value)">
+                            <option value="komdigi">Komdigi x Mandiri AI Bootcamp</option>
+                            <option value="fullstack">The Complete Full Stack Data Science & AI Engineering</option>
+                        </select>
+                    </div>
+
+                    <div id="bootcamp-editor-container">
+                        <!-- Content injected here -->
+                        <div class="space-y-6" id="komdigi-list"></div>
+                    </div>
                 </section>
 
                 <!-- Blog Tab -->
