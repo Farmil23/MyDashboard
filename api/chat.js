@@ -11,16 +11,30 @@ const model = new ChatOpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-// Function to get context from data.js
+// Import data directly (Bundled with function)
+const {
+    studentData,
+    roadmapData,
+    portfolioData,
+    komdigiData,
+    fullStackData,
+    techStackData,
+    blogData,
+    advancedGenAIData
+} = require('./data.js');
+
+// Function to construct context string
 function getContext() {
-    try {
-        // In Vercel, process.cwd() is the root of the project
-        const dataPath = path.join(process.cwd(), 'public', 'js', 'data.js');
-        return fs.readFileSync(dataPath, 'utf8');
-    } catch (error) {
-        console.error("Error reading data.js:", error);
-        return "Error reading context data.";
-    }
+    return JSON.stringify({
+        studentData,
+        roadmapData,
+        portfolioData,
+        komdigiData,
+        fullStackData,
+        techStackData,
+        blogData,
+        advancedGenAIData
+    }, null, 2);
 }
 
 // Define Prompt Template (Copied from server.js)
@@ -84,6 +98,11 @@ export default async function handler(req, res) {
         res.status(200).json({ reply: response });
     } catch (error) {
         console.error("Error generating response:", error);
-        res.status(500).json({ error: "Failed to generate response." });
+        res.status(500).json({
+            error: "Failed to generate response.",
+            details: error.message,
+            cwd: process.cwd(),
+            pathAttempted: path.join(process.cwd(), 'public', 'js', 'data.js')
+        });
     }
 }
