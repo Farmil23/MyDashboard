@@ -1,1 +1,18 @@
-firebase-config.js
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Environment files
+.env
+.env.test
+.env.production
+.DS_Store
+
+# Common Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional project build/dist
+dist/
+build/

@@ -1,6 +1,6 @@
 
 const studentData = {
-    "name": "Farmil",
+    "name": "Farhan Kamil Hermansyah alias Farmil",
     "role": "Open to Work",
     "avatar": "images/profile.jpg",
     "major": "Teknik Informatika",
