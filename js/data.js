@@ -1,9 +1,18 @@
 
 const studentData = {
+    "name": "Farmil",
+    "role": "Open to Work",
+    "avatar": "images/profile.jpg",
     "major": "Teknik Informatika",
     "semester": 3,
     "university": "Institut Teknologi Nasional Bandung",
-    "description": "Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak."
+    "description": "Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak.",
+    "github": "https://github.com/Farmil23",
+    "linkedin": "https://www.linkedin.com/in/farmil-sangaji-106584294/",
+    "instagram": "https://instagram.com/mashivee",
+    "email": "farmiljobs@gmail.com",
+    "cv": "farmil-cv.png",
+    "startupIdea": "idea.html"
 };
 
 const roadmapData = [

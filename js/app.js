@@ -64,30 +64,114 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderAboutMe() {
         const container = document.getElementById("about");
         if (!container) return;
-        container.innerHTML = `<div class="flex flex-col sm:flex-row items-center gap-8">
-            <div class="flex-shrink-0">
-                <img class="h-32 w-32 rounded-full object-cover border-4 border-gray-700 ring-2 ring-cyan-500/50" src="images/profile.jpg" alt="Foto Profil Farmil" onerror="this.src='https://placehold.co/150x150/1a1a1a/FFF?text=Farmil'">
-            </div>
-            <div>
-                <h2 class="text-3xl font-bold mb-2 gradient-text">Farmil</h2>
-                <p class="text-gray-300 mb-6">Mahasiswa informatika dengan tekad membara untuk menjadi ahli di bidang AI dan Data. Roadmap ini adalah komitmen publik saya untuk belajar, membangun, dan berkembang setiap hari.</p>
-                <div class="flex items-center gap-5">
-                    <a href="https://github.com/Farmil23" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">GitHub</a>
-                    <a href="https://www.linkedin.com/in/farmil-sangaji-106584294/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">LinkedIn</a>
-                    <a href="https://instagram.com/mashivee" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-300 font-medium">Instagram</a>
+
+        // Calculate some dynamic stats
+        const totalProjects = portfolioData.length;
+        const totalSkills = techStackData.length;
+        const activeBootcamp = bootcampsDirectory.find(b => b.status === "In Progress")?.title || "No Active Bootcamp";
+
+        container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 1. Main Profile Card (Span 2 cols) -->
+            <div class="md:col-span-2 card p-8 rounded-3xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -mr-16 -mt-16 transition-all duration-700 group-hover:bg-cyan-500/20"></div>
+                
+                <div class="relative z-10 flex flex-col sm:flex-row items-start gap-8">
+                    <div class="relative">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-br from-cyan-400 to-blue-600">
+                            <img class="w-full h-full rounded-full object-cover border-4 border-[#0f172a]" src="${studentData.avatar}" alt="${studentData.name}" onerror="this.src='https://placehold.co/150x150/1a1a1a/FFF?text=${studentData.name}'">
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 bg-[#0f172a] rounded-full p-1.5 border border-white/10">
+                            <div class="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">${studentData.name}</h2>
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-wider">${studentData.role}</span>
+                        </div>
+                        <p class="text-lg text-gray-300 leading-relaxed mb-6 font-light">
+                            ${studentData.description}
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-3">
+                            ${studentData.github ? `
+                            <a href="${studentData.github}" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all text-sm font-medium text-gray-300 hover:text-white">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                GitHub
+                            </a>` : ''}
+                            ${studentData.linkedin ? `
+                            <a href="${studentData.linkedin}" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all text-sm font-medium text-gray-300 hover:text-white">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                LinkedIn
+                            </a>` : ''}
+                            ${studentData.email ? `
+                            <a href="mailto:${studentData.email}" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 border border-transparent transition-all text-sm font-bold text-white shadow-lg shadow-cyan-500/20">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                Hire Me
+                            </a>` : ''}
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-6 flex flex-wrap gap-4">
-                    <a href="mailto:farmiljobs@gmail.com" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                        Hubungi Saya
-                    </a>
-                    <a href="farmil-cv.png" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                        Unduh CV
-                    </a><a href="idea.html" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                        My startup Idea
-                    </a>
+            </div>
+
+            <!-- 2. Current Status Card -->
+            <div class="card p-6 rounded-3xl flex flex-col justify-center relative overflow-hidden group">
+                <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3">CURRENT FOCUS</h3>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                    <p class="text-xl font-bold text-white line-clamp-2">${activeBootcamp}</p>
+                </div>
+                <p class="text-sm text-gray-400">Deep diving into advanced topics and building real-world projects daily.</p>
+            </div>
+
+            <!-- 3. Education/Location Card -->
+            <div class="card p-6 rounded-3xl flex flex-col justify-between group hover:border-white/10 transition-colors">
+                <div>
+                     <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">EDUCATION</h3>
+                     <h4 class="font-bold text-white text-lg">${studentData.university}</h4>
+                     <p class="text-cyan-400 text-sm">${studentData.major} • Semester ${studentData.semester}</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Bandung, Indonesia</span>
+                    <img src="https://flagcdn.com/w20/id.png" alt="Indonesia" class="opacity-50 hover:opacity-100 transition-opacity">
                 </div>
             </div>
-        </div>`;
+
+            <!-- 4. Quick Actions (CV & Idea) -->
+            <div class="card p-1 rounded-3xl flex items-center justify-between gap-1 bg-black/20 border border-white/5">
+                <a href="${studentData.cv}" target="_blank" class="flex-1 flex flex-col items-center justify-center py-4 rounded-2xl hover:bg-white/5 transition-all group">
+                    <svg class="w-6 h-6 text-gray-400 group-hover:text-white mb-2 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span class="text-xs font-bold text-gray-400 group-hover:text-white">Download CV</span>
+                </a>
+                <div class="w-px h-10 bg-white/10"></div>
+                <a href="${studentData.startupIdea}" class="flex-1 flex flex-col items-center justify-center py-4 rounded-2xl hover:bg-white/5 transition-all group">
+                    <svg class="w-6 h-6 text-gray-400 group-hover:text-yellow-400 mb-2 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    <span class="text-xs font-bold text-gray-400 group-hover:text-white">Startup Idea</span>
+                </a>
+            </div>
+            
+            <!-- 5. Key Stats -->
+             <div class="card p-6 rounded-3xl flex items-center justify-around">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-white mb-0.5">${totalProjects}+</div>
+                    <div class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Projects</div>
+                </div>
+                 <div class="w-px h-10 bg-white/5"></div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-white mb-0.5">${totalSkills}+</div>
+                    <div class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Skills</div>
+                </div>
+                 <div class="w-px h-10 bg-white/5"></div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-white mb-0.5">100%</div>
+                    <div class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Committed</div>
+                </div>
+            </div>
+        </div>
+        `;
     }
 
     function renderStudentInfo() {
@@ -793,8 +877,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Initialization ---
     function initializePage() {
         renderAboutMe();
-        renderStudentInfo();
-        renderStats();
+        // renderStudentInfo(); // Merged into About Me
+        // renderStats(); // Merged into About Me
         renderRoadmap();
         renderTechStack();
         renderBootcampDirectory(); // Render the directory list

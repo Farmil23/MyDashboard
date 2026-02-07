@@ -81,6 +81,39 @@ function renderProfileForm() {
     const container = document.getElementById('profile-form');
     container.innerHTML = `
         <div class="grid md:grid-cols-2 gap-6">
+            <!-- Personal Info -->
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Personal Information</h3>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" value="${currentStudentData.name || ''}" onchange="updateProfile('name', this.value)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Role / Status</label>
+                <input type="text" class="form-input" value="${currentStudentData.role || ''}" onchange="updateProfile('role', this.value)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Avatar URL</label>
+                <input type="text" class="form-input" value="${currentStudentData.avatar || ''}" onchange="updateProfile('avatar', this.value)">
+            </div>
+             <div class="form-group">
+                <label class="form-label">CV Link</label>
+                <input type="text" class="form-input" value="${currentStudentData.cv || ''}" onchange="updateProfile('cv', this.value)">
+            </div>
+             <div class="form-group">
+                <label class="form-label">Startup Idea Link</label>
+                <input type="text" class="form-input" value="${currentStudentData.startupIdea || ''}" onchange="updateProfile('startupIdea', this.value)">
+            </div>
+
+            <!-- Education -->
+            <div class="md:col-span-2 mt-4">
+                 <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Education</h3>
+            </div>
+            <div class="form-group">
+                <label class="form-label">University</label>
+                <input type="text" class="form-input" value="${currentStudentData.university}" onchange="updateProfile('university', this.value)">
+            </div>
             <div class="form-group">
                 <label class="form-label">Major</label>
                 <input type="text" class="form-input" value="${currentStudentData.major}" onchange="updateProfile('major', this.value)">
@@ -89,13 +122,31 @@ function renderProfileForm() {
                 <label class="form-label">Semester</label>
                 <input type="number" class="form-input" value="${currentStudentData.semester}" onchange="updateProfile('semester', parseInt(this.value))">
             </div>
-             <div class="form-group md:col-span-2">
-                <label class="form-label">University</label>
-                <input type="text" class="form-input" value="${currentStudentData.university}" onchange="updateProfile('university', this.value)">
+
+            <!-- Socials -->
+            <div class="md:col-span-2 mt-4">
+                 <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Social Links</h3>
             </div>
-            <div class="form-group md:col-span-2">
+             <div class="form-group">
+                <label class="form-label">GitHub URL</label>
+                <input type="text" class="form-input" value="${currentStudentData.github || ''}" onchange="updateProfile('github', this.value)">
+            </div>
+             <div class="form-group">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="text" class="form-input" value="${currentStudentData.linkedin || ''}" onchange="updateProfile('linkedin', this.value)">
+            </div>
+             <div class="form-group">
+                <label class="form-label">Instagram URL</label>
+                <input type="text" class="form-input" value="${currentStudentData.instagram || ''}" onchange="updateProfile('instagram', this.value)">
+            </div>
+             <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="text" class="form-input" value="${currentStudentData.email || ''}" onchange="updateProfile('email', this.value)">
+            </div>
+
+            <div class="form-group md:col-span-2 mt-4">
                 <label class="form-label">Bio Description</label>
-                <textarea class="form-input" onchange="updateProfile('description', this.value)">${currentStudentData.description}</textarea>
+                <textarea class="form-input" rows="4" onchange="updateProfile('description', this.value)">${currentStudentData.description}</textarea>
             </div>
         </div>
     `;
@@ -302,18 +353,30 @@ function renderBootcampList() {
     else if (activeBootcampContext === 'genai') dataToRender = currentAdvancedGenAIData;
 
     container.innerHTML = dataToRender.map((item, index) => `
-        <div class="card p-4 rounded-xl border border-white/5 flex justify-between items-center">
-            <div>
-                <h4 class="font-bold text-white">${item.title}</h4>
-                <p class="text-xs text-gray-400">${item.level || item.program}</p>
+        <div class="card p-4 rounded-xl border border-white/5 flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold text-white">${item.title}</h4>
+                    <p class="text-xs text-gray-400">${item.level || item.program}</p>
+                </div>
+                 <div class="flex gap-4 items-center">
+                    <select class="form-input py-1 px-3 text-sm w-32" onchange="updateBootcampItem(${index}, 'status', this.value)">
+                        <option value="Not Started" ${item.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
+                        <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                    </select>
+                    <input type="number" class="form-input py-1 px-3 text-sm w-20" min="0" max="100" value="${item.progress}" onchange="updateBootcampItem(${index}, 'progress', parseInt(this.value))">
+                </div>
             </div>
-             <div class="flex gap-4 items-center">
-                <select class="form-input py-1 px-3 text-sm w-32" onchange="updateBootcampItem(${index}, 'status', this.value)">
-                    <option value="Not Started" ${item.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
-                    <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
-                    <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                </select>
-                <input type="number" class="form-input py-1 px-3 text-sm w-20" min="0" max="100" value="${item.progress}" onchange="updateBootcampItem(${index}, 'progress', parseInt(this.value))">
+            <div class="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+                <div>
+                    <label class="text-xs text-gray-500 block mb-1">Start Date (YYYY-MM-DD)</label>
+                    <input type="date" class="form-input text-xs" value="${item.startDate || ''}" onchange="updateBootcampItem(${index}, 'startDate', this.value)">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-500 block mb-1">End Date (YYYY-MM-DD)</label>
+                    <input type="date" class="form-input text-xs" value="${item.endDate || ''}" onchange="updateBootcampItem(${index}, 'endDate', this.value)">
+                </div>
             </div>
         </div>
     `).join('');
@@ -426,7 +489,9 @@ function renderTechStackList() {
     const container = document.getElementById('techstack-list');
     container.innerHTML = currentTechStackData.map((tech, index) => `
         <div class="bg-black/20 p-4 rounded-lg flex items-center gap-4">
-            <div class="w-12 h-12 flex items-center justify-center bg-white/5 rounded" style="color: ${tech.color}">${tech.svg}</div>
+            <div class="w-12 h-12 flex items-center justify-center bg-white/5 rounded" style="color: ${tech.color}">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${tech.svg}</svg>
+            </div>
             <div class="flex-1">
                  <input type="text" class="form-input mb-2" value="${tech.name}" onchange="updateTech(${index}, 'name', this.value)">
                  <input type="color" class="w-full h-8 cursor-pointer rounded bg-transparent" value="${tech.color}" onchange="updateTech(${index}, 'color', this.value)">

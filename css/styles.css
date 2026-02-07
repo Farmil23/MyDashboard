@@ -173,17 +173,23 @@ nav {
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-5px) scale(1.05);
     border-color: var(--tech-color);
+    color: var(--tech-color);
+    /* Apply color to text/svg */
 }
 
 .tech-logo svg {
-    filter: grayscale(100%);
     transition: all 0.3s ease;
+    color: var(--tech-color);
+    opacity: 0.7;
+    /* Agak redup saat diam */
+    filter: grayscale(20%);
+    /* Sedikit desaturated agar tidak terlalu ramainya */
 }
 
 .tech-logo:hover svg {
-    filter: grayscale(0%);
-    /* drop-shadow is not a property for svg elements, use filter: drop-shadow() instead */
+    opacity: 1;
     filter: drop-shadow(0 0 10px var(--tech-color)) grayscale(0%);
+    transform: scale(1.1);
 }
 
 .tech-logo p {
