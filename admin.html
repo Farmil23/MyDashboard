@@ -1,0 +1,217 @@
+okee tampilan admin buat lebih mwnarik lagi dan jelas<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portfolio Farmil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Admin Specific Overrides */
+        body {
+            padding-bottom: 100px;
+        }
+
+        .admin-sidebar {
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #06b6d4;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="card p-8 rounded-2xl max-w-sm w-full text-center">
+            <h2 class="text-2xl font-bold mb-4 gradient-text">Admin Access</h2>
+            <p class="text-gray-400 mb-6 text-sm">Masukkan kode akses untuk mengedit.</p>
+            <input type="password" id="access-code" class="form-input text-center text-xl tracking-widest mb-4"
+                placeholder="Code">
+            <button onclick="checkAccess()"
+                class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-xl transition-all">Login</button>
+            <p id="login-error" class="text-red-500 text-xs mt-3 hidden">Kode salah!</p>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="hidden flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 admin-sidebar flex-shrink-0 flex flex-col">
+            <div class="p-6 border-b border-white/10">
+                <h1 class="text-xl font-bold gradient-text">Admin Panel</h1>
+                <p class="text-xs text-gray-400">Manage Content</p>
+            </div>
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+                <button onclick="switchTab('profile')"
+                    class="nav-item w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all active"
+                    id="nav-profile">
+                    <i class="fas fa-user mr-3"></i> Profile
+                </button>
+                <button onclick="switchTab('roadmap')"
+                    class="nav-item w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all"
+                    id="nav-roadmap">
+                    <i class="fas fa-map mr-3"></i> Roadmap
+                </button>
+                <button onclick="switchTab('projects')"
+                    class="nav-item w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all"
+                    id="nav-projects">
+                    <i class="fas fa-folder mr-3"></i> Projects
+                </button>
+                <button onclick="switchTab('komdigi')"
+                    class="nav-item w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all"
+                    id="nav-komdigi">
+                    <i class="fas fa-graduation-cap mr-3"></i> Komdigi Path
+                </button>
+                <button onclick="switchTab('blog')"
+                    class="nav-item w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all"
+                    id="nav-blog">
+                    <i class="fas fa-pen mr-3"></i> Blog
+                </button>
+                <button onclick="switchTab('techstack')"
+                    class="nav-item w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all"
+                    id="nav-blog">
+                    <i class="fas fa-code mr-3"></i> Tech Stack
+                </button>
+            </nav>
+            <div class="p-4 border-t border-white/10">
+                <a href="index.html"
+                    class="block w-full text-center px-4 py-2 border border-white/20 rounded-lg text-sm text-gray-400 hover:bg-white/5 hover:text-white transition-all">Back
+                    to Site</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-gray-900 relative">
+            <!-- Header -->
+            <header
+                class="sticky top-0 bg-gray-900/80 backdrop-blur-md p-6 border-b border-white/10 flex justify-between items-center z-40">
+                <h2 id="current-tab-title" class="text-2xl font-bold text-white">Edit Profile</h2>
+                <div class="flex gap-4">
+                    <button onclick="saveData()"
+                        class="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-bold shadow-lg shadow-green-500/20 transition-all hover:scale-105">
+                        <i class="fas fa-download"></i> Save & Download JS
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content max-w-5xl mx-auto">
+
+                <!-- Profile Tab -->
+                <section id="tab-profile" class="tab-content">
+                    <div class="card p-8 rounded-2xl">
+                        <div id="profile-form"></div>
+                    </div>
+                </section>
+
+                <!-- Roadmap Tab -->
+                <section id="tab-roadmap" class="tab-content hidden">
+                    <div class="space-y-6" id="roadmap-list"></div>
+                </section>
+
+                <!-- Projects Tab -->
+                <section id="tab-projects" class="tab-content hidden">
+                    <div class="flex justify-end mb-6">
+                        <button onclick="addNewProject()"
+                            class="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-bold"><i
+                                class="fas fa-plus mr-2"></i> Add New Project</button>
+                    </div>
+                    <div class="space-y-8" id="projects-list"></div>
+                </section>
+
+                <!-- Komdigi Tab -->
+                <section id="tab-komdigi" class="tab-content hidden">
+                    <div class="space-y-6" id="komdigi-list"></div>
+                </section>
+
+                <!-- Blog Tab -->
+                <section id="tab-blog" class="tab-content hidden">
+                    <div class="flex justify-end mb-6">
+                        <button onclick="addNewBlogPost()"
+                            class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-bold"><i
+                                class="fas fa-plus mr-2"></i> Write New Post</button>
+                    </div>
+                    <div class="space-y-6" id="blog-list"></div>
+                </section>
+
+                <!-- TechStack Tab -->
+                <section id="tab-techstack" class="tab-content hidden">
+                    <div class="card p-8 rounded-2xl">
+                        <p class="text-gray-400 mb-4">Edit warna dan SVG untuk Tech Stack.</p>
+                        <div class="space-y-6" id="techstack-list"></div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Notifications -->
+    <div id="toast"
+        class="fixed bottom-8 right-8 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3">
+        <i class="fas fa-check-circle"></i>
+        <span>Data successfully exported!</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script> <!-- Load existing data -->
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
