@@ -407,6 +407,16 @@ document.addEventListener('DOMContentLoaded', function () {
             status: 'Ongoing',
             logo: '<svg class="w-12 h-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>',
             color: 'from-purple-500 to-indigo-600'
+        },
+        {
+            id: 'genai',
+            title: 'Advanced GenAI: Mastering Agentic RAG & GraphRAG',
+            provider: 'Specialization Path',
+            description: 'Cutting-edge curriculum on Retrieval-Augmented Generation, Vector DBs, LangChain/LangGraph Agents, and Knowledge Graphs.',
+            year: '2026',
+            status: 'Upcoming',
+            logo: '<svg class="w-12 h-12 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>', // Placeholder lightning bolt
+            color: 'from-emerald-500 to-teal-600'
         }
     ];
 
@@ -446,7 +456,13 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('bootcamp-title').innerText = 'The Complete Full Stack Data Science & AI Engineering Bootcamp';
             document.getElementById('bootcamp-desc').innerText = 'Mastering Data Science from Foundation to Advanced MLOps & Deep Learning.';
             renderBootcampTimeline(fullStackData);
-            document.getElementById('unified-calendar-container').style.display = 'none'; // Hide calendar or generic one
+            document.getElementById('unified-calendar-container').style.display = 'none';
+        } else if (id === 'genai') {
+            document.getElementById('bootcamp-hero').style.display = 'block';
+            document.getElementById('bootcamp-title').innerText = 'Advanced GenAI: Mastering Agentic RAG & GraphRAG with LangGraph';
+            document.getElementById('bootcamp-desc').innerText = 'Build the next generation of AI Agents with LangChain, Vector DBs, and Knowledge Graphs.';
+            renderBootcampTimeline(advancedGenAIData);
+            document.getElementById('unified-calendar-container').style.display = 'none';
         } else {
             // Fallback
             document.getElementById('bootcamp-hero').style.display = 'none';

@@ -543,7 +543,7 @@ const blogData = [
         "date": "15 Jul 2025",
         "fullContent": "<p>Dalam machine learning, terutama untuk masalah klasifikasi, akurasi dan presisi adalah dua metrik evaluasi yang sering digunakan. Namun, keduanya mengukur hal yang berbeda dan penting untuk tidak salah mengartikannya.</p><p class=\"mt-4\"><strong>Akurasi</strong> adalah metrik yang paling sederhana: dari semua prediksi yang dibuat, berapa persen yang benar? Rumusnya adalah (Prediksi Benar / Total Prediksi). Akurasi bekerja dengan baik pada dataset yang seimbang (jumlah sampel tiap kelas hampir sama). Namun, ia bisa sangat menyesatkan pada dataset yang tidak seimbang.</p><p class=\"mt-4\"><strong>Presisi</strong>, di sisi lain, menjawab pertanyaan: dari semua prediksi 'Positif' yang kita buat, berapa persen yang benar-benar 'Positif'? Rumusnya adalah (True Positives / (True Positives + False Positives)). Presisi menjadi sangat penting ketika biaya dari False Positive sangat tinggi. Contohnya, dalam sistem deteksi spam, Anda tidak ingin email penting salah diklasifikasikan sebagai spam (False Positive). Dalam kasus ini, presisi tinggi lebih diutamakan.</p><p class=\"mt-4\">Jadi, mana yang lebih penting? Jawabannya: tergantung pada masalah bisnis yang ingin Anda selesaikan. Memahami konteks masalah adalah kunci untuk memilih metrik evaluasi yang tepat.</p>"
     }
-    }
+
 ];
 
 const advancedGenAIData = [

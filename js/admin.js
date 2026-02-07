@@ -17,9 +17,10 @@ let currentRoadmapData = [...roadmapData];
 let currentPortfolioData = [...portfolioData];
 
 let currentKomdigiData = [...komdigiData];
-let currentFullStackData = [...fullStackData]; // New
+let currentFullStackData = [...fullStackData];
+let currentAdvancedGenAIData = [...advancedGenAIData]; // New
 // Active Bootcamp Context
-let activeBootcampContext = 'komdigi'; // 'komdigi' or 'fullstack'
+let activeBootcampContext = 'komdigi'; // 'komdigi', 'fullstack', 'genai'
 let currentBlogData = [...blogData];
 let currentTechStackData = [...techStackData];
 
@@ -298,6 +299,7 @@ function renderBootcampList() {
 
     if (activeBootcampContext === 'komdigi') dataToRender = currentKomdigiData;
     else if (activeBootcampContext === 'fullstack') dataToRender = currentFullStackData;
+    else if (activeBootcampContext === 'genai') dataToRender = currentAdvancedGenAIData;
 
     container.innerHTML = dataToRender.map((item, index) => `
         <div class="card p-4 rounded-xl border border-white/5 flex justify-between items-center">
@@ -320,6 +322,7 @@ function renderBootcampList() {
 function updateBootcampItem(index, key, value) {
     if (activeBootcampContext === 'komdigi') currentKomdigiData[index][key] = value;
     else if (activeBootcampContext === 'fullstack') currentFullStackData[index][key] = value;
+    else if (activeBootcampContext === 'genai') currentAdvancedGenAIData[index][key] = value;
 }
 
 // 5. Blog
@@ -450,6 +453,8 @@ const portfolioData = ${JSON.stringify(currentPortfolioData, null, 4)};
 const komdigiData = ${JSON.stringify(currentKomdigiData, null, 4)};
 
 const fullStackData = ${JSON.stringify(currentFullStackData, null, 4)};
+
+const advancedGenAIData = ${JSON.stringify(currentAdvancedGenAIData, null, 4)};
 
 const techStackData = ${JSON.stringify(currentTechStackData, null, 4)};
 
