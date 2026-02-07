@@ -2,7 +2,7 @@
 // Access Security
 function checkAccess() {
     const code = document.getElementById('access-code').value;
-    if (code === 'Farmil23' || code === '1234') { // Simple client-side check
+    if (code === '232615' || code === 'Farmil23') { // Updated valid code
         document.getElementById('login-modal').classList.add('hidden');
         document.getElementById('admin-panel').classList.remove('hidden');
         initAdmin();
@@ -32,11 +32,11 @@ function initAdmin() {
 function switchTab(tabName) {
     // Buttons
     document.querySelectorAll('.nav-item').forEach(btn => {
-        btn.classList.remove('bg-white/10', 'text-white', 'active'); // simplified active state
-        btn.classList.add('text-gray-300');
+        btn.classList.remove('bg-slate-800', 'text-white', 'active');
+        btn.classList.add('text-slate-400');
     });
     const activeBtn = document.getElementById(`nav-${tabName}`);
-    if (activeBtn) activeBtn.classList.add('bg-white/10', 'text-white', 'active');
+    if (activeBtn) activeBtn.classList.add('bg-slate-800', 'text-white', 'active');
 
     // Content
     document.querySelectorAll('.tab-content').forEach(section => section.classList.add('hidden'));
@@ -52,6 +52,21 @@ function switchTab(tabName) {
         'techstack': 'Tech Stack Manager'
     };
     document.getElementById('current-tab-title').textContent = titles[tabName];
+}
+
+// --- HELPER: Image Upload ---
+function handleImageUpload(event, callback) {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.size > 1024 * 1024) { // 1MB Limit Warning
+            alert("Warning: File size is large (>1MB). This may slow down your site load time.");
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            callback(e.target.result); // Pass Base64 string to callback
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
 // --- RENDERERS ---
@@ -86,20 +101,22 @@ function updateProfile(key, value) { currentStudentData[key] = value; }
 function renderRoadmapList() {
     const container = document.getElementById('roadmap-list');
     container.innerHTML = currentRoadmapData.map((item, index) => `
-        <div class="card p-6 rounded-xl border border-white/5 relative">
+        <div class="card p-6 rounded-xl relative">
             <h3 class="font-bold text-lg mb-4 text-cyan-400">Phase ${index + 1}: ${item.title}</h3>
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
                     <label class="form-label">Status</label>
-                    <select class="form-input" onchange="updateRoadmap(${index}, 'status', this.value)">
-                        <option value="Not Started" ${item.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
-                        <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
-                        <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                    </select>
+                    <div class="relative">
+                        <select class="form-input" onchange="updateRoadmap(${index}, 'status', this.value)">
+                            <option value="Not Started" ${item.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
+                            <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                      <label class="form-label">Progress: <span id="roadmap-prog-val-${index}">${item.progress}</span>%</label>
-                     <input type="range" class="w-full" min="0" max="100" value="${item.progress}" 
+                     <input type="range" class="w-full accent-cyan-500 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" min="0" max="100" value="${item.progress}" 
                         oninput="document.getElementById('roadmap-prog-val-${index}').innerText = this.value; updateRoadmap(${index}, 'progress', parseInt(this.value))">
                 </div>
                 <div class="md:col-span-2">
@@ -116,65 +133,92 @@ function renderRoadmapList() {
 }
 function updateRoadmap(index, key, value) { currentRoadmapData[index][key] = value; }
 
-// 3. Projects
+// 3. Projects (With Image Upload)
 function renderProjectsList() {
     const container = document.getElementById('projects-list');
     container.innerHTML = currentPortfolioData.map((project, index) => `
-        <div class="card p-6 rounded-xl border border-white/5 relative group">
-            <button onclick="deleteProject(${index})" class="absolute top-4 right-4 text-red-500 hover:text-red-400 p-2"><i class="fas fa-trash"></i></button>
-            <h3 class="font-bold text-xl mb-6 text-white border-b border-white/5 pb-2">Project: ${project.title}</h3>
+        <div class="card p-8 rounded-xl relative group transition-all hover:border-cyan-500/30">
+            <button onclick="deleteProject(${index})" class="absolute top-4 right-4 text-red-500 hover:text-red-400 p-2 bg-slate-800 rounded-lg"><i class="fas fa-trash"></i></button>
+            <h3 class="font-bold text-xl mb-6 text-white border-b border-slate-700 pb-4 flex items-center gap-3">
+                <span class="bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-lg text-sm">#${index + 1}</span> 
+                ${project.title}
+            </h3>
             
             <div class="grid md:grid-cols-2 gap-6">
+                <!-- Basic Info -->
                 <div class="md:col-span-2">
                     <label class="form-label">Title</label>
-                    <input type="text" class="form-input" value="${project.title}" onchange="updateProject(${index}, 'title', this.value)">
+                    <input type="text" class="form-input font-bold text-lg" value="${project.title}" onchange="updateProject(${index}, 'title', this.value)">
                 </div>
                 <div class="md:col-span-2">
-                    <label class="form-label">Description (Short)</label>
-                    <textarea class="form-input h-24" onchange="updateProject(${index}, 'description', this.value)">${project.description}</textarea>
+                    <label class="form-label">Description (Short/Teaser)</label>
+                    <textarea class="form-input h-24 text-sm" onchange="updateProject(${index}, 'description', this.value)">${project.description}</textarea>
                 </div>
 
                 <!-- Case Study Details -->
-                <div class="md:col-span-2 bg-black/20 p-4 rounded-lg">
-                    <h4 class="text-sm font-bold text-cyan-400 mb-4 uppercase">Case Study Content</h4>
-                    <div class="grid gap-4">
-                        <div>
-                            <label class="form-label">The Problem</label>
-                            <textarea class="form-input" onchange="updateProject(${index}, 'problem', this.value)">${project.problem || ''}</textarea>
+                <div class="md:col-span-2 bg-slate-800/50 p-6 rounded-xl border border-slate-700/50">
+                    <h4 class="text-sm font-bold text-cyan-400 mb-4 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fas fa-file-alt"></i> Case Study Content
+                    </h4>
+                    <div class="grid gap-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">The Problem</label>
+                                <textarea class="form-input text-sm" rows="4" onchange="updateProject(${index}, 'problem', this.value)">${project.problem || ''}</textarea>
+                            </div>
+                            <div>
+                                <label class="form-label">The Solution</label>
+                                <textarea class="form-input text-sm" rows="4" onchange="updateProject(${index}, 'solution', this.value)">${project.solution || ''}</textarea>
+                            </div>
                         </div>
-                        <div>
-                            <label class="form-label">The Solution</label>
-                            <textarea class="form-input" onchange="updateProject(${index}, 'solution', this.value)">${project.solution || ''}</textarea>
+                        
+                         <!-- Image Upload Section -->
+                         <div class="p-4 bg-slate-900 rounded-lg border border-slate-700 border-dashed">
+                             <label class="form-label mb-2">Architecture/Project Image</label>
+                             <div class="flex flex-col md:flex-row gap-4 items-center">
+                                 <div class="flex-1 w-full">
+                                    <input type="text" class="form-input mb-2 text-xs" placeholder="Paste URL here..." value="${project.architectureDiagram || ''}" onchange="updateProject(${index}, 'architectureDiagram', this.value)" id="img-url-${index}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-px bg-slate-700 flex-1"></div>
+                                        <span class="text-xs text-slate-500 font-bold">OR UPLOAD</span>
+                                        <div class="h-px bg-slate-700 flex-1"></div>
+                                    </div>
+                                    <input type="file" accept="image/*" class="mt-2 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-cyan-500/10 file:text-cyan-400 hover:file:bg-cyan-500/20 cursor-pointer" 
+                                        onchange="handleImageUpload(event, (base64) => { updateProject(${index}, 'architectureDiagram', base64); document.getElementById('img-preview-${index}').src = base64; document.getElementById('img-url-${index}').value = 'Base64 Image Loaded'; })">
+                                 </div>
+                                 <div class="w-full md:w-48 h-32 bg-black rounded-lg overflow-hidden border border-slate-700 flex items-center justify-center relative group/preview">
+                                    <img id="img-preview-${index}" src="${project.architectureDiagram || 'https://placehold.co/400x300?text=No+Image'}" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/preview:opacity-100 flex items-center justify-center text-xs text-white transition-opacity pointer-events-none">Preview</div>
+                                 </div>
+                             </div>
                         </div>
+
                         <div>
                              <label class="form-label">Tags (comma separated)</label>
                              <input type="text" class="form-input" value="${project.tags.join(', ')}" onchange="updateProjectTags(${index}, this.value)">
                         </div>
-                         <div>
-                             <label class="form-label">Architecture Image URL</label>
-                             <input type="text" class="form-input" value="${project.architectureDiagram || ''}" onchange="updateProject(${index}, 'architectureDiagram', this.value)">
-                        </div>
+
                         <div class="grid md:grid-cols-2 gap-4">
                              <div>
-                                 <label class="form-label">Repo Link</label>
+                                 <label class="form-label"><i class="fab fa-github"></i> Repo Link</label>
                                  <input type="text" class="form-input" value="${project.repoLink || ''}" onchange="updateProject(${index}, 'repoLink', this.value)">
                             </div>
                             <div>
-                                 <label class="form-label">Live Demo Link</label>
+                                 <label class="form-label"><i class="fas fa-link"></i> Live Demo Link</label>
                                  <input type="text" class="form-input" value="${project.liveDemoLink || ''}" onchange="updateProject(${index}, 'liveDemoLink', this.value)">
                             </div>
                         </div>
+                         
                          <div>
-                             <label class="form-label">Code Snippet (Language)</label>
-                             <select class="form-input" onchange="updateProjectCode(${index}, 'language', this.value)">
-                                <option value="python" ${(project.codeSnippet && project.codeSnippet.language === 'python') ? 'selected' : ''}>Python</option>
-                                <option value="javascript" ${(project.codeSnippet && project.codeSnippet.language === 'javascript') ? 'selected' : ''}>JavaScript</option>
-                                <option value="plaintext" ${(project.codeSnippet && project.codeSnippet.language === 'plaintext') ? 'selected' : ''}>Plaintext</option>
-                             </select>
-                        </div>
-                         <div>
-                             <label class="form-label">Code Snippet (Content)</label>
-                             <textarea class="form-input font-mono text-xs" rows="6" onchange="updateProjectCode(${index}, 'code', this.value)">${project.codeSnippet ? project.codeSnippet.code : ''}</textarea>
+                             <label class="form-label">Code Snippet</label>
+                             <div class="flex gap-2 mb-2">
+                                <select class="form-input w-40" onchange="updateProjectCode(${index}, 'language', this.value)">
+                                    <option value="python" ${(project.codeSnippet && project.codeSnippet.language === 'python') ? 'selected' : ''}>Python</option>
+                                    <option value="javascript" ${(project.codeSnippet && project.codeSnippet.language === 'javascript') ? 'selected' : ''}>JavaScript</option>
+                                    <option value="plaintext" ${(project.codeSnippet && project.codeSnippet.language === 'plaintext') ? 'selected' : ''}>Plaintext</option>
+                                </select>
+                             </div>
+                             <textarea class="form-input font-mono text-xs bg-[#0d1117] text-gray-300 border-none" rows="6" placeholder="Paste your code here..." onchange="updateProjectCode(${index}, 'code', this.value)">${project.codeSnippet ? project.codeSnippet.code : ''}</textarea>
                         </div>
                     </div>
                 </div>
