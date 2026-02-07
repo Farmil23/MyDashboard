@@ -450,25 +450,20 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('bootcamp-title').innerText = 'Komdigi x Mandiri AI Bootcamp';
             document.getElementById('bootcamp-desc').innerText = 'Perjalanan detail melalui program intensif AI Engineer.';
             renderBootcampTimeline(komdigiData);
-            document.getElementById('unified-calendar-container').style.display = 'grid';
         } else if (id === 'fullstack') {
             document.getElementById('bootcamp-hero').style.display = 'block';
             document.getElementById('bootcamp-title').innerText = 'The Complete Full Stack Data Science & AI Engineering Bootcamp';
             document.getElementById('bootcamp-desc').innerText = 'Mastering Data Science from Foundation to Advanced MLOps & Deep Learning.';
             renderBootcampTimeline(fullStackData);
-            document.getElementById('unified-calendar-container').style.display = 'none';
         } else if (id === 'genai') {
             document.getElementById('bootcamp-hero').style.display = 'block';
             document.getElementById('bootcamp-title').innerText = 'Advanced GenAI: Mastering Agentic RAG & GraphRAG with LangGraph';
             document.getElementById('bootcamp-desc').innerText = 'Build the next generation of AI Agents with LangChain, Vector DBs, and Knowledge Graphs.';
             renderBootcampTimeline(advancedGenAIData);
-            document.getElementById('unified-calendar-container').style.display = 'none';
         } else {
             // Fallback
             document.getElementById('bootcamp-hero').style.display = 'none';
         }
-
-
 
         document.getElementById('bootcamp-list-view').classList.add('hidden');
         document.getElementById('bootcamp-detail-view').classList.remove('hidden');
@@ -540,31 +535,25 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = html;
     }
 
-    function renderUnifiedCalendar() {
-        const container = document.getElementById("unified-calendar-container");
+    function renderGlobalCalendar() {
+        const container = document.getElementById("global-calendar-container");
         if (!container) return;
+
         const today = new Date(); today.setHours(0, 0, 0, 0);
         const startYear = 2025, endYear = 2027;
         const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        const roadmapPhaseColors = ['#0077b6', '#fb8500', '#8338ec', '#d00000'];
-        const komdigiColor = '#94d2bd';
 
-        const getRoadmapPhaseIndex = (date) => {
-            const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            for (let i = 0; i < roadmapData.length; i++) {
-                const item = roadmapData[i];
-                const startDate = new Date(item.startDate);
-                const endDate = new Date(item.endDate);
-                const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-                const normEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-                if (normDate >= normStart && normDate <= normEnd) return i;
-            }
-            return -1;
-        };
+        // Colors
+        const roadmapColors = ['#0077b6', '#fb8500', '#8338ec', '#d00000'];
+        const komdigiColor = '#94d2bd'; // Mint
+        const fullStackColor = '#6366f1'; // Indigo
+        const genAIColor = '#10b981'; // Emerald
 
-        const isKomdigiDay = (date) => {
+        // Helper: Check if date is in range of any item in a dataset
+        const checkDateInRange = (date, dataset) => {
             const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            for (const item of komdigiData) {
+            for (const item of dataset) {
+                if (!item.startDate || !item.endDate) continue;
                 const startDate = new Date(item.startDate);
                 const endDate = new Date(item.endDate);
                 const normStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
@@ -574,33 +563,61 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         };
 
+        const getRoadmapPhase = (date) => {
+            const normDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            for (let i = 0; i < roadmapData.length; i++) {
+                const item = roadmapData[i];
+                if (!item.startDate || !item.endDate) continue;
+                const start = new Date(item.startDate); const end = new Date(item.endDate);
+                if (normDate >= new Date(start.setHours(0, 0, 0, 0)) && normDate <= new Date(end.setHours(0, 0, 0, 0))) return i;
+            }
+            return -1;
+        };
+
         let calendarHtml = "";
         for (let y = startYear; y <= endYear; y++) {
-            for (let m = 0; m < 12; m++) {
-                const firstDayOfMonth = (new Date(y, m, 1)).getDay();
+            for (let m = 0; m < 12; m++) { // 12 Months
+                const firstDay = (new Date(y, m, 1)).getDay();
                 const daysInMonth = (new Date(y, m + 1, 0)).getDate();
+
+                // Skip months in past/future far away if needed, but showing all for now
+
                 calendarHtml += `<div><h4 class="font-bold text-lg mb-2 text-white">${monthNames[m]} ${y}</h4><div class="calendar-grid">`;
+
+                // Header
                 ['M', 'S', 'S', 'R', 'K', 'J', 'S'].forEach(d => { calendarHtml += `<div class="text-xs text-center text-gray-500 font-semibold">${d}</div>` });
-                for (let i = 0; i < (firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1); i++) calendarHtml += '<div class="calendar-day empty"></div>';
+
+                // Empty slots
+                for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) calendarHtml += '<div class="calendar-day empty"></div>';
+
+                // Days
                 for (let day = 1; day <= daysInMonth; day++) {
                     const currentDate = new Date(y, m, day);
-                    let dayClass = "calendar-day", markHtml = "";
+                    let dayClass = "calendar-day";
+                    let dotsHtml = "";
 
-                    const roadmapPhaseIdx = getRoadmapPhaseIndex(currentDate);
-                    const onKomdigiDay = isKomdigiDay(currentDate);
+                    // Check events
+                    const roadmapIdx = getRoadmapPhase(currentDate);
+                    const isKomdigi = checkDateInRange(currentDate, komdigiData);
+                    const isFullStack = checkDateInRange(currentDate, fullStackData);
+                    const isGenAI = checkDateInRange(currentDate, advancedGenAIData);
 
-                    if (roadmapPhaseIdx !== -1 && onKomdigiDay) {
-                        markHtml = `<div class="calendar-day-mark" style="background: linear-gradient(45deg, ${roadmapPhaseColors[roadmapPhaseIdx]} 50%, ${komdigiColor} 50%);"></div>`;
-                    } else if (roadmapPhaseIdx !== -1) {
-                        markHtml = `<div class="calendar-day-mark roadmap-fase${roadmapPhaseIdx + 1}-mark"></div>`;
-                    } else if (onKomdigiDay) {
-                        markHtml = `<div class="calendar-day-mark komdigi-mark"></div>`;
-                    }
+                    // We will use small dots for multiple events to avoid messy gradients
+                    if (roadmapIdx !== -1) dotsHtml += `<div class="w-1.5 h-1.5 rounded-full" style="background-color: ${roadmapColors[roadmapIdx]}"></div>`;
+                    if (isKomdigi) dotsHtml += `<div class="w-1.5 h-1.5 rounded-full" style="background-color: ${komdigiColor}"></div>`;
+                    if (isFullStack) dotsHtml += `<div class="w-1.5 h-1.5 rounded-full" style="background-color: ${fullStackColor}"></div>`;
+                    if (isGenAI) dotsHtml += `<div class="w-1.5 h-1.5 rounded-full" style="background-color: ${genAIColor}"></div>`;
 
                     if (currentDate.getTime() === today.getTime()) dayClass += " today";
-                    calendarHtml += `<div class="${dayClass}">${day}${markHtml}</div>`;
+
+                    calendarHtml += `<div class="${dayClass}">
+                        <span class="relative z-10">${day}</span>
+                        <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-0.5">
+                            ${dotsHtml}
+                        </div>
+                    </div>`;
                 }
-                calendarHtml += "</div></div>";
+                calendarHtml += '</div></div>';
             }
         }
         container.innerHTML = calendarHtml;
@@ -784,7 +801,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // renderKomdigiPath(); // Removed: Rendered on demand
         renderCaseStudies();
         renderCaseStudyNav();
-        renderUnifiedCalendar();
+        renderGlobalCalendar(); // Use new global renderer
         renderBlogList();
         fetchGithubActivity();
         renderPortfolioPreview();
