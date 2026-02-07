@@ -1,20 +1,10 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 const { ChatOpenAI } = require("@langchain/openai");
 const { ChatPromptTemplate } = require("@langchain/core/prompts");
 const { StringOutputParser } = require("@langchain/core/output_parsers");
+const fs = require('fs');
+const path = require('path');
 
-const app = express();
-const port = 3000;
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '.')));
-
-// Initialize LangChain Model
+// Initialize LangChain Model (Outside handler for potential caching)
 const model = new ChatOpenAI({
     model: "gpt-4o-mini",
     temperature: 0.7,
@@ -24,7 +14,8 @@ const model = new ChatOpenAI({
 // Function to get context from data.js
 function getContext() {
     try {
-        const dataPath = path.join(__dirname, 'js', 'data.js');
+        // In Vercel, process.cwd() is the root of the project
+        const dataPath = path.join(process.cwd(), 'js', 'data.js');
         return fs.readFileSync(dataPath, 'utf8');
     } catch (error) {
         console.error("Error reading data.js:", error);
@@ -32,7 +23,7 @@ function getContext() {
     }
 }
 
-// Define Prompt Template
+// Define Prompt Template (Copied from server.js)
 const prompt = ChatPromptTemplate.fromMessages([
     ["system", `You are **Farhan Kamil Hermansyah's (alias Farmil) AI Assistant**, a smart and enthusiastic virtual representative for his Portfolio.
     
@@ -62,7 +53,25 @@ const prompt = ChatPromptTemplate.fromMessages([
 // Create Chain
 const chain = prompt.pipe(model).pipe(new StringOutputParser());
 
-app.post('/api/chat', async (req, res) => {
+export default async function handler(req, res) {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
+
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
     try {
         const { message } = req.body;
         const contextData = getContext();
@@ -72,13 +81,9 @@ app.post('/api/chat', async (req, res) => {
             input: message
         });
 
-        res.json({ reply: response });
+        res.status(200).json({ reply: response });
     } catch (error) {
         console.error("Error generating response:", error);
         res.status(500).json({ error: "Failed to generate response." });
     }
-});
-
-app.listen(port, () => {
-    console.log(`LangChain Chatbot Server running at http://localhost:${port}`);
-});
+}
