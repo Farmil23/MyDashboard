@@ -12,7 +12,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Initialize LangChain Model
 const model = new ChatOpenAI({
@@ -24,7 +24,7 @@ const model = new ChatOpenAI({
 // Function to get context from data.js
 function getContext() {
     try {
-        const dataPath = path.join(__dirname, 'js', 'data.js');
+        const dataPath = path.join(__dirname, 'public', 'js', 'data.js');
         return fs.readFileSync(dataPath, 'utf8');
     } catch (error) {
         console.error("Error reading data.js:", error);

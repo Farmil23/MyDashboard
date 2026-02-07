@@ -15,7 +15,7 @@ const model = new ChatOpenAI({
 function getContext() {
     try {
         // In Vercel, process.cwd() is the root of the project
-        const dataPath = path.join(process.cwd(), 'js', 'data.js');
+        const dataPath = path.join(process.cwd(), 'public', 'js', 'data.js');
         return fs.readFileSync(dataPath, 'utf8');
     } catch (error) {
         console.error("Error reading data.js:", error);

@@ -8,7 +8,7 @@ const studentData = {
     "university": "Institut Teknologi Nasional Bandung",
     "description": "Seorang pembelajar seumur hidup dengan hasrat untuk memecahkan masalah kompleks menggunakan data. Saya percaya bahwa perpaduan antara keahlian teknis yang mendalam dan pemahaman bisnis yang kuat adalah kunci untuk menciptakan solusi AI yang berdampak.",
     "github": "https://github.com/Farmil23",
-    "linkedin": "https://www.linkedin.com/in/farmil-sangaji-106584294/",
+    "linkedin": "https://www.linkedin.com/in/farhan-kamil-hermansyah-184850328/",
     "instagram": "https://instagram.com/mashivee",
     "email": "farmiljobs@gmail.com",
     "cv": "farmil-cv.png",
